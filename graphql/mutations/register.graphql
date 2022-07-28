@@ -1,0 +1,5 @@
+mutation Register($registerOptions: RegisterInput!) {
+  register(registerOptions: $registerOptions) {
+    ...RegularUserResponse
+  }
+}

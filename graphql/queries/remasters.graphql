@@ -1,0 +1,8 @@
+query Remasters {
+  remasters {
+    _id
+    createdAt
+    updatedAt
+    name
+  }
+}

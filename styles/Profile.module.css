@@ -1,0 +1,282 @@
+.profile-page-root {
+  width: 100%;
+  height: 100%;
+  font-family: "Inter";
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-info-container {
+  width: 100%;
+  height: 15%;
+  display: flex;
+  align-items: center;
+}
+
+.profile-info-username-fc {
+  width: 60%;
+  height: 100%;
+  font-size: 5vmin;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.profile-info-username-fc h1 {
+  padding-bottom: 2vmin;
+  padding-left: 1vmin;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.profile-info-card-fc {
+  width: 40%;
+  height: 100%;
+  display: flex;
+}
+
+.profile-info-card-details-fc {
+  width: 90%;
+  height: 100%;
+  border-right: 0.25vmin solid;
+  border-color: var(--secondary-colour);
+}
+
+.profile-info-card-settings-fc {
+  width: 10%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.profile-info-card-settings-icon {
+  width: 100%;
+  cursor: pointer;
+  transition: 0.25s;
+  padding: 1vmin;
+  border-bottom: 0.25vmin solid;
+  border-color: var(--secondary-colour);
+  background-color: var(--primary-colour);
+  font-size: 3vmin;
+}
+
+.profile-info-card-settings-icon:hover {
+  background-color: var(--secondary-colour);
+  color: var(--primary-colour);
+}
+
+.profile-content-container {
+  width: 100%;
+  height: 85%;
+  border-top: 0.25vmin solid;
+  border-color: var(--secondary-colour);
+}
+
+/* profile settings page */
+
+.profile-settings-page-root {
+  width: 100%;
+  height: 100%;
+  font-family: "Inter";
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-settings-page-root hr {
+  border: none;
+  border-top: 0.25vh solid;
+  border-color: var(--secondary-colour);
+  margin: 1vmin 0;
+}
+
+.profile-settings-page-root h5 {
+  font-size: 2.5vmin;
+}
+
+.profile-settings-greeting-fc {
+  width: 85%;
+  font-size: 6vmin;
+  margin-bottom: 2vmin;
+  padding: 0 3vmin;
+}
+
+.profile-settings-options-fc {
+  width: 85%;
+  height: 50%;
+  display: flex;
+  flex-flow: row nowrap;
+  overflow: scroll;
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
+}
+
+.profile-settings-options-fc::-webkit-scrollbar {
+  display: none;
+}
+
+.profile-settings-category-fc {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 3vmin;
+  margin-top: 2vmin;
+}
+
+.profile-settings-form-fc {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-settings-form-label-fc {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+}
+
+.profile-settings-form-label-fc label {
+  font-size: 2vmin;
+  margin-bottom: 1vmin;
+}
+
+.profile-settings-form-input-fc {
+  width: 100%;
+  display: flex;
+  margin-bottom: 2vmin;
+}
+
+.profile-settings-form-field {
+  -webkit-appearance: none;
+  border-radius: 0;
+  width: 100%;
+  min-height: 10px;
+  font-family: "Inter";
+  font-size: 1.5vmin;
+  font-weight: bold;
+  padding: 1vmin;
+  border: 0.25vh solid;
+  border-color: var(--secondary-colour);
+  background: none;
+}
+
+.profile-settings-form-field:focus {
+  outline: none;
+}
+
+.profile-settings-form-error {
+  position: absolute;
+  right: 0;
+  margin-bottom: 1vmin;
+  font-size: 1.5vmin;
+  color: var(--error-colour);
+  background-color: #ff000023;
+  padding: 0.25vmin 0.5vmin;
+  border-radius: 0.25vmin;
+}
+
+.profile-settings-footer-fc {
+  width: 85%;
+  margin-top: 2vmin;
+  padding: 0 3vmin;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.profile-settings-alerts-fc {
+  width: 100%;
+}
+
+.profile-settings-verification-fc {
+  display: flex;
+  align-items: center;
+  font-size: 1.5vmin;
+  margin-bottom: 2vmin;
+}
+
+.profile-settings-verification-fc h3 {
+  margin: 0 1vmin;
+}
+
+.profile-settings-verification-fc svg {
+  padding-top: 0.25vmin;
+}
+
+.profile-settings-verification-fc button {
+  color: var(--secondary-colour);
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  font-family: "Inter";
+  font-size: 1.75vmin;
+  font-weight: bold;
+}
+
+.profile-settings-status-fc {
+  display: flex;
+  align-items: center;
+  font-size: 1.5vmin;
+}
+
+.profile-settings-status-fc h3 {
+  margin-left: 1vmin;
+}
+
+.profile-settings-status-fc svg {
+  padding-top: 0.25vmin;
+}
+
+.profile-settings-status-success {
+  margin-left: -0.5vmin;
+  color: var(--success-colour);
+  background-color: #00800023;
+  padding: 0.25vmin 0.5vmin;
+  border-radius: 0.25vmin;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.profile-settings-status-error {
+  white-space: nowrap;
+  margin-left: -0.5vmin;
+  color: var(--error-colour);
+  background-color: #ff000023;
+  padding: 0.25vmin 0.5vmin;
+  border-radius: 0.25vmin;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.profile-settings-logout {
+  padding: 3vmin 5vmin;
+  cursor: pointer;
+  background: none;
+  color: var(--secondary-colour);
+  border: 0.25vh solid;
+  border-color: var(--secondary-colour);
+  font-family: "Inter";
+  font-size: 2vmin;
+  font-weight: bold;
+  outline: none;
+  transition: 0.25s;
+}
+
+.profile-settings-logout:hover {
+  background-color: var(--secondary-colour);
+  color: var(--primary-colour);
+}
+
+@media screen and (orientation: portrait) {
+  .profile-settings-options-fc {
+    flex-flow: column nowrap;
+  }
+}

@@ -1,0 +1,187 @@
+.track-analysis-page-root {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 60% 15% 25%;
+  font-family: "Inter";
+}
+
+.track-analysis-info-fc {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 70% 30%;
+  border-bottom: 0.25vh solid;
+  border-color: var(--secondary-colour);
+}
+
+.track-analysis-primary-fc {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 25% 75%;
+  padding: 3vmin 3vmin 3vmin 1vmin;
+}
+
+.track-analysis-primary-image {
+  position: relative;
+}
+
+.track-analysis-primary-details-fc {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.tooltip {
+    font-family: "Inter";
+}
+
+.track-analysis-primary-details-name {
+  width: 100%;
+  overflow: hidden;
+}
+
+.track-analysis-primary-details-artists {
+  width: 100%;
+  padding: 1vmin 0;
+  overflow: hidden;
+}
+
+.track-analysis-primary-details-fc h1 {
+  font-size: 3vw;
+  width: max-content;
+}
+
+.track-analysis-primary-details-fc h2 {
+  font-size: 2vw;
+  width: max-content;
+  margin-top: -1vmin;
+}
+
+.track-analysis-primary-scale-fc {
+  width: 100%;
+  height: 60%;
+}
+
+.track-analysis-secondary-fc {
+  width: 100%;
+  display: flex;
+  padding: 0vmin 3vmin 3vmin 3vmin;
+}
+
+.track-analysis-secondary-details-fc {
+  width: 70%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  border: 0.25vh solid;
+  border-color: var(--secondary-colour);
+  background-color: rgba(0, 0, 0, 0.1);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23ffffff' fill-opacity='1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+.track-analysis-secondary-detail {
+  flex: 0 0 20%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  position: relative;
+}
+
+.track-analysis-secondary-detail:nth-child(-n + 4) {
+  border-right: 0.25vh solid;
+  border-color: var(--secondary-colour);
+}
+
+.track-analysis-secondary-detail h3 {
+  font-size: 1vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.5vh 1vh;
+}
+
+.track-analysis-secondary-detail p {
+  font-size: 1.5vw;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-align: center;
+  margin-bottom: 1.5vw;
+}
+
+.track-analysis-secondary-actions-fc {
+  width: 30%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  padding-left: 2.5vmin;
+}
+
+.track-analysis-secondary-actions {
+  flex: 0 0 42.5%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.track-analysis-secondary-actions div:first-of-type {
+  flex: 0 0 70%;
+  font-size: 1.25vw;
+}
+
+.track-analysis-secondary-actions div {
+  flex: 0 0 25%;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 1.5vw;
+  cursor: pointer;
+  border: 0.25vh solid;
+  border-color: var(--secondary-colour);
+  transition: 0.25s;
+}
+
+.track-analysis-secondary-actions div:hover {
+  color: var(--primary-colour);
+  background-color: var(--secondary-colour);
+}
+
+.track-analysis-secondary-attr {
+  flex: 0 0 42.5%;
+}
+
+.track-analysis-spotify-button {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 1vw;
+  cursor: pointer;
+  color: var(--primary-colour);
+  background-color: var(--secondary-colour);
+}
+
+.track-analysis-spotify-logo {
+  width: 25%;
+  height: 100%;
+  position: relative;
+}
+
+.track-analysis-remasters-fc {
+  width: 100%;
+  flex: 0 0 30%;
+  border-top: 0.25vh solid;
+  border-color: var(--secondary-colour);
+}
+
+@media screen and (orientation: portrait) {
+  .track-analysis-page-root {
+    grid-template-rows: 30% 10% 60%;
+  }
+}

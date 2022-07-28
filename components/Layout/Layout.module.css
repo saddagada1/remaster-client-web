@@ -1,0 +1,96 @@
+.layout-root {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
+.layout-background {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  pointer-events: none;
+  background-image: repeating-conic-gradient(rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1) 0.000035%);
+  animation: noise 25s linear infinite;
+}
+
+.layout-sidebar-fc {
+  min-width: 12.5vw;
+  max-width: 12.5vw;
+  flex: 0 0 12.5%;
+  z-index: 1;
+}
+
+.layout-content-fc {
+  flex: 0 0 87.5%;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+}
+
+.layout-header-fc {
+  min-height: 8vh;
+  max-height: 8vh;
+  flex: 0 0 8%;
+}
+
+.layout-footer-fc {
+  min-height: 15vh;
+  max-height: 15vh;
+  display: none;
+  flex: 0 0 15%;
+}
+
+.layout-main-fc {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+@keyframes noise {
+  0% {
+    background-size: 200% 200%;
+  }
+  100% {
+    background-size: 300% 300%;
+  }
+}
+
+@media screen and (orientation: portrait) {
+  .layout-sidebar-fc {
+    display: none;
+  }
+
+  .layout-content-fc {
+    flex: 0 0 100%;
+  }
+
+  .layout-main-fc {
+    height: 100%;
+  }
+
+  .layout-footer-fc {
+    display: block;
+  }
+}
+
+/* @media only screen and (max-width: 1024px) {
+  .layout-background {
+    display: none;
+  }
+  .layout-sidebar-fc {
+    display: none;
+  }
+
+  .layout-content-fc {
+    flex: 0 0 100%;
+  }
+
+  .layout-main-fc {
+    height: 77%;
+  }
+
+  .layout-footer-fc {
+    display: block;
+  }
+} */

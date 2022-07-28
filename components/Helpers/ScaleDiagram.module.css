@@ -1,0 +1,125 @@
+.scale-diagram-root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  border: 0.25vh solid;
+  border-color: var(--secondary-colour);
+  font-family: "Inter";
+}
+
+.scale-diagram-degree {
+  flex: 0 0 calc(100% / 7);
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.scale-diagram-degree-label {
+  width: 99%;
+  height: 20%;
+  background-color: var(--secondary-colour);
+  color: var(--primary-colour);
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1%;
+}
+
+.scale-diagram-degree-label h3 {
+    font-size: 1vw;
+}
+
+.scale-diagram-degree:nth-child(-n + 6) {
+  border-right: 0.25vh solid;
+  border-color: var(--secondary-colour);
+}
+
+.scale-diagram-degree-blur {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.075);
+  backdrop-filter: blur(0.75vw);
+  -webkit-backdrop-filter: blur(0.75vw);
+  position: absolute;
+}
+
+.scale-diagram-degree-orb {
+  width: 2vw;
+  height: 2vw;
+  position: absolute;
+  top: 30%;
+}
+
+.scale-diagram-degree-orb::before,
+.scale-diagram-degree-orb::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2vw;
+  width: 2vw;
+  background: inherit;
+}
+
+.scale-diagram-degree-orb::before {
+  -ms-transform: rotate(30deg);
+  transform: rotate(30deg);
+}
+
+.scale-diagram-degree-orb::after {
+  -ms-transform: rotate(60deg);
+  transform: rotate(60deg);
+}
+
+#scale-diagram-degree-orb-0 {
+    animation: float 2s linear infinite;
+}
+
+#scale-diagram-degree-orb-1 {
+    animation: float 2s linear 0.4s infinite;
+}
+
+#scale-diagram-degree-orb-2 {
+    animation: float 2s linear 0.1s infinite;
+}
+
+#scale-diagram-degree-orb-3 {
+    animation: float 2s linear 0.8s infinite;
+}
+
+#scale-diagram-degree-orb-4 {
+    animation: float 2s linear 0.2s infinite;
+}
+
+#scale-diagram-degree-orb-5 {
+    animation: float 2s linear 0.5s infinite;
+}
+
+#scale-diagram-degree-orb-6 {
+    animation: float 2s linear 0.9s infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateX(0%) translateY(0%);
+  }
+  20% {
+    transform: translateX(2.5%) translateY(2.5%);
+  }
+  40% {
+    transform: translateX(-2.5%) translateY(2.5%);
+  }
+  60% {
+    transform: translateX(2.5%) translateY(-2.5%);
+  }
+  80% {
+    transform: translateX(-2.5%) translateY(-2.5%);
+  }
+  100% {
+    transform: translateX(0%) translateY(0%);
+  }
+}

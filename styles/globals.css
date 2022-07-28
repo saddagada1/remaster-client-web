@@ -1,0 +1,37 @@
+:root {
+  --background-colour: #f2f1ec;
+  --primary-colour: #fff;
+  --secondary-colour: #121212;
+  --error-colour: #ff0000;
+  --success-colour: #008000;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+html,
+body {
+  min-height: 100%;
+  background-color: var(--background-colour);
+}
+
+body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+#__next {
+  overflow: hidden;
+}

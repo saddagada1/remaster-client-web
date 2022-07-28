@@ -1,0 +1,5 @@
+mutation ChangeUsername($newUsername: String!) {
+  changeUsername(newUsername: $newUsername) {
+    ...RegularUserResponse
+  }
+}
