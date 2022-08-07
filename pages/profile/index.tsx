@@ -1,12 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMeQuery } from "../../generated/graphql";
 import profileStyles from "../../styles/Profile.module.css";
-import { faGears } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import Void from "../../components/Helpers/Void";
 import RequireAuth from "../../components/Auth/RequireAuth";
+import { FiSettings } from "react-icons/fi";
 
 const Profile: NextPage = () => {
   const [{ data }] = useMeQuery();
@@ -21,7 +20,7 @@ const Profile: NextPage = () => {
           <div className={profileStyles["profile-user-card-fc"]}>
             <div className={profileStyles["profile-user-card-settings"]}>
               <Link href="/profile/settings">
-                <FontAwesomeIcon icon={faGears} />
+                <FiSettings/>
               </Link>
             </div>
           </div>

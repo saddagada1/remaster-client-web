@@ -120,12 +120,24 @@ export type Query = {
   me?: Maybe<User>;
   remaster?: Maybe<Remaster>;
   remasters: Array<Remaster>;
+  spotifySearch: SpotifySearchResponse;
+  spotifyTrackAnalysis: SpotifyTrackAnalysisResponse;
   users: Array<User>;
 };
 
 
 export type QueryRemasterArgs = {
   id: Scalars['Float'];
+};
+
+
+export type QuerySpotifySearchArgs = {
+  query: Scalars['String'];
+};
+
+
+export type QuerySpotifyTrackAnalysisArgs = {
+  id: Scalars['String'];
 };
 
 export type RegisterInput = {
@@ -141,9 +153,51 @@ export type Remaster = {
   creatorId: Scalars['Float'];
   likes: Scalars['Float'];
   name: Scalars['String'];
-  playbackURL: Scalars['String'];
-  trackId: Scalars['String'];
   updatedAt: Scalars['String'];
+};
+
+export type SpotifyAlbum = {
+  __typename?: 'SpotifyAlbum';
+  albumArt: Scalars['String'];
+  artists: Array<Scalars['String']>;
+  id: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type SpotifyArtist = {
+  __typename?: 'SpotifyArtist';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  profileArt: Scalars['String'];
+};
+
+export type SpotifySearchResponse = {
+  __typename?: 'SpotifySearchResponse';
+  albums?: Maybe<Array<SpotifyAlbum>>;
+  artists?: Maybe<Array<SpotifyArtist>>;
+  id: Scalars['String'];
+  tracks?: Maybe<Array<SpotifyTrack>>;
+};
+
+export type SpotifyTrack = {
+  __typename?: 'SpotifyTrack';
+  albumArt: Scalars['String'];
+  artists: Array<Scalars['String']>;
+  id: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type SpotifyTrackAnalysisResponse = {
+  __typename?: 'SpotifyTrackAnalysisResponse';
+  albumArt: Scalars['String'];
+  artists: Array<Scalars['String']>;
+  duration: Scalars['Float'];
+  id: Scalars['String'];
+  key: Scalars['Float'];
+  mode: Scalars['Float'];
+  name: Scalars['String'];
+  tempo: Scalars['Float'];
+  time_sig: Scalars['Float'];
 };
 
 export type User = {
@@ -243,6 +297,20 @@ export type RemastersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type RemastersQuery = { __typename?: 'Query', remasters: Array<{ __typename?: 'Remaster', _id: number, createdAt: string, updatedAt: string, name: string }> };
+
+export type SpotifySearchQueryVariables = Exact<{
+  query: Scalars['String'];
+}>;
+
+
+export type SpotifySearchQuery = { __typename?: 'Query', spotifySearch: { __typename?: 'SpotifySearchResponse', id: string, tracks?: Array<{ __typename?: 'SpotifyTrack', id: string, name: string, artists: Array<string>, albumArt: string }> | null, albums?: Array<{ __typename?: 'SpotifyAlbum', id: string, name: string, artists: Array<string>, albumArt: string }> | null, artists?: Array<{ __typename?: 'SpotifyArtist', id: string, name: string, profileArt: string }> | null } };
+
+export type SpotifyTrackAnalysisQueryVariables = Exact<{
+  spotifyTrackAnalysisId: Scalars['String'];
+}>;
+
+
+export type SpotifyTrackAnalysisQuery = { __typename?: 'Query', spotifyTrackAnalysis: { __typename?: 'SpotifyTrackAnalysisResponse', id: string, name: string, artists: Array<string>, albumArt: string, duration: number, key: number, mode: number, tempo: number, time_sig: number } };
 
 export const RegularErrorFragmentDoc = gql`
     fragment RegularError on FieldError {
@@ -397,4 +465,51 @@ export const RemastersDocument = gql`
 
 export function useRemastersQuery(options?: Omit<Urql.UseQueryArgs<RemastersQueryVariables>, 'query'>) {
   return Urql.useQuery<RemastersQuery>({ query: RemastersDocument, ...options });
+};
+export const SpotifySearchDocument = gql`
+    query SpotifySearch($query: String!) {
+  spotifySearch(query: $query) {
+    tracks {
+      id
+      name
+      artists
+      albumArt
+    }
+    albums {
+      id
+      name
+      artists
+      albumArt
+    }
+    artists {
+      id
+      name
+      profileArt
+    }
+    id
+  }
+}
+    `;
+
+export function useSpotifySearchQuery(options: Omit<Urql.UseQueryArgs<SpotifySearchQueryVariables>, 'query'>) {
+  return Urql.useQuery<SpotifySearchQuery>({ query: SpotifySearchDocument, ...options });
+};
+export const SpotifyTrackAnalysisDocument = gql`
+    query SpotifyTrackAnalysis($spotifyTrackAnalysisId: String!) {
+  spotifyTrackAnalysis(id: $spotifyTrackAnalysisId) {
+    id
+    name
+    artists
+    albumArt
+    duration
+    key
+    mode
+    tempo
+    time_sig
+  }
+}
+    `;
+
+export function useSpotifyTrackAnalysisQuery(options: Omit<Urql.UseQueryArgs<SpotifyTrackAnalysisQueryVariables>, 'query'>) {
+  return Urql.useQuery<SpotifyTrackAnalysisQuery>({ query: SpotifyTrackAnalysisDocument, ...options });
 };

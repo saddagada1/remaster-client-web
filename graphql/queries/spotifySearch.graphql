@@ -1,0 +1,22 @@
+query SpotifySearch($query: String!) {
+  spotifySearch(query: $query) {
+    tracks {
+      id
+      name
+      artists
+      albumArt
+    }
+    albums {
+      id
+      name
+      artists
+      albumArt
+    }
+    artists {
+      id
+      name
+      profileArt
+    }
+    id
+  }
+}

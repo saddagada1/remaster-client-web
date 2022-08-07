@@ -1,0 +1,13 @@
+query SpotifyTrackAnalysis($spotifyTrackAnalysisId: String!) {
+  spotifyTrackAnalysis(id: $spotifyTrackAnalysisId) {
+    id
+    name
+    artists
+    albumArt
+    duration
+    key
+    mode
+    tempo
+    time_sig
+  }
+}

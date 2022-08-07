@@ -2,7 +2,9 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import SpotifyCard from "../components/Cards/SpotifyCard";
 import CardContainerGrid from "../components/Containers/CardContainerGrid";
+import { useSpotifySearchQuery } from "../generated/graphql";
 import searchStyles from "../styles/Search.module.css";
 
 interface SearchProps {
@@ -11,6 +13,7 @@ interface SearchProps {
 
 const Search: NextPage<SearchProps> = ({ query }) => {
   const router = useRouter();
+  const [{data: SpotifyData}] = useSpotifySearchQuery({variables: {query: query}});
   const [categorySelector, setCategorySelector] = useState(0);
 
   useEffect(() => {
@@ -104,7 +107,12 @@ const Search: NextPage<SearchProps> = ({ query }) => {
         </div>
       </div>
       <CardContainerGrid>
-
+        {categorySelector === 2 && SpotifyData && SpotifyData.spotifySearch.tracks?.map((result) => (
+          <SpotifyCard key={result.id} track={result} />
+        ))}
+        {categorySelector === 3 && SpotifyData && SpotifyData.spotifySearch.albums?.map((result) => (
+          <SpotifyCard key={result.id} album={result} />
+        ))}
       </CardContainerGrid>
     </div>
   );

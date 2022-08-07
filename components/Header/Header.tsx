@@ -1,7 +1,7 @@
 import React from "react";
 import { useMeQuery } from "../../generated/graphql";
 import BasicHeaderLink from "../HeaderLinks/BasicHeaderLink";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import {FiUser} from 'react-icons/fi'
 import headerStyles from "./Header.module.css";
 import SearchInput from "../SearchInput/SearchInput";
 
@@ -12,10 +12,10 @@ const Header: React.FC = () => {
   if (fetching) {
     userLink = null;
   } else if (!data?.me) {
-    userLink = <BasicHeaderLink label="log in" path="/login" icon={faUser} />;
+    userLink = <BasicHeaderLink label="log in" path="/login" Icon={FiUser} />;
   } else {
     userLink = (
-      <BasicHeaderLink label="profile" path="/profile" icon={faUser} />
+      <BasicHeaderLink label="profile" path="/profile" Icon={FiUser} />
     );
   }
 

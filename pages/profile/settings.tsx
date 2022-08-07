@@ -1,15 +1,9 @@
-import {
-  faSquareCheck,
-  faSquareXmark,
-  faFloppyDisk,
-  faTriangleExclamation,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
+import { FiAlertTriangle, FiSave, FiThumbsUp, FiXSquare } from "react-icons/fi";
 import RequireAuth from "../../components/Auth/RequireAuth";
 import LoadingButton from "../../components/Helpers/LoadingButton";
 import {
@@ -408,7 +402,7 @@ const Settings: NextPage = () => {
                   profileSettingsStyles["profile-settings-verification-fc"]
                 }
               >
-                <FontAwesomeIcon icon={faSquareCheck} />
+                <FiThumbsUp />
                 <h3>verified</h3>
               </div>
             ) : (
@@ -417,7 +411,7 @@ const Settings: NextPage = () => {
                   profileSettingsStyles["profile-settings-verification-fc"]
                 }
               >
-                <FontAwesomeIcon icon={faTriangleExclamation} />
+                <FiAlertTriangle/>
                 <h3>
                   please verify your email address.{" "}
                   <button
@@ -445,12 +439,12 @@ const Settings: NextPage = () => {
             >
               {submitting ? (
                 <>
-                  <FontAwesomeIcon icon={faFloppyDisk} />
+                  <FiSave />
                   <h3>saving...</h3>
                 </>
               ) : !touched ? (
                 <>
-                  <FontAwesomeIcon icon={faSquareCheck} />
+                  <FiThumbsUp />
                   <h3>no changes to be applied</h3>
                 </>
               ) : submitStatus ? (
@@ -459,7 +453,7 @@ const Settings: NextPage = () => {
                     profileSettingsStyles["profile-settings-status-success"]
                   }
                 >
-                  <FontAwesomeIcon icon={faSquareCheck} />
+                  <FiThumbsUp />
                   <h3>successfully applied changes</h3>
                 </div>
               ) : (
@@ -468,7 +462,7 @@ const Settings: NextPage = () => {
                     profileSettingsStyles["profile-settings-status-error"]
                   }
                 >
-                  <FontAwesomeIcon icon={faSquareXmark} />
+                  <FiXSquare />
                   <h3>something went wrong</h3>
                 </div>
               )}
