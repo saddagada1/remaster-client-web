@@ -54,6 +54,7 @@
   background: none;
   border: 0.25vh solid;
   border-color: var(--secondary-colour);
+  cursor: pointer;
 }
 
 .editor-main-create-loop svg {

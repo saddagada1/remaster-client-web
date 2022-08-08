@@ -9,6 +9,7 @@ import TabEditor from "../../components/Editors/TabEditor";
 import { useEditorContext } from "../../contexts/Editor";
 import { FiPlus } from "react-icons/fi";
 import TimelineSlider from "../../components/Sliders/TimelineSlider";
+import CreateLoopModal from "../../components/Modals/CreateLoopModal";
 
 interface editorProps {}
 
@@ -41,6 +42,7 @@ const Editor: NextPage<editorProps> = ({}) => {
       <Head>
         <title>Editor</title>
       </Head>
+      {isWindow && <CreateLoopModal trigger={triggerCreateLoop} setTrigger={setTriggerCreateLoop}/>}
       <div className={editorStyles["editor-main"]}>
         <div className={editorStyles["editor-main-header"]}></div>
         <div className={editorStyles["editor-main-video-fc"]}>
@@ -48,7 +50,7 @@ const Editor: NextPage<editorProps> = ({}) => {
             {isWindow && (
               <ReactPlayer
                 ref={playerRef}
-                url="https://www.youtube.com/watch?v=Fo4746XZgw8&ab_channel=aDOCTORbutWHO"
+                url="https://www.youtube.com/watch?v=Va9TpehbGXY&ab_channel=BenAwad"
                 width="100%"
                 height="100%"
                 onDuration={(duration) => setDuration(duration)}

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
 
 export interface LoopSchema {
   id: number;
@@ -9,6 +9,7 @@ export interface LoopSchema {
 
 interface EditorValues {
   loops: LoopSchema[];
+  setLoops: Dispatch<SetStateAction<LoopSchema[]>>
   createLoop: (loop: LoopSchema) => void
   updateLoop: (newLoop: LoopSchema) => void
 }
@@ -23,9 +24,9 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
   const [idCounter, setIdCounter] = useState(0);
   const [loops, setLoops] = useState<LoopSchema[]>([
     {id: 1, start: 0, end: 0.05, colour: "#00ffff5f"},
-    {id: 2, start: 0.075, end: 0.1, colour: "#1eff005f"},
-    {id: 3, start: 0.12, end: 0.14, colour: "#d4ff005f"},
-    {id: 4, start: 0.16, end: 0.2, colour: "#d400ff5f"}
+    {id: 2, start: 0.05, end: 0.1, colour: "#1eff005f"},
+    {id: 3, start: 0.1, end: 0.14, colour: "#d4ff005f"},
+    {id: 4, start: 0.14, end: 0.2, colour: "#d400ff5f"}
   ]);
 
   const createLoop = (loop: LoopSchema) => {
@@ -47,7 +48,7 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
   }
 
   return (
-    <EditorContext.Provider value={{ loops, createLoop, updateLoop }}>
+    <EditorContext.Provider value={{ loops, setLoops, createLoop, updateLoop }}>
       {children}
     </EditorContext.Provider>
   );

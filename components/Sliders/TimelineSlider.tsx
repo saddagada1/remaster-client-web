@@ -6,7 +6,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-import Draggable from "react-draggable";
 import {
   FiPause,
   FiPlay,
@@ -14,10 +13,24 @@ import {
   FiVolume2,
   FiSettings,
 } from "react-icons/fi";
-import { DraggableData, Position, ResizableDelta, Rnd } from "react-rnd";
-import { LoopSchema, useEditorContext } from "../../contexts/Editor";
+import { Resizable } from "re-resizable";
+import { useEditorContext } from "../../contexts/Editor";
 import { isServer } from "../../utils/isServer";
 import timelineSliderStyles from "./TimelineSlider.module.css";
+
+const SliderLoopHandle: React.FC = () => {
+  return (
+    <div
+      className={timelineSliderStyles["timeline-slider-loop-handle-container"]}
+    >
+      <div className={timelineSliderStyles["timeline-slider-loop-handle"]}>
+        <div
+          className={timelineSliderStyles["timeline-slider-loop-handle-accent"]}
+        />
+      </div>
+    </div>
+  );
+};
 
 interface TimelineSliderProps {
   duration: number | undefined;
@@ -55,7 +68,6 @@ const TimelineSlider: React.FC<TimelineSliderProps> = ({
   const [isWindow, setIsWindow] = useState(false);
   const timelineRef = useRef<HTMLDivElement | null>(null);
   const loopsContainerRef = useRef<HTMLDivElement | null>(null);
-  const selectedLoopRef = useRef<Rnd | null>(null);
   const [loopsScrollSections, setLoopsScrollSections] = useState<number[]>([]);
   const [loopScrollWidth, setLoopScrollWidth] = useState(0);
   const [triggerVolume, setTriggerVolume] = useState(false);
@@ -91,111 +103,6 @@ const TimelineSlider: React.FC<TimelineSliderProps> = ({
         timelineRect.width;
       setProgressPosition(seekPercentage);
       seek(seekPercentage);
-    }
-  };
-
-  const handleLoopDrag = (params: {
-    data: DraggableData;
-    loopLeft?: LoopSchema;
-    loopRight?: LoopSchema;
-  }): void | false => {
-    const loop = selectedLoopRef.current;
-    if (loop) {
-      if (!params.loopLeft && params.loopRight) {
-        if (
-          params.data.node.offsetWidth + params.data.x >=
-          params.loopRight.start * loopScrollWidth
-        ) {
-          loop.updatePosition({
-            x:
-              params.loopRight.start * loopScrollWidth -
-              params.data.node.offsetWidth,
-            y: 1,
-          });
-          return false;
-        }
-      } else if (!params.loopRight && params.loopLeft) {
-        if (
-          params.data.x <=
-          params.loopLeft.start * loopScrollWidth +
-            (params.loopLeft.end - params.loopLeft.start) * loopScrollWidth
-        ) {
-          loop.updatePosition({
-            x:
-              params.loopLeft.start * loopScrollWidth +
-              (params.loopLeft.end - params.loopLeft.start) * loopScrollWidth,
-            y: 1,
-          });
-          return false;
-        }
-      } else if (params.loopLeft && params.loopRight) {
-        if (params.data.deltaX < 0) {
-          if (
-            params.data.x <=
-            params.loopLeft.start * loopScrollWidth +
-              (params.loopLeft.end - params.loopLeft.start) * loopScrollWidth
-          ) {
-            loop.updatePosition({
-              x:
-                params.loopLeft.start * loopScrollWidth +
-                (params.loopLeft.end - params.loopLeft.start) * loopScrollWidth,
-              y: 1,
-            });
-            return false;
-          }
-        } else {
-          if (
-            params.data.node.offsetWidth + params.data.x >=
-            params.loopRight.start * loopScrollWidth
-          ) {
-            loop.updatePosition({
-              x:
-                params.loopRight.start * loopScrollWidth -
-                params.data.node.offsetWidth,
-              y: 1,
-            });
-            return false;
-          }
-        }
-      }
-    }
-  };
-
-  const handleLoopResizeLeft = (params: {
-    position: Position;
-    currentLoop: LoopSchema;
-    loopLeft: LoopSchema;
-  }) => {
-    const loop = selectedLoopRef.current;
-    if (loop) {
-      if (params.position.x <= params.loopLeft.end * loopScrollWidth) {
-        loop.updateSize({
-          width: `${(params.currentLoop.end - params.loopLeft.end) * 100}%`,
-          height: "100%",
-        });
-        loop.updatePosition({ x: params.loopLeft.end * loopScrollWidth, y: 1 });
-      }
-    }
-  };
-
-  const handleLoopResizeRight = (params: {
-    delta: ResizableDelta;
-    currentLoop: LoopSchema;
-    loopRight: LoopSchema;
-  }) => {
-    const loop = selectedLoopRef.current;
-    if (loop) {
-      if (
-        params.currentLoop.end * loopScrollWidth + params.delta.width >=
-        params.loopRight.start * loopScrollWidth
-      ) {
-        loop.updateSize({
-          width: `${
-            (params.loopRight.start - params.currentLoop.start) * 100
-          }%`,
-          height: "100%",
-        });
-      }
     }
   };
 
@@ -269,7 +176,7 @@ const TimelineSlider: React.FC<TimelineSliderProps> = ({
             <div className={timelineSliderStyles["timeline-slider-ruler"]}>
               <Ruler
                 zoom={window.innerWidth / 100}
-                unit={1}
+                unit={window.innerWidth < 500 ? 2 : 1}
                 range={duration ? [0, duration] : undefined}
                 textColor="transparent"
                 segment={1}
@@ -280,114 +187,36 @@ const TimelineSlider: React.FC<TimelineSliderProps> = ({
             <div className={timelineSliderStyles["timeline-slider-loops"]}>
               {loopScrollWidth !== 0 &&
                 editorCtx?.loops.map((loop, index) => (
-                  <Rnd
+                  <Resizable
                     key={index}
-                    ref={selectedLoop === index ? selectedLoopRef : null}
-                    onMouseDown={() => setSelectedLoop(index)}
-                    resizeHandleClasses={{
-                      left: timelineSliderStyles["timeline-slider-loop-handle"],
-                      right:
-                        timelineSliderStyles["timeline-slider-loop-handle"],
-                    }}
-                    dragAxis="x"
-                    default={{
-                      x: loopScrollWidth * loop.start,
-                      y: 1,
+                    defaultSize={{
                       width: `${(loop.end - loop.start) * 100}%`,
                       height: "100%",
                     }}
-                    bounds="parent"
-                    disableDragging={selectedLoop !== index}
-                    enableResizing={{ left: selectedLoop === index, right: selectedLoop === index }}
-                    onDragStart={() => setSelectedLoop(index)}
-                    onDrag={(e, data) => {
-                      if (editorCtx?.loops.length <= 1) {
-                        return;
-                      } else if (editorCtx?.loops.length === 2) {
-                        if (index === 0) {
-                          return handleLoopDrag({
-                            data: data,
-                            loopRight: editorCtx?.loops[index + 1],
-                          });
+                    minWidth={window.innerWidth / 100}
+                    enable={{ right: true }}
+                    handleComponent={{ right: <SliderLoopHandle /> }}
+                    onResizeStop={(event, direction, refToElement, delta) => {
+                      const newLoops = editorCtx?.loops;
+                      for (let i = index; i < newLoops.length; i++) {
+                        if (i === index) {
+                          newLoops[i].end =
+                            newLoops[i].end + delta.width / loopScrollWidth;
                         } else {
-                          return handleLoopDrag({
-                            data: data,
-                            loopLeft: editorCtx?.loops[index - 1],
-                          });
-                        }
-                      } else {
-                        if (index === 0) {
-                          return handleLoopDrag({
-                            data: data,
-                            loopRight: editorCtx?.loops[index + 1],
-                          });
-                        } else if (index === editorCtx?.loops.length - 1) {
-                          return handleLoopDrag({
-                            data: data,
-                            loopLeft: editorCtx?.loops[index - 1],
-                          });
-                        } else {
-                          return handleLoopDrag({
-                            data: data,
-                            loopLeft: editorCtx?.loops[index - 1],
-                            loopRight: editorCtx?.loops[index + 1],
-                          });
+                          newLoops[i].start =
+                            newLoops[i].start + delta.width / loopScrollWidth;
+                          newLoops[i].end =
+                            newLoops[i].end + delta.width / loopScrollWidth;
                         }
                       }
-                    }}
-                    onDragStop={(e, data) => {
-                      loop.start = data.x / loopScrollWidth;
-                      loop.end =
-                        (data.node.offsetWidth + data.x) / loopScrollWidth;
-                      editorCtx?.updateLoop(loop);
-                    }}
-                    onResizeStart={() => setSelectedLoop(index)}
-                    onResize={(e, dir, elementRef, delta, position) => {
-                      if (dir === "left") {
-                        if (editorCtx?.loops.length <= 1) {
-                          return;
-                        } else {
-                          if (index === 0) {
-                            return;
-                          } else {
-                            handleLoopResizeLeft({
-                              position,
-                              currentLoop: loop,
-                              loopLeft: editorCtx?.loops[index - 1],
-                            });
-                          }
-                        }
-                      } else {
-                        if (editorCtx?.loops.length <= 1) {
-                          return;
-                        } else {
-                          if (index === editorCtx?.loops.length - 1) {
-                            return;
-                          } else {
-                            handleLoopResizeRight({
-                              delta,
-                              currentLoop: loop,
-                              loopRight: editorCtx?.loops[index + 1],
-                            });
-                          }
-                        }
-                      }
-                    }}
-                    onResizeStop={(e, dir, elementRef, delta, position) => {
-                      loop.start = position.x / loopScrollWidth;
-                      loop.end =
-                        ((parseFloat(elementRef.style.width) / 100) *
-                          loopScrollWidth +
-                          position.x) /
-                        loopScrollWidth;
-                      editorCtx?.updateLoop(loop);
+                      editorCtx?.setLoops(newLoops);
                     }}
                   >
                     <div
-                      style={{backgroundColor: loop.colour}}
+                      style={{ backgroundColor: loop.colour }}
                       className={timelineSliderStyles["timeline-slider-loop"]}
-                    ></div>
-                  </Rnd>
+                    />
+                  </Resizable>
                 ))}
             </div>
             <div

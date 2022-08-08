@@ -1,0 +1,93 @@
+.create-loop-modal-background {
+  width: 100%;
+  height: 100%;
+  background-color: #00000066;
+  position: absolute;
+  z-index: 2;
+  opacity: 0;
+}
+
+.create-loop-modal-root {
+  width: 20%;
+  height: 20%;
+  background-color: var(--background-colour);
+  border: 0.25vh solid;
+  border-color: var(--secondary-colour);
+  position: absolute;
+  padding: 2vh;
+  font-family: "Inter";
+  -webkit-box-shadow: 0px 0px 18px 1px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0px 0px 18px 1px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 18px 1px rgba(0, 0, 0, 0.25);
+  z-index: 3;
+  opacity: 0;
+}
+
+.create-loop-modal-form-fc {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.create-loop-modal-form-fc h3 {
+  font-size: 3vh;
+}
+
+.create-loop-modal-select-fc {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1vh;
+}
+
+.create-loop-modal-select-fc label {
+  font-size: 2.5vh;
+  margin-right: 2vh;
+}
+
+.create-loop-modal-select-fc select {
+  width: 25%;
+  border: 0.25vh solid;
+  border-color: var(--secondary-colour);
+  font-family: "Inter";
+  font-size: 2vh;
+}
+
+.create-loop-modal-actions-fc {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.create-loop-modal-actions-fc button {
+  width: 100%;
+  height: 100%;
+  font-size: 2vh;
+  font-family: "Inter";
+  padding: 0.5vh;
+  cursor: pointer;
+}
+
+.create-loop-modal-exit {
+  background: none;
+  border: 0.25vh solid;
+  border-color: var(--secondary-colour);
+}
+
+.create-loop-modal-submit {
+  border: none;
+  background-color: var(--secondary-colour);
+  color: var(--primary-colour);
+}
+
+@media screen and (orientation: portrait) {
+  .create-loop-modal-root {
+    width: 75%;
+    height: 22.5%;
+  }
+}
