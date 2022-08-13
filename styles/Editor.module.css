@@ -4,13 +4,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: "Inter";
+  position: relative;
 }
 
 .editor-main {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: 5% 45% 30% 20%;
+  grid-template-rows: 5% 45% 25% 17.5% 7.5%;
+  grid-template-columns: 100%;
 }
 
 .editor-main-header {
@@ -18,18 +21,17 @@
   border-color: var(--secondary-colour);
 }
 
-.editor-main-video-fc {
-  display: flex;
+.editor-main-video-gc {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 100%;
   border-bottom: 0.25vh solid;
   border-color: var(--secondary-colour);
 }
 
-.editor-main-video {
-  flex: 1 1 100%;
-}
-
 .editor-main-diagram-fc {
-  flex: 1 1 100%;
+  width: 100%;
+  height: 100%;
   border-left: 0.25vh solid;
   border-color: var(--secondary-colour);
 }
@@ -45,7 +47,50 @@
   border-color: var(--secondary-colour);
   padding: 2vmin;
   display: flex;
+  gap: 2vmin;
+  overflow-x: scroll;
+}
+
+.editor-main-loops-fc::-webkit-scrollbar {
+  display: none;
+}
+
+.editor-main-loop {
+  height: 100%;
+  flex-shrink: 0;
+  aspect-ratio: 1;
+  border: 0.25vh solid;
+  border-color: var(--secondary-colour);
+  display: flex;
+  justify-content: center;
   align-items: center;
+  position: relative;
+  border-radius: 2vmin;
+}
+
+.editor-main-loop p {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 1.25vh 1.5vh;
+  font-size: 2vmin;
+  z-index: 1;
+}
+
+.editor-main-loop h5 {
+  position: absolute;
+  bottom: 0;
+  font-size: 2vmin;
+  padding-bottom: 2vmin;
+}
+
+.editor-main-loop-blur {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.075);
+  backdrop-filter: blur(0.75vw);
+  -webkit-backdrop-filter: blur(0.75vw);
+  position: absolute;
 }
 
 .editor-main-create-loop {
@@ -55,13 +100,13 @@
   border: 0.25vh solid;
   border-color: var(--secondary-colour);
   cursor: pointer;
-}
-
-.editor-main-create-loop svg {
-  font-size: 10vmin;
-}
-
-.editor-main-timeline-fc {
+  font-size: 7vmin;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Inter";
+  position: relative;
+  border-radius: 2vmin;
 }
 
 /* editor new page */
@@ -126,14 +171,30 @@
 }
 
 @media screen and (orientation: portrait) {
+  .editor-main {
+    grid-template-rows: 7.5% 27.5% 27.5% 15% 15% 7.5%;
+  }
+  .editor-main-video-gc {
+    grid-template-columns: 100%;
+  }
   .editor-main-diagram-fc {
     display: none;
   }
   .editor-main-mobile-diagram-fc {
     display: flex;
   }
-  .editor-main {
-    grid-template-rows: 7.5% 30% 25% 12.5% 25% 
+  .editor-main-loop-top {
+    height: 70%;
   }
-  
+  .editor-main-loop-bottom {
+    height: 30%;
+    font-size: 2.5vmin;
+  }
+  .editor-main-create-loop-top {
+    height: 70%;
+  }
+  .editor-main-create-loop-bottom {
+    height: 30%;
+    font-size: 2.5vmin;
+  }
 }

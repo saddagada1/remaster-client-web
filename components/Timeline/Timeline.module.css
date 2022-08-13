@@ -1,0 +1,126 @@
+.timeline-root {
+  width: 100%;
+  background-color: var(--secondary-colour);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2vh;
+}
+
+.timeline-section {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.timeline-play-pause {
+  background: none;
+  border: none;
+  color: var(--primary-colour);
+  font-size: 3.5vh;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.timeline-timeline-container {
+  width: 100%;
+  height: 1vh;
+  background-color: var(--background-colour);
+  margin-left: 2vh;
+  margin-right: 2vh;
+  cursor: pointer;
+}
+
+.timeline-timeline {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.timeline-preview {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #9d9d9d;
+  display: none;
+}
+
+.timeline-timeline:hover .timeline-preview {
+  display: block;
+}
+
+.timeline-progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background-color: var(--error-colour);
+}
+
+.timeline-scroller {
+  z-index: 1;
+  position: absolute;
+  height: 200%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  background-color: var(--error-colour);
+  display: none;
+}
+
+.timeline-timeline:hover .timeline-scroller {
+  display: block;
+}
+
+.timeline-timeline:active .timeline-scroller {
+  display: block;
+}
+
+.timeline-icon {
+  color: var(--primary-colour);
+  font-size: 2.5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 1vh;
+  margin-right: 1vh;
+}
+
+.timeline-icon-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.timeline-input-range {
+  -webkit-appearance: none;
+  width: 10vh;
+  height: 0.75vh;
+  border-radius: 1vh;
+  margin-left: 2vh;
+  cursor: pointer;
+}
+
+.timeline-input-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 1.5vh;
+  height: 1.5vh;
+  border-radius: 1.5vh;
+  background: var(--primary-colour);
+}
+
+@media screen and (orientation: portrait) {
+  .timeline-preview {
+    display: none;
+  }
+
+  .timeline-scroller {
+    display: block;
+  }
+}

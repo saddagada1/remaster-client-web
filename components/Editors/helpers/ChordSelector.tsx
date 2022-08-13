@@ -1,62 +1,96 @@
 import React, { useEffect, useState } from "react";
-import useSWR from "swr";
-import { fetcher } from "../../../utils/fetcher";
 import Chord from "../../Chord/Chord";
+import { Select } from "react-functional-select";
+import { useChordsQuery } from "../../../generated/graphql";
 import chordSelectorStyles from "./ChordSelector.module.css";
+import { Finger } from "svguitar";
+
+export interface Chord {
+  title: string;
+  fingers: Finger[];
+  barres: { fromString: number; toString: number; fret: number }[];
+  position: number;
+}
 
 interface ChordSelectorProps {}
 
 const ChordSelector: React.FC<ChordSelectorProps> = ({}) => {
-  const { data, error } = useSWR("../api/getChords", fetcher);
-  const [suffixOptions, setSuffixOptions] = useState([]);
-  const [selectedKey, setSelectedKey] = useState("C");
-  const [selectedSuffix, setSelectedSuffix] = useState("major");
+  const [{ data, fetching }] = useChordsQuery();
+  const [chordData, setChordData] = useState<{ [chord: string]: Chord[] }>();
+  const [chordOptions, setChordOptions] = useState<string[]>([]);
+  const [selectedChord, setSelectedChord] = useState("C");
+  const [selectedChordIndex, setSelectedChordIndex] = useState<number>();
 
   useEffect(() => {
-    if (data) {
-      setSuffixOptions(
-        data.chords[selectedKey].map((chord: any) => chord.suffix)
-      );
+    if (chordData) {
+      setChordOptions(Object.keys(chordData).map((chord) => chord));
     }
-  }, [selectedKey, data]);
+  }, [chordData]);
+
+  useEffect(() => {
+    if (!data) {
+      return;
+    } else {
+      setChordData(JSON.parse(data.chords.data));
+    }
+  }, [data]);
 
   return (
     <div className={chordSelectorStyles["chord-selector-root"]}>
-      <select
-        value={selectedKey}
-        onChange={(e) => setSelectedKey(e.target.value)}
-      >
-        {data &&
-          data.keys.map((key: string, index: number) => (
-            <option key={index} value={key}>
-              {key}
-            </option>
-          ))}
-      </select>
-      <select
-        value={selectedSuffix}
-        onChange={(e) => setSelectedSuffix(e.target.value)}
-      >
-        {suffixOptions.map((suffix, index) => (
-          <option key={index} value={suffix}>
-            {suffix}
-          </option>
-        ))}
-      </select>
+      <div className={chordSelectorStyles["chord-selector-input"]}>
+        <div className={chordSelectorStyles["chord-selector-select-container"]}>
+          <Select
+            options={chordOptions}
+            onOptionChange={setSelectedChord}
+            getOptionValue={(option: string) => option}
+            getOptionLabel={(option: string) => option}
+            initialValue={selectedChord}
+            filterMatchFrom="start"
+            placeholder={selectedChord}
+            isLoading={fetching}
+            themeConfig={{
+              control: {
+                borderWidth: "0.25vh",
+                focusedBorderColor: "#121212",
+                boxShadowColor: "transparent",
+              },
+              color: {
+                placeholder: "#121212",
+                border: "#121212",
+                primary: "#121212",
+              },
+              menu: {
+                option: {
+                  selectedBgColor: "#121212",
+                  focusedBgColor: "#cecece",
+                },
+              },
+              icon: {
+                color: "#121212",
+              },
+              loader: {
+                color: "#121212",
+              },
+            }}
+          />
+        </div>
+      </div>
       <div className={chordSelectorStyles["chord-selector-chords"]}>
-        {data &&
-          data.chords[selectedKey].map((chord: any) =>
-            chord.suffix === selectedSuffix
-              ? chord.positions.map((position: any, index: number) => (
-                  <Chord
-                    key={index}
-                    frets={position.frets}
-                    fingers={position.fingers}
-                    baseFret={position.baseFret}
-                  />
-                ))
-              : null
-          )}
+        {chordData &&
+          chordData[selectedChord].map((chord, index) => (
+            <div
+              className={chordSelectorStyles["chord-selector-chord"]}
+              id={
+                index === selectedChordIndex
+                  ? chordSelectorStyles["chord-selector-chord-active"]
+                  : undefined
+              }
+              key={index}
+              onClick={() => setSelectedChordIndex(index)}
+            >
+              <Chord chord={chord} selected={index === selectedChordIndex} />
+            </div>
+          ))}
       </div>
     </div>
   );

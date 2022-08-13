@@ -1,0 +1,75 @@
+.community-page-root {
+  width: 100%;
+  height: 100%;
+  font-family: "Inter";
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  overflow-y: scroll;
+}
+
+.community-page-section-title {
+  width: 85%;
+  font-size: 6vh;
+}
+
+.community-page-section {
+  width: 85%;
+  height: max-content;
+  padding: 1vh;
+}
+
+.community-page-section h2 {
+  width: 100%;
+  font-size: 3vh;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+}
+
+.community-page-community-links-fc {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3vh;
+  margin-bottom: 5vh;
+}
+
+.community-page-community-link {
+  width: 30%;
+  height: 12.5vh;
+  border: 0.25vh solid;
+  border-color: var(--secondary-colour);
+  display: flex;
+}
+
+.community-page-community-link-left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 5vh;
+}
+
+.community-page-community-link-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4vh;
+  background-color: var(--secondary-colour);
+  color: var(--primary-colour);
+  cursor: pointer;
+}
+
+.community-page-section p {
+  width: 100%;
+  font-size: 2vh;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+}
+
+.community-page-section a {
+  color: var(--secondary-colour);
+}

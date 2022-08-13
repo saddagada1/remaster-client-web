@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { isServer } from "../../utils/isServer";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
@@ -11,28 +12,31 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const router = useRouter();
+  const [isWindow, setIsWindow] = useState(false);
   const [viewHeight, setViewHeight] = useState(0);
   const [viewWidth, setViewWidth] = useState(0);
 
+  const setViewport = () => {
+    setViewHeight(window.innerHeight);
+    setViewWidth(window.innerWidth);
+  };
+
   useEffect(() => {
-    const setViewport = () => {
-      setViewHeight(window.innerHeight);
-      setViewWidth(window.innerWidth);
-    };
+    if (!isServer()) {
+      setIsWindow(true);
+    }
 
-    setViewport();
-
-    window.addEventListener("resize", setViewport);
-
-    return () => {
-      window.removeEventListener("resize", setViewport);
-    };
-  }, []);
+    if (isWindow) {
+      if (window.matchMedia("(orientation: portrait)").matches || window.innerWidth < 1000) {
+        setViewport();
+      }
+    }
+  }, [isWindow]);
 
   return (
     <div
       className={layoutStyles["layout-root"]}
-      style={{ height: viewHeight, width: viewWidth }}
+      style={{ height: viewHeight ? viewHeight : "100vh", width: viewWidth ? viewWidth : "100vw" }}
     >
       <div className={layoutStyles["layout-background"]} />
       {!router.pathname.includes("editor/[id]") ? (

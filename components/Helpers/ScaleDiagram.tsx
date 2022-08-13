@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import scaleDiagramStyles from "./ScaleDiagram.module.css";
 
@@ -23,21 +24,26 @@ const ScaleDiagram: React.FC<ScaleDiagramProps> = ({ scale }) => {
   };
 
   return (
-    <div className={scaleDiagramStyles["scale-diagram-root"]}>
-      {scale.map((note, index) => (
-        <div key={index} className={scaleDiagramStyles["scale-diagram-degree"]}>
-          <div className={scaleDiagramStyles["scale-diagram-degree-blur"]} />
+    <Link href="/reference">
+      <div className={scaleDiagramStyles["scale-diagram-root"]}>
+        {scale.map((note, index) => (
           <div
-            id={scaleDiagramStyles["scale-diagram-degree-orb-" + index]}
-            style={{ backgroundColor: colorClass[note] }}
-            className={scaleDiagramStyles["scale-diagram-degree-orb"]}
-          />
-          <div className={scaleDiagramStyles["scale-diagram-degree-label"]}>
-            <h3>{note}</h3>
+            key={index}
+            className={scaleDiagramStyles["scale-diagram-degree"]}
+          >
+            <div className={scaleDiagramStyles["scale-diagram-degree-blur"]} />
+            <div
+              id={scaleDiagramStyles["scale-diagram-degree-orb-" + index]}
+              style={{ backgroundColor: colorClass[note] }}
+              className={scaleDiagramStyles["scale-diagram-degree-orb"]}
+            />
+            <div className={scaleDiagramStyles["scale-diagram-degree-label"]}>
+              <h3>{note}</h3>
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </Link>
   );
 };
 export default ScaleDiagram;

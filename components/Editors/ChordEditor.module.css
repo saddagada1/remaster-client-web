@@ -1,14 +1,36 @@
 .chord-editor-root {
     width: 100%;
     height: 100%;
+    font-family: "Inter";
     display: flex;
-    background-color: aqua;
+    flex-flow: column;
 }
 
-.chord-editor-controls {
-    flex: 0 0 60%;
+.chord-editor-header {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    border-bottom: 0.25vh solid;
+    border-color: var(--secondary-colour);
 }
 
-.chord-editor-canvas {
-    flex: 0 0 40%;
+.chord-editor-header h1 {
+    height: 100%;
+    flex: 0 0 calc(100%/3);
+    font-size: 1.75vmin;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.75s;
+    cursor: pointer;
+}
+
+.chord-editor-header h1:nth-child(-n+2) {
+    border-right: 0.25vh solid;
+    border-color: var(--secondary-colour);
+}
+
+.chord-editor-header-selected {
+    background-color: var(--secondary-colour);
+    color: var(--primary-colour);
 }

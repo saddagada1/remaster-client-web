@@ -1,7 +1,18 @@
-import React, { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { keyColourReference } from "../pages/reference";
 
 export interface LoopSchema {
-  id: number;
+  id?: number;
+  name: string;
+  key: string;
+  type: string;
   start: number;
   end: number;
   colour: string;
@@ -9,9 +20,9 @@ export interface LoopSchema {
 
 interface EditorValues {
   loops: LoopSchema[];
-  setLoops: Dispatch<SetStateAction<LoopSchema[]>>
-  createLoop: (loop: LoopSchema) => void
-  updateLoop: (newLoop: LoopSchema) => void
+  setLoops: Dispatch<SetStateAction<LoopSchema[]>>;
+  createLoop: (name: string, key: string, type: string) => void;
+  updateLoop: (newLoop: LoopSchema) => void;
 }
 
 const EditorContext = createContext<EditorValues | null>(null);
@@ -21,31 +32,46 @@ interface EditorProviderProps {
 }
 
 const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
-  const [idCounter, setIdCounter] = useState(0);
-  const [loops, setLoops] = useState<LoopSchema[]>([
-    {id: 1, start: 0, end: 0.05, colour: "#00ffff5f"},
-    {id: 2, start: 0.05, end: 0.1, colour: "#1eff005f"},
-    {id: 3, start: 0.1, end: 0.14, colour: "#d4ff005f"},
-    {id: 4, start: 0.14, end: 0.2, colour: "#d400ff5f"}
-  ]);
+  const [idCounter, setIdCounter] = useState(1);
+  const [loops, setLoops] = useState<LoopSchema[]>([]);
 
-  const createLoop = (loop: LoopSchema) => {
-    const loopWithId = {idCounter, ...loop}
-    setLoops([...loops, loopWithId]);
+  const createLoop = (name: string, key: string, type: string) => {
+    let lastLoopEnd;
+    let newLoopEnd;
+    if (loops.length === 0) {
+      lastLoopEnd = 0;
+    } else {
+      lastLoopEnd = loops[loops.length - 1].end;
+    }
+    if (lastLoopEnd + 0.05 > 1) {
+      newLoopEnd = 1;
+    } else {
+      newLoopEnd = lastLoopEnd + 0.05;
+    }
+    const newLoop: LoopSchema = {
+      id: idCounter,
+      name: name,
+      key: key,
+      type: type,
+      start: lastLoopEnd,
+      end: newLoopEnd,
+      colour: keyColourReference[key],
+    };
+    setLoops([...loops, newLoop]);
     setIdCounter((idCounter) => idCounter + 1);
-  }
+  };
 
   const updateLoop = (newLoop: LoopSchema) => {
     const newLoops = loops.map((loop) => {
       if (loop.id === newLoop.id) {
-        return {...loop, start: newLoop.start, end: newLoop.end};
+        return { ...loop, start: newLoop.start, end: newLoop.end };
       }
 
       return loop;
-    })
+    });
 
     setLoops(newLoops);
-  }
+  };
 
   return (
     <EditorContext.Provider value={{ loops, setLoops, createLoop, updateLoop }}>

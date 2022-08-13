@@ -9,18 +9,19 @@
 
 .create-loop-modal-root {
   width: 20%;
-  height: 20%;
+  height: 35%;
   background-color: var(--background-colour);
   border: 0.25vh solid;
   border-color: var(--secondary-colour);
   position: absolute;
-  padding: 2vh;
+  padding: 2vmin 3vmin;
   font-family: "Inter";
   -webkit-box-shadow: 0px 0px 18px 1px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 0px 0px 18px 1px rgba(0, 0, 0, 0.25);
   box-shadow: 0px 0px 18px 1px rgba(0, 0, 0, 0.25);
   z-index: 3;
   opacity: 0;
+  border-radius: 2vmin;
 }
 
 .create-loop-modal-form-fc {
@@ -33,35 +34,58 @@
 }
 
 .create-loop-modal-form-fc h3 {
-  font-size: 3vh;
-}
-
-.create-loop-modal-select-fc {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 3.5vh;
   margin-bottom: 1vh;
 }
 
-.create-loop-modal-select-fc label {
+.create-loop-modal-inputs-fc {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-loop-modal-input-fc {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2vh;
+}
+
+.create-loop-modal-input-fc label {
   font-size: 2.5vh;
   margin-right: 2vh;
 }
 
-.create-loop-modal-select-fc select {
-  width: 25%;
+.create-loop-modal-input-fc input {
+  width: 100%;
   border: 0.25vh solid;
   border-color: var(--secondary-colour);
   font-family: "Inter";
   font-size: 2vh;
+  padding: 0.5vh 1vh;
+  border-radius: 1vmin;
+}
+
+.create-loop-modal-input-fc select {
+  width: 40%;
+  border: 0.25vh solid;
+  border-color: var(--secondary-colour);
+  font-family: "Inter";
+  font-size: 2vh;
+  padding: 0.5vh 1vh;
+  border-radius: 1vmin;
 }
 
 .create-loop-modal-actions-fc {
   width: 100%;
+  height: 25%;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 1vmin;
 }
 
 .create-loop-modal-actions-fc button {
@@ -71,23 +95,54 @@
   font-family: "Inter";
   padding: 0.5vh;
   cursor: pointer;
+  border-radius: 2vmin;
 }
 
 .create-loop-modal-exit {
   background: none;
   border: 0.25vh solid;
   border-color: var(--secondary-colour);
+  margin-right: 1vmin;
 }
 
 .create-loop-modal-submit {
   border: none;
   background-color: var(--secondary-colour);
   color: var(--primary-colour);
+  margin-left: 1vmin;
 }
 
 @media screen and (orientation: portrait) {
   .create-loop-modal-root {
     width: 75%;
-    height: 22.5%;
+    height: 32.5%;
+    border: 0.5vmin solid;
+  }
+  .create-loop-modal-form-fc h3 {
+    font-size: 7vmin;
+    margin-bottom: 2vmin;
+  }
+  .create-loop-modal-input-fc {
+    margin-bottom: 4vmin;
+  }
+  .create-loop-modal-input-fc label {
+    font-size: 5vmin;
+    margin-right: 4vmin;
+  }
+  .create-loop-modal-input-fc input {
+    border: 0.5vmin solid;
+    font-size: 4vmin;
+    padding: 0.5vmin;
+  }
+  .create-loop-modal-input-fc select {
+    border: 0.5vmin solid;
+    font-size: 4vmin;
+  }
+  .create-loop-modal-actions-fc button {
+    font-size: 4vmin;
+    padding: 1vmin;
+  }
+  .create-loop-modal-exit {
+    border: 0.5vmin solid;
   }
 }

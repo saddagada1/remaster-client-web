@@ -1,40 +1,20 @@
-import React, { useEffect, useRef } from "react";
-import chordEditorStyles from "./ChordEditor.module.css";
-import Chord from '@tombatossals/react-chords/lib/Chord';
+import React, { useEffect, useRef, useState } from "react";
+import chordEditorStyles from "./ChordEditor.module.css";;
 import ChordSelector from "./helpers/ChordSelector";
 
 interface ChordEditorProps {}
 
 const ChordEditor: React.FC<ChordEditorProps> = ({}) => {
-    const chord = {
-        frets: [-1, 1, 4, 4, 4, 0],
-        barres: [4],
-        capo: false,
-    }
-    const instrument = {
-        strings: 6,
-        fretsOnChord: 4,
-        name: 'Guitar',
-        keys: [],
-        tunings: {
-            standard: ['E', 'A', 'D', 'G', 'B', 'E']
-        }
-    }
-
+  const [selector, setSelector] = useState(0)
 
   return (
     <div className={chordEditorStyles["chord-editor-root"]}>
+      <div className={chordEditorStyles["chord-editor-header"]}>
+        <h1 onClick={() => setSelector(0)} className={selector === 0 ? chordEditorStyles["chord-editor-header-selected"] : undefined}>select</h1>
+        <h1 onClick={() => setSelector(1)} className={selector === 1 ? chordEditorStyles["chord-editor-header-selected"] : undefined}>build</h1>
+        <h1 onClick={() => setSelector(2)} className={selector === 2 ? chordEditorStyles["chord-editor-header-selected"] : undefined}>view</h1>
+      </div>
       <ChordSelector />
-      {/* <div className={chordEditorStyles["chord-editor-controls"]}></div>
-      <div
-        // ref={canvasRef}
-        className={chordEditorStyles["chord-editor-canvas"]}
-      >
-        <Chord
-            chord={chord}
-            instrument={instrument}
-        />
-      </div> */}
     </div>
   );
 };

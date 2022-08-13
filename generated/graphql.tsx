@@ -25,6 +25,12 @@ export type ChangePasswordInput = {
   oldPassword: Scalars['String'];
 };
 
+export type ChordsResponse = {
+  __typename?: 'ChordsResponse';
+  _id: Scalars['String'];
+  data: Scalars['String'];
+};
+
 export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
@@ -117,6 +123,7 @@ export type MutationVerifyEmailArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  chords: ChordsResponse;
   me?: Maybe<User>;
   remaster?: Maybe<Remaster>;
   remasters: Array<Remaster>;
@@ -153,6 +160,8 @@ export type Remaster = {
   creatorId: Scalars['Float'];
   likes: Scalars['Float'];
   name: Scalars['String'];
+  playbackURL: Scalars['String'];
+  trackId: Scalars['String'];
   updatedAt: Scalars['String'];
 };
 
@@ -287,6 +296,11 @@ export type VerifyEmailMutationVariables = Exact<{
 
 
 export type VerifyEmailMutation = { __typename?: 'Mutation', verifyEmail: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', _id: number, email: string, username: string, verified: boolean } | null } };
+
+export type ChordsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ChordsQuery = { __typename?: 'Query', chords: { __typename?: 'ChordsResponse', _id: string, data: string } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -441,6 +455,18 @@ export const VerifyEmailDocument = gql`
 export function useVerifyEmailMutation() {
   return Urql.useMutation<VerifyEmailMutation, VerifyEmailMutationVariables>(VerifyEmailDocument);
 };
+export const ChordsDocument = gql`
+    query Chords {
+  chords {
+    _id
+    data
+  }
+}
+    `;
+
+export function useChordsQuery(options?: Omit<Urql.UseQueryArgs<ChordsQueryVariables>, 'query'>) {
+  return Urql.useQuery<ChordsQuery, ChordsQueryVariables>({ query: ChordsDocument, ...options });
+};
 export const MeDocument = gql`
     query Me {
   me {
@@ -450,7 +476,7 @@ export const MeDocument = gql`
     ${RegularUserFragmentDoc}`;
 
 export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'>) {
-  return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
+  return Urql.useQuery<MeQuery, MeQueryVariables>({ query: MeDocument, ...options });
 };
 export const RemastersDocument = gql`
     query Remasters {
@@ -464,7 +490,7 @@ export const RemastersDocument = gql`
     `;
 
 export function useRemastersQuery(options?: Omit<Urql.UseQueryArgs<RemastersQueryVariables>, 'query'>) {
-  return Urql.useQuery<RemastersQuery>({ query: RemastersDocument, ...options });
+  return Urql.useQuery<RemastersQuery, RemastersQueryVariables>({ query: RemastersDocument, ...options });
 };
 export const SpotifySearchDocument = gql`
     query SpotifySearch($query: String!) {
@@ -492,7 +518,7 @@ export const SpotifySearchDocument = gql`
     `;
 
 export function useSpotifySearchQuery(options: Omit<Urql.UseQueryArgs<SpotifySearchQueryVariables>, 'query'>) {
-  return Urql.useQuery<SpotifySearchQuery>({ query: SpotifySearchDocument, ...options });
+  return Urql.useQuery<SpotifySearchQuery, SpotifySearchQueryVariables>({ query: SpotifySearchDocument, ...options });
 };
 export const SpotifyTrackAnalysisDocument = gql`
     query SpotifyTrackAnalysis($spotifyTrackAnalysisId: String!) {
@@ -511,5 +537,5 @@ export const SpotifyTrackAnalysisDocument = gql`
     `;
 
 export function useSpotifyTrackAnalysisQuery(options: Omit<Urql.UseQueryArgs<SpotifyTrackAnalysisQueryVariables>, 'query'>) {
-  return Urql.useQuery<SpotifyTrackAnalysisQuery>({ query: SpotifyTrackAnalysisDocument, ...options });
+  return Urql.useQuery<SpotifyTrackAnalysisQuery, SpotifyTrackAnalysisQueryVariables>({ query: SpotifyTrackAnalysisDocument, ...options });
 };

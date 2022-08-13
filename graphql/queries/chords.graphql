@@ -1,0 +1,6 @@
+query Chords {
+  chords {
+    _id
+    data
+  }
+}
