@@ -29,13 +29,19 @@ const Orb: React.FC<OrbProps> = ({ colour }) => {
   return isWindow ? (
     <motion.div
       animate={{ x: xPosition, y: yPosition }}
-      transition={{duration: 1.5}}
+      transition={{ duration: 1.5 }}
       style={{
-        boxShadow: `0 0 ${window.innerWidth < 500 ? "30px" : "60px"} ${
-          window.innerWidth < 500 ? "15px" : "30px"
-        } ${colour}, 0 0 ${window.innerWidth < 500 ? "50px" : "100px"} ${
-          window.innerWidth < 500 ? "30px" : "60px"
-        } #ffffff00`,
+        boxShadow: window.matchMedia("(orientation: landscape)").matches
+          ? `0 0 ${window.innerWidth * 0.03}px ${
+              window.innerWidth * 0.015
+            }px ${colour}, 0 0 ${window.innerWidth * 0.06}px ${
+              window.innerWidth * 0.03
+            }px #ffffff00`
+          : `0 0 ${window.innerHeight * 0.03}px ${
+              window.innerHeight * 0.015
+            }px ${colour}, 0 0 ${window.innerHeight * 0.06}px ${
+              window.innerHeight * 0.03
+            }px #ffffff00`,
       }}
     />
   ) : (

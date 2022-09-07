@@ -1,0 +1,82 @@
+.chord-builder-root {
+  width: 100%;
+  height: 100%;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.chord-builder-create {
+  width: 100%;
+  min-height: 40px;
+  flex: 0 0 12.5%;
+  display: flex;
+  border-bottom: 0.25vh solid;
+  border-color: var(--secondary-colour);
+}
+
+.chord-builder-button {
+  flex: 0 0 calc((100%/3)/2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border: none;
+  font-family: "Inter";
+  font-size: 2.5vmin;
+  cursor: pointer;
+  border-right: 0.25vh solid;
+  border-color: var(--secondary-colour);
+  transition: 0.25s;
+}
+
+.chord-builder-button:hover {
+  background-color: var(--secondary-colour);
+  color: var(--primary-colour);
+}
+
+.chord-builder-chords {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 2vmin;
+  overflow-x: scroll;
+  gap: 2vmin;
+}
+
+.chord-builder-chords::-webkit-scrollbar {
+  display: none;
+}
+
+.chord-builder-chord {
+  height: 80%;
+  cursor: pointer;
+  border: 0.25vh solid;
+  border-color: var(--secondary-colour);
+  border-radius: 2vmin;
+  transition: 0.75s;
+  object-fit: contain;
+  padding: 2vmin;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chord-builder-chord p {
+  font-size: 2vmin;
+}
+
+#chord-builder-chord-active {
+  background-color: var(--secondary-colour);
+}
+
+@media screen and (orientation: portrait) {
+  .chord-builder-button {
+    font-size: 4.5vmin;
+  }
+
+  .chord-builder-chord p {
+    font-size: 2.5vmin;
+  }
+}

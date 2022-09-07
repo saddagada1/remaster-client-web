@@ -6,6 +6,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import { Chord } from "../components/Editors/helpers/ChordSelector";
 import { keyColourReference } from "../pages/reference";
 
 export interface LoopSchema {
@@ -19,10 +20,13 @@ export interface LoopSchema {
 }
 
 interface EditorValues {
+  tuning: string[];
   loops: LoopSchema[];
   setLoops: Dispatch<SetStateAction<LoopSchema[]>>;
   createLoop: (name: string, key: string, type: string) => void;
   updateLoop: (newLoop: LoopSchema) => void;
+  createdChords: Chord[];
+  setCreatedChords: Dispatch<SetStateAction<Chord[]>>;
 }
 
 const EditorContext = createContext<EditorValues | null>(null);
@@ -34,6 +38,8 @@ interface EditorProviderProps {
 const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
   const [idCounter, setIdCounter] = useState(1);
   const [loops, setLoops] = useState<LoopSchema[]>([]);
+  const [createdChords, setCreatedChords] = useState<Chord[]>([]);
+  const [tuning, setTuning] = useState(['E', 'A', 'D', 'G', 'B', 'E']);
 
   const createLoop = (name: string, key: string, type: string) => {
     let lastLoopEnd;
@@ -74,7 +80,7 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
   };
 
   return (
-    <EditorContext.Provider value={{ loops, setLoops, createLoop, updateLoop }}>
+    <EditorContext.Provider value={{ tuning, loops, setLoops, createLoop, updateLoop, createdChords, setCreatedChords }}>
       {children}
     </EditorContext.Provider>
   );

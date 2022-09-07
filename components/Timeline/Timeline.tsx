@@ -10,8 +10,8 @@ interface TimelineProps {
   setSpeed: Dispatch<SetStateAction<number>>;
   previewPosition: number;
   progressPosition: number;
-  handleTimelineMouseMove: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  handleTimelineScrub: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  handleTimelineMouseMove: (eM?: React.MouseEvent<HTMLDivElement, MouseEvent>, eT?: React.TouchEvent<HTMLDivElement>) => void;
+  handleTimelineScrub: (eM?: React.MouseEvent<HTMLDivElement, MouseEvent>, eT?: React.TouchEvent<HTMLDivElement>) => void;
 }
 
 const Timeline: React.FC<TimelineProps> = ({
@@ -40,8 +40,10 @@ const Timeline: React.FC<TimelineProps> = ({
         <div className={timelineStyles["timeline-timeline-container"]}>
           <div
             className={timelineStyles["timeline-timeline"]}
-            onMouseMove={(e) => handleTimelineMouseMove(e)}
-            onMouseDown={(e) => handleTimelineScrub(e)}
+            onTouchMove={(e) => handleTimelineMouseMove(undefined, e)}
+            onMouseMove={(e) => handleTimelineMouseMove(e, undefined)}
+            onTouchStart={(e) => handleTimelineScrub(undefined, e)}
+            onMouseDown={(e) => handleTimelineScrub(e, undefined)}
             ref={timelineRef}
           >
             <div

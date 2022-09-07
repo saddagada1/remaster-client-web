@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Chord from "../../Chord/Chord";
 import { Select } from "react-functional-select";
 import { useChordsQuery } from "../../../generated/graphql";
 import chordSelectorStyles from "./ChordSelector.module.css";
 import { Finger } from "svguitar";
+import Void from "../../Helpers/Void";
 
 export interface Chord {
-  title: string;
+  title: string | undefined;
   fingers: Finger[];
   barres: { fromString: number; toString: number; fret: number }[];
   position: number;
@@ -20,6 +21,15 @@ const ChordSelector: React.FC<ChordSelectorProps> = ({}) => {
   const [chordOptions, setChordOptions] = useState<string[]>([]);
   const [selectedChord, setSelectedChord] = useState("C");
   const [selectedChordIndex, setSelectedChordIndex] = useState<number>();
+  const [canvasWidth, setCanvasWidth] = useState(0);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      setCanvasWidth(container.getBoundingClientRect().height);
+    }
+  }, [containerRef])
 
   useEffect(() => {
     if (chordData) {
@@ -47,11 +57,9 @@ const ChordSelector: React.FC<ChordSelectorProps> = ({}) => {
             initialValue={selectedChord}
             filterMatchFrom="start"
             placeholder={selectedChord}
-            isLoading={fetching}
             themeConfig={{
               control: {
-                borderWidth: "0.25vh",
-                focusedBorderColor: "#121212",
+                borderWidth: "0",
                 boxShadowColor: "transparent",
               },
               color: {
@@ -65,20 +73,22 @@ const ChordSelector: React.FC<ChordSelectorProps> = ({}) => {
                   focusedBgColor: "#cecece",
                 },
               },
-              icon: {
-                color: "#121212",
+              noOptions: {
+                fontSize: "0",
               },
-              loader: {
+              icon: {
                 color: "#121212",
               },
             }}
           />
         </div>
+        <Void>{}</Void>
       </div>
-      <div className={chordSelectorStyles["chord-selector-chords"]}>
-        {chordData &&
+      <div ref={containerRef} className={chordSelectorStyles["chord-selector-chords"]}>
+        {canvasWidth !== 0 && chordData &&
           chordData[selectedChord].map((chord, index) => (
             <div
+              style={{flex: `0 0 ${canvasWidth}px`}}
               className={chordSelectorStyles["chord-selector-chord"]}
               id={
                 index === selectedChordIndex
@@ -86,12 +96,13 @@ const ChordSelector: React.FC<ChordSelectorProps> = ({}) => {
                   : undefined
               }
               key={index}
-              onClick={() => setSelectedChordIndex(index)}
+              onClick={() => selectedChordIndex === index ? setSelectedChordIndex(undefined) : setSelectedChordIndex(index)}
             >
               <Chord chord={chord} selected={index === selectedChordIndex} />
             </div>
           ))}
       </div>
+      
     </div>
   );
 };

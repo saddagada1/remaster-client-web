@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Orientation, SVGuitarChord } from "svguitar";
+import { useEditorContext } from "../../contexts/Editor";
 import { Chord } from "../Editors/helpers/ChordSelector";
 import chordStyles from "./Chord.module.css";
 
@@ -11,6 +12,7 @@ interface ChordProps {
 const Chord: React.FC<ChordProps> = ({ chord, selected }) => {
   const canvasRef = useRef<HTMLDivElement>(null);
   const svguitarRef = useRef<SVGuitarChord | null>(null);
+  const editorCtx = useEditorContext();
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -25,9 +27,9 @@ const Chord: React.FC<ChordProps> = ({ chord, selected }) => {
           })
           .configure({
             fontFamily: "Inter",
-            // orientation: "horizontal" as Orientation,
+            orientation: "horizontal" as Orientation,
             fixedDiagramPosition: true,
-            tuning: ['E', 'A', 'D', 'G', 'B', 'E'],
+            tuning: editorCtx?.tuning,
             color: selected ? "#ffffff" : '#121212'
           });
       }

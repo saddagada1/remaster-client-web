@@ -12,6 +12,7 @@ import LoopSlider from "../../components/Sliders/LoopSlider";
 import CreateLoopModal from "../../components/Modals/CreateLoopModal";
 import Orb from "../../components/Visualizations/Orb";
 import Timeline from "../../components/Timeline/Timeline";
+import CreateChordModal from "../../components/Modals/CreateChordModal";
 
 interface editorProps {}
 
@@ -20,6 +21,7 @@ const Editor: NextPage<editorProps> = ({}) => {
   const playerRef = useRef<ReactPlayer | null>(null);
   const timelineRef = useRef<HTMLDivElement | null>(null);
   const [duration, setDuration] = useState<number | undefined>(0);
+  const [triggerCreateChord, setTriggerCreateChord] = useState(false);
   const [triggerCreateLoop, setTriggerCreateLoop] = useState(false);
   const [previewPosition, setPreviewPosition] = useState(0);
   const [progressPosition, setProgressPosition] = useState(0);
@@ -27,18 +29,32 @@ const Editor: NextPage<editorProps> = ({}) => {
   const [videoPlaying, setVideoPlaying] = useState(false);
   const [videoSpeed, setVideoSpeed] = useState(1);
   const [videoVolume, setVideoVolume] = useState(0.5);
+  const [playingLoop, setPlayingLoop] = useState<LoopSchema | null>(null);
   const [selectedLoop, setSelectedLoop] = useState<LoopSchema | null>(null);
   const editorCtx = useEditorContext();
 
   const handleTimelineMouseMove = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    eM?: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    eT?: React.TouchEvent<HTMLDivElement>
   ) => {
     const timeline = timelineRef.current;
     if (timeline) {
       const timelineRect = timeline.getBoundingClientRect();
-      const seekPercentage =
-        Math.min(Math.max(0, e.clientX - timelineRect.x), timelineRect.width) /
-        timelineRect.width;
+      let seekPercentage = 0;
+      if (eM) {
+        seekPercentage =
+          Math.min(
+            Math.max(0, eM.clientX - timelineRect.x),
+            timelineRect.width
+          ) / timelineRect.width;
+      }
+      if (eT) {
+        seekPercentage =
+          Math.min(
+            Math.max(0, eT.touches[0].clientX - timelineRect.x),
+            timelineRect.width
+          ) / timelineRect.width;
+      }
       setPreviewPosition(seekPercentage);
       if (isScrubbing) {
         setProgressPosition(seekPercentage);
@@ -48,39 +64,60 @@ const Editor: NextPage<editorProps> = ({}) => {
   };
 
   const handleTimelineScrub = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    eM?: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    eT?: React.TouchEvent<HTMLDivElement>
   ) => {
     const timeline = timelineRef.current;
     if (timeline) {
       setIsScrubbing(true);
       const timelineRect = timeline.getBoundingClientRect();
-      const seekPercentage =
-        Math.min(Math.max(0, e.clientX - timelineRect.x), timelineRect.width) /
-        timelineRect.width;
+      let seekPercentage = 0;
+      if (eM) {
+        seekPercentage =
+          Math.min(
+            Math.max(0, eM.clientX - timelineRect.x),
+            timelineRect.width
+          ) / timelineRect.width;
+      }
+      if (eT) {
+        seekPercentage =
+          Math.min(
+            Math.max(0, eT.touches[0].clientX - timelineRect.x),
+            timelineRect.width
+          ) / timelineRect.width;
+      }
       setProgressPosition(seekPercentage);
       playerRef.current?.seekTo(seekPercentage, "fraction");
     }
   };
 
-  const handleLoopSelect = (played: number) => {
+  const handlePlayingLoop = (played: number) => {
     const loops = editorCtx?.loops;
     if (loops) {
       if (
-        selectedLoop &&
-        selectedLoop.start <= played &&
-        played <= selectedLoop.end
+        playingLoop &&
+        playingLoop.start <= played &&
+        played <= playingLoop.end
       ) {
         return;
       } else {
-        setSelectedLoop(null);
+        setPlayingLoop(null);
         for (let i = 0; i < loops.length; i++) {
           if (loops[i].start <= played && played <= loops[i].end) {
-            setSelectedLoop(loops[i]);
+            setPlayingLoop(loops[i]);
           }
         }
       }
     }
   };
+
+  const handleSelectedLoop = (played: number) => {
+    if (selectedLoop) {
+      if (played > selectedLoop.end || played < selectedLoop.start) {
+        playerRef.current?.seekTo(selectedLoop.start, "fraction");
+      }
+    }
+  }
 
   useEffect(() => {
     if (!isServer()) {
@@ -88,33 +125,51 @@ const Editor: NextPage<editorProps> = ({}) => {
     }
   }, []);
 
+  console.log(playingLoop)
+
   return (
     <div
       className={editorStyles["editor-page-root"]}
       onMouseUp={() => setIsScrubbing(false)}
-      onMouseMove={(e) => handleTimelineMouseMove(e)}
+      onTouchEnd={() => setIsScrubbing(false)}
+      onTouchMove={(e) => handleTimelineMouseMove(undefined, e)}
+      onMouseMove={(e) => handleTimelineMouseMove(e, undefined)}
     >
       <Head>
         <title>Editor</title>
       </Head>
       {isWindow && (
         <>
-          {triggerCreateLoop && <CreateLoopModal
-            trigger={triggerCreateLoop}
-            setTrigger={setTriggerCreateLoop}
-          />}
+          {triggerCreateLoop && (
+            <CreateLoopModal
+              trigger={triggerCreateLoop}
+              setTrigger={setTriggerCreateLoop}
+            />
+          )}
+          {triggerCreateChord && (
+            <CreateChordModal
+              trigger={triggerCreateChord}
+              setTrigger={setTriggerCreateChord}
+            />
+          )}
           <div className={editorStyles["editor-main"]}>
             <div className={editorStyles["editor-main-header"]}></div>
             <div className={editorStyles["editor-main-video-gc"]}>
               <ReactPlayer
                 ref={playerRef}
-                url="https://www.youtube.com/watch?v=Va9TpehbGXY&ab_channel=BenAwad"
+                url="https://www.youtube.com/watch?v=aQZDyyIyQMA&ab_channel=FutureClassic"
                 width="100%"
                 height="100%"
+                progressInterval={1}
                 onDuration={(duration) => setDuration(duration)}
                 onProgress={({ played }) => {
                   !isScrubbing && videoPlaying && setProgressPosition(played);
-                  handleLoopSelect(played);
+                  if (!selectedLoop) {
+                    handlePlayingLoop(played);
+                  }
+                  else {
+                    handleSelectedLoop(played);
+                  }
                 }}
                 onPlay={() => setVideoPlaying(true)}
                 onPause={() => setVideoPlaying(false)}
@@ -126,18 +181,29 @@ const Editor: NextPage<editorProps> = ({}) => {
                 volume={videoVolume}
                 playbackRate={videoSpeed}
               />
-              {window.matchMedia("(orientation: landscape)").matches && 
-              <div className={editorStyles["editor-main-diagram-fc"]}>
-                <ChordEditor />
-              </div>}
+              {window.matchMedia("(orientation: landscape)").matches && (
+                <div className={editorStyles["editor-main-diagram-fc"]}>
+                  <ChordEditor setCreateChordTrigger={setTriggerCreateChord} />
+                </div>
+              )}
             </div>
-            {window.matchMedia("(orientation: portrait)").matches && 
-            <div className={editorStyles["editor-main-mobile-diagram-fc"]}>
-              <ChordEditor />
-            </div>}
+            {window.matchMedia("(orientation: portrait)").matches && (
+              <div className={editorStyles["editor-main-mobile-diagram-fc"]}>
+                <ChordEditor setCreateChordTrigger={setTriggerCreateChord} />
+              </div>
+            )}
             <div className={editorStyles["editor-main-loops-fc"]}>
               {editorCtx?.loops.map((loop, index) => (
-                <div key={index} className={editorStyles["editor-main-loop"]}>
+                <div
+                  onClick={() =>
+                    selectedLoop?.id === index + 1
+                      ? setSelectedLoop(null)
+                      : setSelectedLoop(loop)
+                  }
+                  key={index}
+                  id={selectedLoop?.id === index + 1 ? editorStyles["editor-main-loop-selected"] : undefined}
+                  className={editorStyles["editor-main-loop"]}
+                >
                   <p>{loop.id}</p>
                   <Orb colour={loop.colour} />
                   <h5>{loop.name}</h5>

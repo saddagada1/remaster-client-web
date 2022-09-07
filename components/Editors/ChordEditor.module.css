@@ -1,36 +1,46 @@
 .chord-editor-root {
-    width: 100%;
-    height: 100%;
-    font-family: "Inter";
-    display: flex;
-    flex-flow: column;
+  width: 100%;
+  height: 100%;
+  font-family: "Inter";
+  flex-grow: 0;
+  display: flex;
+  flex-flow: column;
 }
 
 .chord-editor-header {
-    width: 100%;
-    height: 10%;
-    display: flex;
-    border-bottom: 0.25vh solid;
-    border-color: var(--secondary-colour);
+  width: 100%;
+  flex: 0 0 12.5%;
+  display: flex;
+  border-bottom: 0.25vh solid;
+  border-color: var(--secondary-colour);
 }
 
 .chord-editor-header h1 {
-    height: 100%;
-    flex: 0 0 calc(100%/3);
-    font-size: 1.75vmin;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: 0.75s;
-    cursor: pointer;
+  height: 100%;
+  flex: 0 0 calc(100% / 3);
+  font-size: 2vmin;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.75s;
+  cursor: pointer;
 }
 
-.chord-editor-header h1:nth-child(-n+2) {
-    border-right: 0.25vh solid;
-    border-color: var(--secondary-colour);
+.chord-editor-header h1:nth-child(-n + 2) {
+  border-right: 0.25vh solid;
+  border-color: var(--secondary-colour);
 }
 
 .chord-editor-header-selected {
-    background-color: var(--secondary-colour);
-    color: var(--primary-colour);
+  background-color: var(--secondary-colour);
+  color: var(--primary-colour);
+}
+
+@media screen and (orientation: portrait) {
+  .chord-editor-header {
+    flex: 0 0 17.5%;
+  }
+  .chord-editor-header h1 {
+    font-size: 3vmin;
+  }
 }

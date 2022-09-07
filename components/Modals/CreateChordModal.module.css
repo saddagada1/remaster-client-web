@@ -1,0 +1,263 @@
+.create-chord-modal-background {
+  width: 100%;
+  height: 100%;
+  background-color: #00000066;
+  position: absolute;
+  z-index: 2;
+  opacity: 0;
+}
+
+.create-chord-modal-root {
+  width: 50%;
+  height: 55%;
+  background-color: var(--background-colour);
+  border: 0.25vh solid;
+  border-color: var(--secondary-colour);
+  position: absolute;
+  padding: 2vh 3vh;
+  font-family: "Inter";
+  -webkit-box-shadow: 0px 0px 18px 1px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0px 0px 18px 1px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 18px 1px rgba(0, 0, 0, 0.25);
+  z-index: 3;
+  opacity: 0;
+  border-radius: 2vmin;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.create-chord-modal-root h1 {
+  font-size: 3.5vh;
+}
+
+.create-chord-main {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+}
+
+.create-chord-form {
+  flex: 0 0 42.5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.create-chord-form-input {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2vh;
+}
+
+.create-chord-form-input label {
+  font-size: 2.5vh;
+  margin-right: 2vh;
+}
+
+.create-chord-form-input input {
+  width: 100%;
+  border: 0.25vh solid;
+  border-color: var(--secondary-colour);
+  font-family: "Inter";
+  font-size: 2vh;
+  padding: 0.5vh 1vh;
+  border-radius: 1vh;
+}
+
+.create-chord-form-input select {
+  width: max-content;
+  border: 0.25vh solid;
+  border-color: var(--secondary-colour);
+  font-family: "Inter";
+  font-size: 2vh;
+  padding: 0.5vh 1vh;
+  border-radius: 1vh;
+  text-align: center;
+  appearance: none;
+}
+
+.create-chord-form-barres {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 2vh;
+  border: 0.25vh solid;
+  border-color: var(--secondary-colour);
+  border-radius: 1vh;
+}
+
+.create-chord-form-barres h3 {
+  width: 100%;
+  font-size: 2vh;
+  text-align: center;
+  padding: 1vh;
+}
+
+.create-chord-form-barre {
+  flex: 0 0 calc(100%/3);
+  padding: 1vh;
+  display: flex;
+  justify-content: space-between;
+}
+
+.create-chord-form-barre:nth-child(-n+2) {
+  border-right: 0.25vh solid;
+  border-color: var(--secondary-colour);
+}
+
+.create-chord-form-barre p {
+  font-size: 2vh;
+}
+
+.create-chord-form-barre button {
+  border: none;
+  background: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2vh;
+  cursor: pointer;
+}
+
+.create-chord-form-button {
+  width: 100%;
+  font-size: 2vh;
+  font-family: "Inter";
+  padding: 1vh 0.5vh;
+  cursor: pointer;
+  border-radius: 2vh;
+  border: none;
+  background: none;
+  background-color: var(--secondary-colour);
+  color: var(--primary-colour);
+}
+
+.create-chord-form-button:nth-child(1) {
+  margin-right: 1vh;
+}
+
+.create-chord-form-button:nth-child(2) {
+  margin-left: 1vh;
+}
+
+.create-chord-form-help {
+  width: 100%;
+}
+
+.create-chord-form-help div {
+  display: flex;
+  align-items: center;
+  font-size: 1.5vh;
+  margin-bottom: 0.5vh;
+}
+
+.create-chord-form-help p {
+  margin-left: 1vh;
+}
+
+.create-chord-input {
+  flex: 0 0 55%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.create-chord-matrix {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.create-chord-matrix-column {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+}
+
+.create-chord-matrix-element {
+  width: 100%;
+  flex: 0 0 calc(100%/6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.create-chord-matrix-element-indicator {
+  width: 50%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 0.25vh solid;
+  border-color: var(--error-colour);
+}
+
+.create-chord-template {
+  width: 100%;
+  height: max-content;
+  position: absolute;
+  opacity: 0;
+}
+
+.create-chord-diagram {
+  width: 100%;
+  height: max-content;
+  position: absolute;
+}
+
+.create-chord-modal-actions {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 1vmin;
+}
+
+.create-chord-modal-actions button {
+  width: 100%;
+  font-size: 2.5vh;
+  font-family: "Inter";
+  padding: 1vh 0.5vh;
+  cursor: pointer;
+  border-radius: 2vh;
+}
+
+.create-chord-modal-exit {
+  background: none;
+  border: 0.25vh solid;
+  border-color: var(--secondary-colour);
+  margin-right: 1vh;
+}
+
+.create-chord-modal-submit {
+  border: none;
+  background-color: var(--secondary-colour);
+  color: var(--primary-colour);
+  margin-left: 1vh;
+}
+
+@media screen and (orientation: portrait) {
+  .create-chord-modal-root {
+    width: 90%;
+    height: 90%;
+  }
+
+  .create-chord-modal-root h1 {
+    margin-bottom: 2vh;
+  }
+
+  .create-chord-main {
+    flex-direction: column;
+  }
+
+  .create-chord-input {
+    flex: unset;
+    width: 100%;
+    height: 100%;
+  }
+}

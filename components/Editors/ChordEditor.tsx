@@ -1,12 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
-import chordEditorStyles from "./ChordEditor.module.css";;
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import chordEditorStyles from "./ChordEditor.module.css";import ChordBuilder from "./helpers/ChordBuilder";
+;
 import ChordSelector from "./helpers/ChordSelector";
 
-interface ChordEditorProps {}
+interface ChordEditorProps {
+  setCreateChordTrigger: Dispatch<SetStateAction<boolean>>
+}
 
-const ChordEditor: React.FC<ChordEditorProps> = ({}) => {
+const ChordEditor: React.FC<ChordEditorProps> = ({setCreateChordTrigger}) => {
   const [selector, setSelector] = useState(0)
-
+  
   return (
     <div className={chordEditorStyles["chord-editor-root"]}>
       <div className={chordEditorStyles["chord-editor-header"]}>
@@ -14,7 +17,7 @@ const ChordEditor: React.FC<ChordEditorProps> = ({}) => {
         <h1 onClick={() => setSelector(1)} className={selector === 1 ? chordEditorStyles["chord-editor-header-selected"] : undefined}>build</h1>
         <h1 onClick={() => setSelector(2)} className={selector === 2 ? chordEditorStyles["chord-editor-header-selected"] : undefined}>view</h1>
       </div>
-      <ChordSelector />
+      {selector === 0 ? <ChordSelector/> : selector === 1 ? <ChordBuilder setCreateChordTrigger={setCreateChordTrigger}/> : null}
     </div>
   );
 };

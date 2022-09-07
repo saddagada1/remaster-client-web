@@ -116,33 +116,5 @@
   .create-loop-modal-root {
     width: 75%;
     height: 32.5%;
-    border: 0.5vmin solid;
-  }
-  .create-loop-modal-form-fc h3 {
-    font-size: 7vmin;
-    margin-bottom: 2vmin;
-  }
-  .create-loop-modal-input-fc {
-    margin-bottom: 4vmin;
-  }
-  .create-loop-modal-input-fc label {
-    font-size: 5vmin;
-    margin-right: 4vmin;
-  }
-  .create-loop-modal-input-fc input {
-    border: 0.5vmin solid;
-    font-size: 4vmin;
-    padding: 0.5vmin;
-  }
-  .create-loop-modal-input-fc select {
-    border: 0.5vmin solid;
-    font-size: 4vmin;
-  }
-  .create-loop-modal-actions-fc button {
-    font-size: 4vmin;
-    padding: 1vmin;
-  }
-  .create-loop-modal-exit {
-    border: 0.5vmin solid;
   }
 }

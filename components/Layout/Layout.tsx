@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { isServer } from "../../utils/isServer";
@@ -38,6 +39,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       className={layoutStyles["layout-root"]}
       style={{ height: viewHeight ? viewHeight : "100vh", width: viewWidth ? viewWidth : "100vw" }}
     >
+      <Head>
+        <meta content={`width=${viewWidth ? viewWidth : "device-width"}, height=${viewHeight ? viewHeight : "device-height"} initial-scale=1, shrink-to-fit=no`} name="viewport"/>
+      </Head>
       <div className={layoutStyles["layout-background"]} />
       {!router.pathname.includes("editor/[id]") ? (
         <>

@@ -6,13 +6,14 @@
   align-items: center;
   font-family: "Inter";
   position: relative;
+  user-select: none;
 }
 
 .editor-main {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: 5% 45% 25% 17.5% 7.5%;
+  grid-template-rows: 7.5% 45% 25% 15% 7.5%;
   grid-template-columns: 100%;
 }
 
@@ -32,6 +33,7 @@
 .editor-main-diagram-fc {
   width: 100%;
   height: 100%;
+  display: flex;
   border-left: 0.25vh solid;
   border-color: var(--secondary-colour);
 }
@@ -66,6 +68,16 @@
   align-items: center;
   position: relative;
   border-radius: 2vmin;
+  cursor: pointer;
+  transition: 0.25s;
+  overflow: hidden;
+}
+
+#editor-main-loop-selected {
+  transform: scale(0.95);
+  -webkit-box-shadow: 0px 0px 18px 1px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0px 0px 18px 1px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 18px 1px rgba(0, 0, 0, 0.25);
 }
 
 .editor-main-loop p {
@@ -82,15 +94,6 @@
   bottom: 0;
   font-size: 2vmin;
   padding-bottom: 2vmin;
-}
-
-.editor-main-loop-blur {
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.075);
-  backdrop-filter: blur(0.75vw);
-  -webkit-backdrop-filter: blur(0.75vw);
-  position: absolute;
 }
 
 .editor-main-create-loop {
@@ -172,7 +175,7 @@
 
 @media screen and (orientation: portrait) {
   .editor-main {
-    grid-template-rows: 7.5% 27.5% 27.5% 15% 15% 7.5%;
+    grid-template-rows: 7.5% 25% 30% 15% 15% 7.5%;
   }
   .editor-main-video-gc {
     grid-template-columns: 100%;
@@ -183,18 +186,13 @@
   .editor-main-mobile-diagram-fc {
     display: flex;
   }
-  .editor-main-loop-top {
-    height: 70%;
+}
+
+@media screen and (orientation: portrait) and (max-width: 500px) {
+  .editor-main-loop p {
+    font-size: 3vmin;
   }
-  .editor-main-loop-bottom {
-    height: 30%;
-    font-size: 2.5vmin;
-  }
-  .editor-main-create-loop-top {
-    height: 70%;
-  }
-  .editor-main-create-loop-bottom {
-    height: 30%;
-    font-size: 2.5vmin;
+  .editor-main-loop h5 {
+    font-size: 3vmin;
   }
 }
