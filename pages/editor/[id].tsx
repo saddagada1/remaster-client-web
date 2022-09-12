@@ -13,6 +13,7 @@ import CreateLoopModal from "../../components/Modals/CreateLoopModal";
 import Orb from "../../components/Visualizations/Orb";
 import Timeline from "../../components/Timeline/Timeline";
 import CreateChordModal from "../../components/Modals/CreateChordModal";
+import EditLoopModal from "../../components/Modals/EditLoopModal";
 
 interface editorProps {}
 
@@ -20,9 +21,11 @@ const Editor: NextPage<editorProps> = ({}) => {
   const [isWindow, setIsWindow] = useState(false);
   const playerRef = useRef<ReactPlayer | null>(null);
   const timelineRef = useRef<HTMLDivElement | null>(null);
+  const timerRef = useRef<NodeJS.Timer | null>(null);
   const [duration, setDuration] = useState<number | undefined>(0);
-  const [triggerCreateChord, setTriggerCreateChord] = useState(false);
   const [triggerCreateLoop, setTriggerCreateLoop] = useState(false);
+  const [triggerEditLoop, setTriggerEditLoop] = useState(false);
+  const [editSelectLoop, setEditSelectLoop] = useState<LoopSchema | null>(null);
   const [previewPosition, setPreviewPosition] = useState(0);
   const [progressPosition, setProgressPosition] = useState(0);
   const [isScrubbing, setIsScrubbing] = useState(false);
@@ -117,15 +120,49 @@ const Editor: NextPage<editorProps> = ({}) => {
         playerRef.current?.seekTo(selectedLoop.start, "fraction");
       }
     }
-  }
+  };
+
+  const handleClick = (loop: LoopSchema, index: number) => {
+    if (timerRef.current === null) {
+      timerRef.current = setTimeout(() => {
+        timerRef.current = null;
+        handleLoopClick(loop, index);
+      }, 300);
+    }
+  };
+
+  const handleDoubleClick = (loop: LoopSchema) => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+      handleLoopDoubleClick(loop);
+    }
+  };
+
+  const handleLoopClick = (loop: LoopSchema, index: number) => {
+    if (selectedLoop?.id === index + 1) {
+      setSelectedLoop(null);
+    } else {
+      setSelectedLoop(loop);
+    }
+  };
+
+  const handleLoopDoubleClick = (loop: LoopSchema) => {
+    setEditSelectLoop(loop);
+  };
+
+  useEffect(() => {
+    if (editSelectLoop) {
+      setTriggerEditLoop(true);
+    }
+  }, [editSelectLoop])
+  
 
   useEffect(() => {
     if (!isServer()) {
       setIsWindow(true);
     }
   }, []);
-
-  console.log(playingLoop)
 
   return (
     <div
@@ -146,10 +183,12 @@ const Editor: NextPage<editorProps> = ({}) => {
               setTrigger={setTriggerCreateLoop}
             />
           )}
-          {triggerCreateChord && (
-            <CreateChordModal
-              trigger={triggerCreateChord}
-              setTrigger={setTriggerCreateChord}
+          {triggerEditLoop && editSelectLoop && (
+            <EditLoopModal
+              trigger={triggerEditLoop}
+              setTrigger={setTriggerEditLoop}
+              loop={editSelectLoop}
+              setLoop={setEditSelectLoop}
             />
           )}
           <div className={editorStyles["editor-main"]}>
@@ -166,8 +205,7 @@ const Editor: NextPage<editorProps> = ({}) => {
                   !isScrubbing && videoPlaying && setProgressPosition(played);
                   if (!selectedLoop) {
                     handlePlayingLoop(played);
-                  }
-                  else {
+                  } else {
                     handleSelectedLoop(played);
                   }
                 }}
@@ -183,25 +221,26 @@ const Editor: NextPage<editorProps> = ({}) => {
               />
               {window.matchMedia("(orientation: landscape)").matches && (
                 <div className={editorStyles["editor-main-diagram-fc"]}>
-                  <ChordEditor setCreateChordTrigger={setTriggerCreateChord} />
+                  <ChordEditor />
                 </div>
               )}
             </div>
             {window.matchMedia("(orientation: portrait)").matches && (
               <div className={editorStyles["editor-main-mobile-diagram-fc"]}>
-                <ChordEditor setCreateChordTrigger={setTriggerCreateChord} />
+                <ChordEditor />
               </div>
             )}
             <div className={editorStyles["editor-main-loops-fc"]}>
               {editorCtx?.loops.map((loop, index) => (
                 <div
-                  onClick={() =>
-                    selectedLoop?.id === index + 1
-                      ? setSelectedLoop(null)
-                      : setSelectedLoop(loop)
-                  }
+                  onClick={() => handleClick(loop, index)}
+                  onDoubleClick={() => handleDoubleClick(loop)}
                   key={index}
-                  id={selectedLoop?.id === index + 1 ? editorStyles["editor-main-loop-selected"] : undefined}
+                  id={
+                    selectedLoop?.id === index + 1
+                      ? editorStyles["editor-main-loop-selected"]
+                      : undefined
+                  }
                   className={editorStyles["editor-main-loop"]}
                 >
                   <p>{loop.id}</p>

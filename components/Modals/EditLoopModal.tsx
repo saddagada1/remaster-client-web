@@ -1,21 +1,25 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import createLoopModalStyles from "./CreateLoopModal.module.css";
+import editLoopModalStyles from "./EditLoopModal.module.css";
 import { keyColourReference } from "../../pages/reference";
-import { useEditorContext } from "../../contexts/Editor";
+import { LoopSchema, useEditorContext } from "../../contexts/Editor";
 
-interface CreateLoopModalProps {
+interface EditLoopModalProps {
   trigger: boolean;
   setTrigger: Dispatch<SetStateAction<boolean>>;
+  loop: LoopSchema;
+  setLoop: Dispatch<SetStateAction<LoopSchema | null>>;
 }
 
-const CreateLoopModal: React.FC<CreateLoopModalProps> = ({
+const EditLoopModal: React.FC<EditLoopModalProps> = ({
   trigger,
   setTrigger,
+  loop,
+  setLoop
 }) => {
-  const [name, setName] = useState("");
-  const [type, setType] = useState("Tab");
-  const [selectedKey, setSelectedKey] = useState("C");
+  const [name, setName] = useState(loop.name);
+  const [type, setType] = useState(loop.type);
+  const [selectedKey, setSelectedKey] = useState(loop.key);
   const [opacity, setOpacity] = useState(0);
   const editorCtx = useEditorContext();
 
@@ -23,7 +27,17 @@ const CreateLoopModal: React.FC<CreateLoopModalProps> = ({
     if (!name) {
       return;
     } else {
-      editorCtx?.createLoop(name, selectedKey, type);
+      const newLoop: LoopSchema = {
+        id: loop.id,
+        name: name,
+        type: type,
+        key: selectedKey,
+        start: loop.start,
+        end: loop.end,
+        colour: keyColourReference[selectedKey]
+      }
+      editorCtx?.updateLoops(newLoop);
+      setLoop(null);
       setTrigger(false);
     }
   };
@@ -33,8 +47,9 @@ const CreateLoopModal: React.FC<CreateLoopModalProps> = ({
       setOpacity(1);
     } else {
       setOpacity(0);
+      setLoop(null);
     }
-  }, [trigger]);
+  }, [trigger, setLoop]);
 
   return (
     <>
@@ -42,33 +57,33 @@ const CreateLoopModal: React.FC<CreateLoopModalProps> = ({
         animate={{ opacity: opacity }}
         style={{ pointerEvents: trigger ? "initial" : "none" }}
         onClick={() => setTrigger(false)}
-        className={createLoopModalStyles["create-loop-modal-background"]}
+        className={editLoopModalStyles["edit-loop-modal-background"]}
       />
       <motion.div
         animate={{ opacity: opacity }}
-        className={createLoopModalStyles["create-loop-modal-root"]}
+        className={editLoopModalStyles["edit-loop-modal-root"]}
       >
-        <div className={createLoopModalStyles["create-loop-modal-form-fc"]}>
-          <h3>create loop.</h3>
-          <div className={createLoopModalStyles["create-loop-modal-inputs-fc"]}>
+        <div className={editLoopModalStyles["edit-loop-modal-form-fc"]}>
+          <h3>edit loop.</h3>
+          <div className={editLoopModalStyles["edit-loop-modal-inputs-fc"]}>
             <div
-              className={createLoopModalStyles["create-loop-modal-input-fc"]}
+              className={editLoopModalStyles["edit-loop-modal-input-fc"]}
             >
               <label htmlFor="name">name</label>
               <input
                 type="text"
                 maxLength={10}
                 value={name}
-                className={createLoopModalStyles["create-loop-modal-input"]}
+                className={editLoopModalStyles["edit-loop-modal-input"]}
                 onChange={(e) => setName(e.currentTarget.value)}
               />
             </div>
             <div
-              className={createLoopModalStyles["create-loop-modal-input-fc"]}
+              className={editLoopModalStyles["edit-loop-modal-input-fc"]}
             >
               <label htmlFor="key">key</label>
               <select
-                className={createLoopModalStyles["create-loop-modal-select"]}
+                className={editLoopModalStyles["edit-loop-modal-select"]}
                 value={selectedKey}
                 onChange={(e) => setSelectedKey(e.target.value)}
               >
@@ -82,11 +97,11 @@ const CreateLoopModal: React.FC<CreateLoopModalProps> = ({
               </select>
             </div>
             <div
-              className={createLoopModalStyles["create-loop-modal-input-fc"]}
+              className={editLoopModalStyles["edit-loop-modal-input-fc"]}
             >
               <label htmlFor="type">type</label>
               <select
-                className={createLoopModalStyles["create-loop-modal-select"]}
+                className={editLoopModalStyles["edit-loop-modal-select"]}
                 value={type}
                 onChange={(e) => setType(e.target.value)}
               >
@@ -96,19 +111,19 @@ const CreateLoopModal: React.FC<CreateLoopModalProps> = ({
             </div>
           </div>
           <div
-            className={createLoopModalStyles["create-loop-modal-actions-fc"]}
+            className={editLoopModalStyles["edit-loop-modal-actions-fc"]}
           >
             <button
               onClick={() => setTrigger(false)}
-              className={createLoopModalStyles["create-loop-modal-exit"]}
+              className={editLoopModalStyles["edit-loop-modal-exit"]}
             >
               exit
             </button>
             <button
               onClick={() => handleSubmit()}
-              className={createLoopModalStyles["create-loop-modal-submit"]}
+              className={editLoopModalStyles["edit-loop-modal-submit"]}
             >
-              create
+              save
             </button>
           </div>
         </div>
@@ -116,4 +131,4 @@ const CreateLoopModal: React.FC<CreateLoopModalProps> = ({
     </>
   );
 };
-export default CreateLoopModal;
+export default EditLoopModal;

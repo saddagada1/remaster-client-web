@@ -24,9 +24,10 @@ interface EditorValues {
   loops: LoopSchema[];
   setLoops: Dispatch<SetStateAction<LoopSchema[]>>;
   createLoop: (name: string, key: string, type: string) => void;
-  updateLoop: (newLoop: LoopSchema) => void;
+  updateLoops: (newLoop: LoopSchema) => void;
   createdChords: Chord[];
   setCreatedChords: Dispatch<SetStateAction<Chord[]>>;
+  updateCreatedChords: (oldChord: Chord, newChord: Chord) => void
 }
 
 const EditorContext = createContext<EditorValues | null>(null);
@@ -67,10 +68,10 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
     setIdCounter((idCounter) => idCounter + 1);
   };
 
-  const updateLoop = (newLoop: LoopSchema) => {
+  const updateLoops = (newLoop: LoopSchema) => {
     const newLoops = loops.map((loop) => {
       if (loop.id === newLoop.id) {
-        return { ...loop, start: newLoop.start, end: newLoop.end };
+        return newLoop;
       }
 
       return loop;
@@ -79,8 +80,20 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
     setLoops(newLoops);
   };
 
+  const updateCreatedChords = (oldChord: Chord, newChord: Chord) => {
+    const newChords = createdChords.map((chord) => {
+      if (JSON.stringify(oldChord) === JSON.stringify(chord)) {
+        return newChord;
+      }
+
+      return chord;
+    })
+
+    setCreatedChords(newChords);
+  }
+
   return (
-    <EditorContext.Provider value={{ tuning, loops, setLoops, createLoop, updateLoop, createdChords, setCreatedChords }}>
+    <EditorContext.Provider value={{ tuning, loops, setLoops, createLoop, updateLoops, createdChords, setCreatedChords, updateCreatedChords }}>
       {children}
     </EditorContext.Provider>
   );

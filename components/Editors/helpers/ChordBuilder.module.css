@@ -23,7 +23,7 @@
   background: none;
   border: none;
   font-family: "Inter";
-  font-size: 2.5vmin;
+  font-size: 3vmin;
   cursor: pointer;
   border-right: 0.25vh solid;
   border-color: var(--secondary-colour);
@@ -71,7 +71,7 @@
   background-color: var(--secondary-colour);
 }
 
-@media screen and (orientation: portrait) {
+@media screen and (orientation: portrait) and (max-width: 500px) {
   .chord-builder-button {
     font-size: 4.5vmin;
   }

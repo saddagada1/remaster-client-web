@@ -4,10 +4,9 @@ import chordEditorStyles from "./ChordEditor.module.css";import ChordBuilder fro
 import ChordSelector from "./helpers/ChordSelector";
 
 interface ChordEditorProps {
-  setCreateChordTrigger: Dispatch<SetStateAction<boolean>>
 }
 
-const ChordEditor: React.FC<ChordEditorProps> = ({setCreateChordTrigger}) => {
+const ChordEditor: React.FC<ChordEditorProps> = ({}) => {
   const [selector, setSelector] = useState(0)
   
   return (
@@ -17,7 +16,7 @@ const ChordEditor: React.FC<ChordEditorProps> = ({setCreateChordTrigger}) => {
         <h1 onClick={() => setSelector(1)} className={selector === 1 ? chordEditorStyles["chord-editor-header-selected"] : undefined}>build</h1>
         <h1 onClick={() => setSelector(2)} className={selector === 2 ? chordEditorStyles["chord-editor-header-selected"] : undefined}>view</h1>
       </div>
-      {selector === 0 ? <ChordSelector/> : selector === 1 ? <ChordBuilder setCreateChordTrigger={setCreateChordTrigger}/> : null}
+      {selector === 0 ? <ChordSelector/> : selector === 1 ? <ChordBuilder /> : null}
     </div>
   );
 };

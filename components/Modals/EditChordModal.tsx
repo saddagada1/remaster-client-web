@@ -10,34 +10,32 @@ import { FiAlertCircle, FiTrash2 } from "react-icons/fi";
 import { Finger } from "svguitar";
 import { useEditorContext } from "../../contexts/Editor";
 import Chord from "../Chord/Chord";
-import createChordModalStyles from "./CreateChordModal.module.css";
+import { Chord as ChordType } from "../Editors/helpers/ChordSelector";
+import editChordModalStyles from "./EditChordModal.module.css";
 
-interface CreateChordModalProps {
+interface EditChordModalProps {
   trigger: boolean;
   setTrigger: Dispatch<SetStateAction<boolean>>;
+  chord: ChordType;
+  setChord: Dispatch<SetStateAction<ChordType | undefined>>
 }
 
-const CreateChordModal: React.FC<CreateChordModalProps> = ({
+const EditChordModal: React.FC<EditChordModalProps> = ({
   trigger,
   setTrigger,
+  chord,
+  setChord
 }) => {
   const [opacity, setOpacity] = useState(0);
   const [selectedIndexes, setSelectedIndexes] = useState<[number, number][]>(
     []
   );
-  const [title, setTitle] = useState("");
-  const [fingers, setFingers] = useState<Finger[]>([
-    [1, 0],
-    [2, 0],
-    [3, 0],
-    [4, 0],
-    [5, 0],
-    [6, 0],
-  ]);
+  const [title, setTitle] = useState(chord.title);
+  const [fingers, setFingers] = useState<Finger[]>(chord.fingers);
   const [barres, setBarres] = useState<
     { fromString: number; toString: number; fret: number }[]
-  >([]);
-  const [position, setPosition] = useState(1);
+  >(chord.barres);
+  const [position, setPosition] = useState(chord.position);
   const [matrixWidth, setMatrixWidth] = useState(0);
   const [matrixHeight, setMatrixHeight] = useState(0);
   const [matrixColumn0Position, setMatrixColumn0Position] = useState(0);
@@ -68,13 +66,13 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
     ) {
       return;
     }
-    const chord = {
+    const newChord = {
       title: title,
       fingers: fingers,
       barres: barres,
       position: position,
     };
-    editorCtx?.setCreatedChords([...editorCtx?.createdChords, chord]);
+    editorCtx?.updateCreatedChords(chord, newChord);
     setTrigger(false);
   };
 
@@ -158,28 +156,22 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
   };
 
   const handleReset = () => {
-    setTitle("");
-    setFingers([
-      [1, 0],
-      [2, 0],
-      [3, 0],
-      [4, 0],
-      [5, 0],
-      [6, 0],
-    ]);
-    setBarres([]);
-    setPosition(1);
+    setTitle(chord.title);
+    setFingers(chord.fingers);
+    setBarres(chord.barres);
+    setPosition(chord.position);
     setSelectedIndexes([]);
   };
 
   useEffect(() => {
     let newFingers: Finger[] = fingers;
     for (let i = 0; i < barres.length; i++) {
-      const tempFingers = newFingers.filter((finger) => barres[i].fromString >= finger[0] && finger[0] >= barres[i].toString)
+      const tempFingers = newFingers.filter((finger) => barres[i].fromString <= finger[0] && finger[0] <= barres[i].toString)
       newFingers = tempFingers;
     }
     setFingers(newFingers);
   }, [barres])
+  
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -254,8 +246,9 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
       setOpacity(1);
     } else {
       setOpacity(0);
+      setChord(undefined);
     }
-  }, [trigger]);
+  }, [trigger, setChord]);
 
   return (
     <>
@@ -263,37 +256,37 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
         animate={{ opacity: opacity }}
         style={{ pointerEvents: trigger ? "initial" : "none" }}
         onClick={() => setTrigger(false)}
-        className={createChordModalStyles["create-chord-modal-background"]}
+        className={editChordModalStyles["edit-chord-modal-background"]}
       />
       <div
-        className={createChordModalStyles["create-chord-modal-root-container"]}
+        className={editChordModalStyles["edit-chord-modal-root-container"]}
       >
         <motion.div
           animate={{ opacity: opacity }}
-          className={createChordModalStyles["create-chord-modal-root"]}
+          className={editChordModalStyles["edit-chord-modal-root"]}
         >
-          <h1>create chord</h1>
-          <div className={createChordModalStyles["create-chord-main"]}>
-            <div className={createChordModalStyles["create-chord-form"]}>
+          <h1>edit chord</h1>
+          <div className={editChordModalStyles["edit-chord-main"]}>
+            <div className={editChordModalStyles["edit-chord-form"]}>
               <div
-                className={createChordModalStyles["create-chord-form-input"]}
+                className={editChordModalStyles["edit-chord-form-input"]}
               >
                 <label htmlFor="title">title</label>
                 <input
                   type="text"
                   maxLength={15}
                   value={title}
-                  className={createChordModalStyles["create-chord-modal-input"]}
+                  className={editChordModalStyles["edit-chord-modal-input"]}
                   onChange={(e) => setTitle(e.currentTarget.value)}
                 />
               </div>
               <div
-                className={createChordModalStyles["create-chord-form-input"]}
+                className={editChordModalStyles["edit-chord-form-input"]}
               >
                 <label htmlFor="position">position</label>
                 <select
                   className={
-                    createChordModalStyles["create-chord-modal-select"]
+                    editChordModalStyles["edit-chord-modal-select"]
                   }
                   value={position}
                   onChange={(e) => setPosition(parseInt(e.target.value))}
@@ -308,27 +301,27 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
                 </select>
               </div>
               <div
-                className={createChordModalStyles["create-chord-form-input"]}
+                className={editChordModalStyles["edit-chord-form-input"]}
               >
                 <label htmlFor="barres">barres</label>
               </div>
               <div
-                className={createChordModalStyles["create-chord-form-barres"]}
+                className={editChordModalStyles["edit-chord-form-barres"]}
               >
                 {barres.length > 0 ? (
                   barres.map((barre, index) => (
                     <div
                       key={index}
                       className={
-                        createChordModalStyles["create-chord-form-barre"]
+                        editChordModalStyles["edit-chord-form-barre"]
                       }
                     >
                       <p>fret: {barre.fret}</p>
                       <button
                         onClick={() => handleDeleteBarre(index)}
                         className={
-                          createChordModalStyles[
-                            "create-chord-form-inline-button"
+                          editChordModalStyles[
+                            "edit-chord-form-inline-button"
                           ]
                         }
                       >
@@ -341,40 +334,40 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
                 )}
               </div>
               <div
-                className={createChordModalStyles["create-chord-form-input"]}
+                className={editChordModalStyles["edit-chord-form-input"]}
               >
                 <button
                   onClick={() => handleReset()}
-                  className={createChordModalStyles["create-chord-form-button"]}
+                  className={editChordModalStyles["edit-chord-form-button"]}
                 >
                   reset
                 </button>
                 <button
                   disabled={selectedIndexes.length < 2}
                   onClick={() => handleAddBarre()}
-                  className={createChordModalStyles["create-chord-form-button"]}
+                  className={editChordModalStyles["edit-chord-form-button"]}
                 >
                   add barre
                 </button>
               </div>
-              <div className={createChordModalStyles["create-chord-form-help"]}>
+              <div className={editChordModalStyles["edit-chord-form-help"]}>
                 <div>
                   <FiAlertCircle />
                   <p>tap to add note</p>
                 </div>
                 <div>
                   <FiAlertCircle />
-                  <p>double tap to select and create barre</p>
+                  <p>double tap to select and edit barre</p>
                 </div>
               </div>
             </div>
             <div
               ref={containerRef}
-              className={createChordModalStyles["create-chord-input"]}
+              className={editChordModalStyles["edit-chord-input"]}
             >
               <div
                 style={{ width: canvasWidth ? `${canvasWidth}px` : "100%" }}
-                className={createChordModalStyles["create-chord-diagram"]}
+                className={editChordModalStyles["edit-chord-diagram"]}
               >
                 <Chord
                   chord={{
@@ -389,7 +382,7 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
               <div
                 ref={canvasRef}
                 style={{ width: canvasWidth ? `${canvasWidth}px` : "100%" }}
-                className={createChordModalStyles["create-chord-template"]}
+                className={editChordModalStyles["edit-chord-template"]}
               >
                 <Chord
                   chord={{
@@ -403,7 +396,7 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
               </div>
               <div
                 style={{ width: canvasWidth ? `${canvasWidth}px` : "100%" }}
-                className={createChordModalStyles["create-chord-matrix"]}
+                className={editChordModalStyles["edit-chord-matrix"]}
               >
                 <div
                   style={{
@@ -412,7 +405,7 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
                     left: matrixColumn0Position,
                   }}
                   className={
-                    createChordModalStyles["create-chord-matrix-column"]
+                    editChordModalStyles["edit-chord-matrix-column"]
                   }
                 >
                   {Array(6)
@@ -422,7 +415,7 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
                         key={index}
                         onClick={() => handleMatrixElementClick(index + 1, "x")}
                         className={
-                          createChordModalStyles["create-chord-matrix-element"]
+                          editChordModalStyles["edit-chord-matrix-element"]
                         }
                       />
                     ))}
@@ -434,7 +427,7 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
                     left: matrixColumn1Position,
                   }}
                   className={
-                    createChordModalStyles["create-chord-matrix-column"]
+                    editChordModalStyles["edit-chord-matrix-column"]
                   }
                 >
                   {Array(6)
@@ -445,7 +438,7 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
                         onClick={() => handleClick(index + 1, 1)}
                         onDoubleClick={() => handleDoubleClick(index + 1, 1)}
                         className={
-                          createChordModalStyles["create-chord-matrix-element"]
+                          editChordModalStyles["edit-chord-matrix-element"]
                         }
                       >
                         <span
@@ -453,8 +446,8 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
                             JSON.stringify(selectedIndexes).includes(
                               JSON.stringify([index + 1, 1])
                             )
-                              ? createChordModalStyles[
-                                  "create-chord-matrix-element-indicator"
+                              ? editChordModalStyles[
+                                  "edit-chord-matrix-element-indicator"
                                 ]
                               : undefined
                           }
@@ -469,7 +462,7 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
                     left: matrixColumn2Position,
                   }}
                   className={
-                    createChordModalStyles["create-chord-matrix-column"]
+                    editChordModalStyles["edit-chord-matrix-column"]
                   }
                 >
                   {Array(6)
@@ -480,7 +473,7 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
                         onClick={() => handleClick(index + 1, 2)}
                         onDoubleClick={() => handleDoubleClick(index + 1, 2)}
                         className={
-                          createChordModalStyles["create-chord-matrix-element"]
+                          editChordModalStyles["edit-chord-matrix-element"]
                         }
                       >
                         <span
@@ -488,8 +481,8 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
                             JSON.stringify(selectedIndexes).includes(
                               JSON.stringify([index + 1, 2])
                             )
-                              ? createChordModalStyles[
-                                  "create-chord-matrix-element-indicator"
+                              ? editChordModalStyles[
+                                  "edit-chord-matrix-element-indicator"
                                 ]
                               : undefined
                           }
@@ -504,7 +497,7 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
                     left: matrixColumn3Position,
                   }}
                   className={
-                    createChordModalStyles["create-chord-matrix-column"]
+                    editChordModalStyles["edit-chord-matrix-column"]
                   }
                 >
                   {Array(6)
@@ -515,7 +508,7 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
                         onClick={() => handleClick(index + 1, 3)}
                         onDoubleClick={() => handleDoubleClick(index + 1, 3)}
                         className={
-                          createChordModalStyles["create-chord-matrix-element"]
+                          editChordModalStyles["edit-chord-matrix-element"]
                         }
                       >
                         <span
@@ -523,8 +516,8 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
                             JSON.stringify(selectedIndexes).includes(
                               JSON.stringify([index + 1, 3])
                             )
-                              ? createChordModalStyles[
-                                  "create-chord-matrix-element-indicator"
+                              ? editChordModalStyles[
+                                  "edit-chord-matrix-element-indicator"
                                 ]
                               : undefined
                           }
@@ -539,7 +532,7 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
                     left: matrixColumn4Position,
                   }}
                   className={
-                    createChordModalStyles["create-chord-matrix-column"]
+                    editChordModalStyles["edit-chord-matrix-column"]
                   }
                 >
                   {Array(6)
@@ -550,7 +543,7 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
                         onClick={() => handleClick(index + 1, 4)}
                         onDoubleClick={() => handleDoubleClick(index + 1, 4)}
                         className={
-                          createChordModalStyles["create-chord-matrix-element"]
+                          editChordModalStyles["edit-chord-matrix-element"]
                         }
                       >
                         <span
@@ -558,8 +551,8 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
                             JSON.stringify(selectedIndexes).includes(
                               JSON.stringify([index + 1, 4])
                             )
-                              ? createChordModalStyles[
-                                  "create-chord-matrix-element-indicator"
+                              ? editChordModalStyles[
+                                  "edit-chord-matrix-element-indicator"
                                 ]
                               : undefined
                           }
@@ -574,7 +567,7 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
                     left: matrixColumn5Position,
                   }}
                   className={
-                    createChordModalStyles["create-chord-matrix-column"]
+                    editChordModalStyles["edit-chord-matrix-column"]
                   }
                 >
                   {Array(6)
@@ -585,7 +578,7 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
                         onClick={() => handleClick(index + 1, 5)}
                         onDoubleClick={() => handleDoubleClick(index + 1, 5)}
                         className={
-                          createChordModalStyles["create-chord-matrix-element"]
+                          editChordModalStyles["edit-chord-matrix-element"]
                         }
                       >
                         <span
@@ -593,8 +586,8 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
                             JSON.stringify(selectedIndexes).includes(
                               JSON.stringify([index + 1, 5])
                             )
-                              ? createChordModalStyles[
-                                  "create-chord-matrix-element-indicator"
+                              ? editChordModalStyles[
+                                  "edit-chord-matrix-element-indicator"
                                 ]
                               : undefined
                           }
@@ -605,18 +598,18 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
               </div>
             </div>
           </div>
-          <div className={createChordModalStyles["create-chord-modal-actions"]}>
+          <div className={editChordModalStyles["edit-chord-modal-actions"]}>
             <button
               onClick={() => setTrigger(false)}
-              className={createChordModalStyles["create-chord-modal-exit"]}
+              className={editChordModalStyles["edit-chord-modal-exit"]}
             >
               exit
             </button>
             <button
               onClick={() => handleSubmit()}
-              className={createChordModalStyles["create-chord-modal-submit"]}
+              className={editChordModalStyles["edit-chord-modal-submit"]}
             >
-              create
+              save
             </button>
           </div>
         </motion.div>
@@ -624,4 +617,4 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
     </>
   );
 };
-export default CreateChordModal;
+export default EditChordModal;

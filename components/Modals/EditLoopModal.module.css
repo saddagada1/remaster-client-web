@@ -1,4 +1,4 @@
-.create-loop-modal-background {
+.edit-loop-modal-background {
   width: 100%;
   height: 100%;
   background-color: #00000066;
@@ -7,7 +7,7 @@
   opacity: 0;
 }
 
-.create-loop-modal-root {
+.edit-loop-modal-root {
   width: 20%;
   height: 35%;
   background-color: var(--background-colour);
@@ -24,7 +24,7 @@
   border-radius: 2vmin;
 }
 
-.create-loop-modal-form-fc {
+.edit-loop-modal-form-fc {
   width: 100%;
   height: 100%;
   display: flex;
@@ -33,12 +33,12 @@
   align-items: center;
 }
 
-.create-loop-modal-form-fc h3 {
+.edit-loop-modal-form-fc h3 {
   font-size: 3.5vh;
   margin-bottom: 1vh;
 }
 
-.create-loop-modal-inputs-fc {
+.edit-loop-modal-inputs-fc {
   width: 100%;
   height: 100%;
   display: flex;
@@ -47,7 +47,7 @@
   align-items: center;
 }
 
-.create-loop-modal-input-fc {
+.edit-loop-modal-input-fc {
   width: 100%;
   display: flex;
   align-items: center;
@@ -55,12 +55,12 @@
   margin-bottom: 2vh;
 }
 
-.create-loop-modal-input-fc label {
+.edit-loop-modal-input-fc label {
   font-size: 2.5vh;
   margin-right: 2vh;
 }
 
-.create-loop-modal-input-fc input {
+.edit-loop-modal-input-fc input {
   width: 100%;
   border: 0.25vh solid;
   border-color: var(--secondary-colour);
@@ -70,7 +70,7 @@
   border-radius: 1vmin;
 }
 
-.create-loop-modal-input-fc select {
+.edit-loop-modal-input-fc select {
   width: max-content;
   appearance: none;
   border: 0.25vh solid;
@@ -82,7 +82,7 @@
   cursor: pointer;
 }
 
-.create-loop-modal-actions-fc {
+.edit-loop-modal-actions-fc {
   width: 100%;
   height: 25%;
   display: flex;
@@ -90,7 +90,7 @@
   margin-bottom: 1vmin;
 }
 
-.create-loop-modal-actions-fc button {
+.edit-loop-modal-actions-fc button {
   width: 100%;
   height: 100%;
   font-size: 2vh;
@@ -100,14 +100,14 @@
   border-radius: 2vmin;
 }
 
-.create-loop-modal-exit {
+.edit-loop-modal-exit {
   background: none;
   border: 0.25vh solid;
   border-color: var(--secondary-colour);
   margin-right: 1vmin;
 }
 
-.create-loop-modal-submit {
+.edit-loop-modal-submit {
   border: none;
   background-color: var(--secondary-colour);
   color: var(--primary-colour);
@@ -115,14 +115,14 @@
 }
 
 @media screen and (max-width: 1200px) {
-  .create-loop-modal-root {
+  .edit-loop-modal-root {
     width: 30%;
     height: 35%;
   }
 }
 
 @media screen and (orientation: portrait) {
-  .create-loop-modal-root {
+  .edit-loop-modal-root {
     width: 75%;
     height: 32.5%;
   }
