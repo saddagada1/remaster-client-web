@@ -12,13 +12,13 @@ import LoopSlider from "../../components/Sliders/LoopSlider";
 import CreateLoopModal from "../../components/Modals/CreateLoopModal";
 import Orb from "../../components/Visualizations/Orb";
 import Timeline from "../../components/Timeline/Timeline";
-import CreateChordModal from "../../components/Modals/CreateChordModal";
 import EditLoopModal from "../../components/Modals/EditLoopModal";
 
 interface editorProps {}
 
 const Editor: NextPage<editorProps> = ({}) => {
   const [isWindow, setIsWindow] = useState(false);
+  const rootRef = useRef<HTMLDivElement | null>(null);
   const playerRef = useRef<ReactPlayer | null>(null);
   const timelineRef = useRef<HTMLDivElement | null>(null);
   const timerRef = useRef<NodeJS.Timer | null>(null);
@@ -157,6 +157,12 @@ const Editor: NextPage<editorProps> = ({}) => {
     }
   }, [editSelectLoop])
   
+  useEffect(() => {
+    const root = rootRef.current
+    if (root) {
+      root.focus();
+    }
+  }, [rootRef])
 
   useEffect(() => {
     if (!isServer()) {
@@ -171,6 +177,9 @@ const Editor: NextPage<editorProps> = ({}) => {
       onTouchEnd={() => setIsScrubbing(false)}
       onTouchMove={(e) => handleTimelineMouseMove(undefined, e)}
       onMouseMove={(e) => handleTimelineMouseMove(e, undefined)}
+      onKeyDown={(e) => e.key === " " ? setVideoPlaying(!videoPlaying) : null}
+      tabIndex={-1}
+      ref={rootRef}
     >
       <Head>
         <title>Editor</title>

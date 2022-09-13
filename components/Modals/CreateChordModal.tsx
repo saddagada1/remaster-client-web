@@ -175,11 +175,11 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
   useEffect(() => {
     let newFingers: Finger[] = fingers;
     for (let i = 0; i < barres.length; i++) {
-      const tempFingers = newFingers.filter((finger) => barres[i].fromString >= finger[0] && finger[0] >= barres[i].toString)
+      const tempFingers = newFingers.filter((finger) => !(barres[i].fromString >= finger[0] && finger[0] >= barres[i].toString))
       newFingers = tempFingers;
     }
     setFingers(newFingers);
-  }, [barres])
+  }, [barres, fingers])
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -261,8 +261,6 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
     <>
       <motion.div
         animate={{ opacity: opacity }}
-        style={{ pointerEvents: trigger ? "initial" : "none" }}
-        onClick={() => setTrigger(false)}
         className={createChordModalStyles["create-chord-modal-background"]}
       />
       <div
@@ -272,7 +270,7 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
           animate={{ opacity: opacity }}
           className={createChordModalStyles["create-chord-modal-root"]}
         >
-          <h1>create chord</h1>
+          <h1>create chord.</h1>
           <div className={createChordModalStyles["create-chord-main"]}>
             <div className={createChordModalStyles["create-chord-form"]}>
               <div

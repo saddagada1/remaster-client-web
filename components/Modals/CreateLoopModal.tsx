@@ -40,8 +40,6 @@ const CreateLoopModal: React.FC<CreateLoopModalProps> = ({
     <>
       <motion.div
         animate={{ opacity: opacity }}
-        style={{ pointerEvents: trigger ? "initial" : "none" }}
-        onClick={() => setTrigger(false)}
         className={createLoopModalStyles["create-loop-modal-background"]}
       />
       <motion.div

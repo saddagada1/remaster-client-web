@@ -2,7 +2,7 @@
   width: 100%;
   height: 100%;
   background-color: #00000066;
-  position: fixed;
+  position: absolute;
   z-index: 2;
   opacity: 0;
   left: 0;
@@ -12,7 +12,7 @@
 .edit-chord-modal-root-container {
   width: 100%;
   height: 100%;
-  position: fixed;
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,7 +34,7 @@
   -moz-box-shadow: 0px 0px 18px 1px rgba(0, 0, 0, 0.25);
   box-shadow: 0px 0px 18px 1px rgba(0, 0, 0, 0.25);
   opacity: 0;
-  border-radius: 2vmin;
+  border-radius: 2vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -208,8 +208,7 @@
   width: 50%;
   aspect-ratio: 1;
   border-radius: 50%;
-  border: 0.25vh solid;
-  border-color: var(--error-colour);
+  background-color: var(--error-colour);
 }
 
 .edit-chord-template {
@@ -229,7 +228,7 @@
   width: 100%;
   display: flex;
   justify-content: space-evenly;
-  margin-bottom: 1vmin;
+  margin-bottom: 1vh;
 }
 
 .edit-chord-modal-actions button {
@@ -253,6 +252,12 @@
   background-color: var(--secondary-colour);
   color: var(--primary-colour);
   margin-left: 1vh;
+}
+
+@media screen and (max-width: 1200px) {
+  .edit-chord-modal-root {
+    width: 75%;
+  }
 }
 
 @media screen and (orientation: portrait) {

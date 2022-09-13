@@ -166,13 +166,12 @@ const EditChordModal: React.FC<EditChordModalProps> = ({
   useEffect(() => {
     let newFingers: Finger[] = fingers;
     for (let i = 0; i < barres.length; i++) {
-      const tempFingers = newFingers.filter((finger) => barres[i].fromString <= finger[0] && finger[0] <= barres[i].toString)
+      const tempFingers = newFingers.filter((finger) => !(barres[i].fromString >= finger[0] && finger[0] >= barres[i].toString))
       newFingers = tempFingers;
     }
     setFingers(newFingers);
-  }, [barres])
+  }, [barres, fingers])
   
-
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas && init) {
@@ -244,18 +243,13 @@ const EditChordModal: React.FC<EditChordModalProps> = ({
   useEffect(() => {
     if (trigger) {
       setOpacity(1);
-    } else {
-      setOpacity(0);
-      setChord(undefined);
     }
-  }, [trigger, setChord]);
+  }, [trigger]);
 
   return (
     <>
       <motion.div
         animate={{ opacity: opacity }}
-        style={{ pointerEvents: trigger ? "initial" : "none" }}
-        onClick={() => setTrigger(false)}
         className={editChordModalStyles["edit-chord-modal-background"]}
       />
       <div
@@ -265,7 +259,7 @@ const EditChordModal: React.FC<EditChordModalProps> = ({
           animate={{ opacity: opacity }}
           className={editChordModalStyles["edit-chord-modal-root"]}
         >
-          <h1>edit chord</h1>
+          <h1>edit chord.</h1>
           <div className={editChordModalStyles["edit-chord-main"]}>
             <div className={editChordModalStyles["edit-chord-form"]}>
               <div
@@ -600,7 +594,7 @@ const EditChordModal: React.FC<EditChordModalProps> = ({
           </div>
           <div className={editChordModalStyles["edit-chord-modal-actions"]}>
             <button
-              onClick={() => setTrigger(false)}
+              onClick={() => {setTrigger(false); setChord(undefined)}}
               className={editChordModalStyles["edit-chord-modal-exit"]}
             >
               exit

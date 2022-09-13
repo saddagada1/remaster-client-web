@@ -45,18 +45,13 @@ const EditLoopModal: React.FC<EditLoopModalProps> = ({
   useEffect(() => {
     if (trigger) {
       setOpacity(1);
-    } else {
-      setOpacity(0);
-      setLoop(null);
     }
-  }, [trigger, setLoop]);
+  }, [trigger]);
 
   return (
     <>
       <motion.div
         animate={{ opacity: opacity }}
-        style={{ pointerEvents: trigger ? "initial" : "none" }}
-        onClick={() => setTrigger(false)}
         className={editLoopModalStyles["edit-loop-modal-background"]}
       />
       <motion.div
@@ -114,7 +109,7 @@ const EditLoopModal: React.FC<EditLoopModalProps> = ({
             className={editLoopModalStyles["edit-loop-modal-actions-fc"]}
           >
             <button
-              onClick={() => setTrigger(false)}
+              onClick={() => {setTrigger(false); setLoop(null)}}
               className={editLoopModalStyles["edit-loop-modal-exit"]}
             >
               exit
