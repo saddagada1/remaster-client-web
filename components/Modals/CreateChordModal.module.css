@@ -151,6 +151,10 @@
   color: var(--primary-colour);
 }
 
+.create-chord-form-button:disabled {
+  background-color: #121212d3;
+}
+
 .create-chord-form-button:nth-child(1) {
   margin-right: 1vh;
 }

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import editLoopModalStyles from "./EditLoopModal.module.css";
 import { keyColourReference } from "../../pages/reference";
 import { LoopSchema, useEditorContext } from "../../contexts/Editor";
+import { FiTrash2 } from "react-icons/fi";
 
 interface EditLoopModalProps {
   trigger: boolean;
@@ -23,6 +24,12 @@ const EditLoopModal: React.FC<EditLoopModalProps> = ({
   const [opacity, setOpacity] = useState(0);
   const editorCtx = useEditorContext();
 
+  const handleDelete = () => {
+    editorCtx?.deleteLoop(loop);
+    setLoop(null);
+    setTrigger(false);
+  }
+
   const handleSubmit = () => {
     if (!name) {
       return;
@@ -34,7 +41,9 @@ const EditLoopModal: React.FC<EditLoopModalProps> = ({
         key: selectedKey,
         start: loop.start,
         end: loop.end,
-        colour: keyColourReference[selectedKey]
+        colour: keyColourReference[selectedKey],
+        chord: loop.chord,
+        tab: loop.tab
       }
       editorCtx?.updateLoops(newLoop);
       setLoop(null);
@@ -59,7 +68,10 @@ const EditLoopModal: React.FC<EditLoopModalProps> = ({
         className={editLoopModalStyles["edit-loop-modal-root"]}
       >
         <div className={editLoopModalStyles["edit-loop-modal-form-fc"]}>
-          <h3>edit loop.</h3>
+          <div className={editLoopModalStyles["edit-loop-modal-header-fc"]}>
+            <h1>edit loop.</h1>
+            <button onClick={() => handleDelete()}><FiTrash2/></button>
+          </div>
           <div className={editLoopModalStyles["edit-loop-modal-inputs-fc"]}>
             <div
               className={editLoopModalStyles["edit-loop-modal-input-fc"]}

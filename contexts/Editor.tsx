@@ -17,6 +17,8 @@ export interface LoopSchema {
   start: number;
   end: number;
   colour: string;
+  chord?: Chord;
+  tab?: string;
 }
 
 interface EditorValues {
@@ -25,9 +27,17 @@ interface EditorValues {
   setLoops: Dispatch<SetStateAction<LoopSchema[]>>;
   createLoop: (name: string, key: string, type: string) => void;
   updateLoops: (newLoop: LoopSchema) => void;
+  deleteLoop: (deletedLoop: LoopSchema) => void;
+  playingLoop: LoopSchema | null;
+  setPlayingLoop: Dispatch<SetStateAction<LoopSchema | null>>;
+  selectedLoop: LoopSchema | null;
+  setSelectedLoop: Dispatch<SetStateAction<LoopSchema | null>>;
   createdChords: Chord[];
   setCreatedChords: Dispatch<SetStateAction<Chord[]>>;
-  updateCreatedChords: (oldChord: Chord, newChord: Chord) => void
+  updateCreatedChords: (oldChord: Chord, newChord: Chord) => void;
+  deleteCreatedChord: (deletedChord: Chord) => void;
+  setLoopChord: (targetLoop: LoopSchema, chord: Chord | undefined) => void
+  setLoopTab: (targetLoop: LoopSchema, tab: string | undefined) => void;
 }
 
 const EditorContext = createContext<EditorValues | null>(null);
@@ -39,8 +49,10 @@ interface EditorProviderProps {
 const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
   const [idCounter, setIdCounter] = useState(1);
   const [loops, setLoops] = useState<LoopSchema[]>([]);
+  const [playingLoop, setPlayingLoop] = useState<LoopSchema | null>(null);
+  const [selectedLoop, setSelectedLoop] = useState<LoopSchema | null>(null);
   const [createdChords, setCreatedChords] = useState<Chord[]>([]);
-  const [tuning, setTuning] = useState(['E', 'A', 'D', 'G', 'B', 'E']);
+  const [tuning, setTuning] = useState(["E", "A", "D", "G", "B", "E"]);
 
   const createLoop = (name: string, key: string, type: string) => {
     let lastLoopEnd;
@@ -80,6 +92,33 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
     setLoops(newLoops);
   };
 
+  const deleteLoop = (deletedLoop: LoopSchema) => {
+    const filteredLoops = loops.filter((loop) => deletedLoop.id !== loop.id);
+    const newLoops = filteredLoops.map((loop, index) => {
+      if (deletedLoop.id && loop.id === deletedLoop.id + 1) {
+        return {
+          id: deletedLoop.id,
+          name: loop.name,
+          key: loop.key,
+          type: loop.type,
+          start: deletedLoop.id === 1 ? 0 : filteredLoops[index - 1].end,
+          end: loop.end,
+          colour: loop.colour,
+        };
+      } else if (deletedLoop.id && loop.id && loop.id > deletedLoop.id + 1) {
+        return {
+          id: loop.id - 1,
+          ...loop,
+        };
+      }
+
+      return loop;
+    });
+
+    setLoops(newLoops);
+    setIdCounter((idCounter) => idCounter - 1);
+  };
+
   const updateCreatedChords = (oldChord: Chord, newChord: Chord) => {
     const newChords = createdChords.map((chord) => {
       if (JSON.stringify(oldChord) === JSON.stringify(chord)) {
@@ -87,13 +126,75 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
       }
 
       return chord;
-    })
+    });
 
     setCreatedChords(newChords);
-  }
+  };
+
+  const deleteCreatedChord = (deletedChord: Chord) => {
+    const newChords = createdChords.filter(
+      (chord) => JSON.stringify(deletedChord) !== JSON.stringify(chord)
+    );
+    setCreatedChords(newChords);
+  };
+
+  const setLoopChord = (targetLoop: LoopSchema, chord: Chord | undefined) => {
+    const newLoops = loops.map((loop) => {
+      if (loop.id === targetLoop.id) {
+        return {
+          ...loop,
+          chord: chord,
+        };
+      }
+
+      return loop;
+    });
+
+    setLoops(newLoops);
+  };
+
+  const setLoopTab = (targetLoop: LoopSchema, tab: string | undefined) => {
+    const newLoops = loops.map((loop) => {
+      if (loop.id === targetLoop.id) {
+        return {
+          ...loop,
+          tab: tab,
+        };
+      }
+
+      return loop;
+    });
+
+    setLoops(newLoops);
+  };
+
+  useEffect(() => {
+    if (loops.length === 1) {
+      setPlayingLoop(loops[0]);
+    }
+  }, [loops]);
 
   return (
-    <EditorContext.Provider value={{ tuning, loops, setLoops, createLoop, updateLoops, createdChords, setCreatedChords, updateCreatedChords }}>
+    <EditorContext.Provider
+      value={{
+        tuning,
+        loops,
+        setLoops,
+        createLoop,
+        updateLoops,
+        deleteLoop,
+        playingLoop,
+        setPlayingLoop,
+        selectedLoop,
+        setSelectedLoop,
+        createdChords,
+        setCreatedChords,
+        updateCreatedChords,
+        deleteCreatedChord,
+        setLoopChord,
+        setLoopTab
+      }}
+    >
       {children}
     </EditorContext.Provider>
   );

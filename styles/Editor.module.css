@@ -6,14 +6,13 @@
   align-items: center;
   font-family: "Inter";
   position: relative;
-  user-select: none;
 }
 
 .editor-main {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: 7.5% 45% 25% 15% 7.5%;
+  grid-template-rows: 5% 45% 25% 17.5% 7.5%;
   grid-template-columns: 100%;
 }
 
@@ -36,12 +35,50 @@
   display: flex;
   border-left: 0.25vh solid;
   border-color: var(--secondary-colour);
+  justify-content: center;
+  align-items: center;
 }
 
 .editor-main-mobile-diagram-fc {
   display: none;
   border-bottom: 0.25vh solid;
   border-color: var(--secondary-colour);
+  justify-content: center;
+  align-items: center;
+}
+
+.editor-main-diagram-header {
+  height: max-content;
+  text-align: center;
+  color: #12121280;
+  font-size: 3vmin;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.editor-main-diagram-header::before {
+  content: "";
+  height: 100%;
+  width: 10%;
+  border-left: 0.75vmin solid;
+  border-top: 0.75vmin solid;
+  border-bottom: 0.75vmin solid;
+  border-color: #12121270;
+  position: absolute;
+  left: -3vmin;
+}
+
+.editor-main-diagram-header::after {
+  content: "";
+  height: 100%;
+  width: 10%;
+  border-right: 0.75vmin solid;
+  border-top: 0.75vmin solid;
+  border-bottom: 0.75vmin solid;
+  border-color: #12121270;
+  position: absolute;
+  right: -3vmin;
 }
 
 .editor-main-loops-fc {
@@ -194,5 +231,8 @@
   }
   .editor-main-loop h5 {
     font-size: 3vmin;
+  }
+  .editor-main-diagram-header {
+    font-size: 4vmin;
   }
 }

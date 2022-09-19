@@ -41,8 +41,25 @@
   align-items: center;
 }
 
-.edit-chord-modal-root h1 {
+.edit-chord-modal-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-chord-modal-header h1 {
   font-size: 3.5vh;
+}
+
+.edit-chord-modal-header button {
+  border: none;
+  background: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3vh;
+  cursor: pointer;
 }
 
 .edit-chord-main {
@@ -149,6 +166,10 @@
   background: none;
   background-color: var(--secondary-colour);
   color: var(--primary-colour);
+}
+
+.edit-chord-form-button:disabled {
+  background-color: #121212d3;
 }
 
 .edit-chord-form-button:nth-child(1) {
@@ -266,7 +287,7 @@
     height: 90%;
   }
 
-  .edit-chord-modal-root h1 {
+  .edit-chord-modal-header {
     margin-bottom: 2vh;
   }
 

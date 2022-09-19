@@ -22,7 +22,6 @@
   align-items: center;
   background: none;
   border: none;
-  font-family: "Inter";
   font-size: 3vmin;
   cursor: pointer;
   border-right: 0.25vh solid;
@@ -56,7 +55,6 @@
   border-color: var(--secondary-colour);
   border-radius: 2vmin;
   transition: 0.75s;
-  object-fit: contain;
   padding: 2vmin;
   display: flex;
   flex-direction: column;
@@ -68,6 +66,7 @@
 }
 
 #chord-builder-chord-active {
+  color: var(--primary-colour);
   background-color: var(--secondary-colour);
 }
 

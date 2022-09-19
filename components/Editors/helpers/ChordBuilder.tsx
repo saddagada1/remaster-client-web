@@ -14,24 +14,29 @@ import CreateChordModal from "../../Modals/CreateChordModal";
 import chordBuilderStyles from "./ChordBuilder.module.css";
 import EditChordModal from "../../Modals/EditChordModal";
 
-interface ChordBuilderProps {
-}
+interface ChordBuilderProps {}
 
 const ChordBuilder: React.FC<ChordBuilderProps> = ({}) => {
+  const editorCtx = useEditorContext();
   const [canvasWidth, setCanvasWidth] = useState(0);
   const [triggerCreateChord, setTriggerCreateChord] = useState(false);
   const [triggerEditChord, setTriggerEditChord] = useState(false);
   const [editChord, setEditChord] = useState<ChordType | undefined>();
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [selectedChordIndex, setSelectedChordIndex] = useState<number>();
+  const [selectedChord, setSelectedChord] = useState<ChordType | undefined>(
+    editorCtx?.selectedLoop
+      ? editorCtx?.selectedLoop.chord
+      : editorCtx?.playingLoop
+      ? editorCtx?.playingLoop.chord
+      : undefined
+  );
   const timerRef = useRef<NodeJS.Timer | null>(null);
-  const editorCtx = useEditorContext();
 
-  const handleClick = (index: number) => {
+  const handleClick = (chord: ChordType) => {
     if (timerRef.current === null) {
       timerRef.current = setTimeout(() => {
         timerRef.current = null;
-        handleLoopClick(index);
+        handleLoopClick(chord);
       }, 300);
     }
   };
@@ -44,11 +49,25 @@ const ChordBuilder: React.FC<ChordBuilderProps> = ({}) => {
     }
   };
 
-  const handleLoopClick = (index: number) => {
-    if (selectedChordIndex === index) {
-      setSelectedChordIndex(undefined)
+  const handleLoopClick = (chord: ChordType) => {
+    if (JSON.stringify(selectedChord) === JSON.stringify(chord)) {
+      setSelectedChord(undefined);
+      if (editorCtx?.selectedLoop) {
+        editorCtx?.setLoopChord(editorCtx?.selectedLoop, undefined);
+      } else if (editorCtx?.playingLoop) {
+        editorCtx?.setLoopChord(editorCtx?.playingLoop, undefined);
+      } else {
+        return;
+      }
     } else {
-      setSelectedChordIndex(index)
+      setSelectedChord(chord);
+      if (editorCtx?.selectedLoop) {
+        editorCtx?.setLoopChord(editorCtx?.selectedLoop, chord);
+      } else if (editorCtx?.playingLoop) {
+        editorCtx?.setLoopChord(editorCtx?.playingLoop, chord);
+      } else {
+        return;
+      }
     }
   };
 
@@ -60,7 +79,7 @@ const ChordBuilder: React.FC<ChordBuilderProps> = ({}) => {
     if (editChord) {
       setTriggerEditChord(true);
     }
-  }, [editChord])
+  }, [editChord]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -93,7 +112,7 @@ const ChordBuilder: React.FC<ChordBuilderProps> = ({}) => {
           >
             <FiPlus />
           </button>
-          <Void>{}</Void>
+          <Void />
         </div>
         <div
           ref={containerRef}
@@ -106,16 +125,16 @@ const ChordBuilder: React.FC<ChordBuilderProps> = ({}) => {
                 style={{ flex: `0 0 ${canvasWidth}px` }}
                 className={chordBuilderStyles["chord-builder-chord"]}
                 id={
-                  index === selectedChordIndex
+                  JSON.stringify(chord) === JSON.stringify(selectedChord)
                     ? chordBuilderStyles["chord-builder-chord-active"]
                     : undefined
                 }
                 key={index}
-                onClick={() => handleClick(index)}
+                onClick={() => handleClick(chord)}
                 onDoubleClick={() => handleDoubleClick(index)}
               >
                 <p>{chord.title}</p>
-                <Chord chord={chord} selected={index === selectedChordIndex} />
+                <Chord chord={chord} selected={JSON.stringify(chord) === JSON.stringify(selectedChord)} />
               </div>
             ))}
         </div>

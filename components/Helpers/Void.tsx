@@ -2,7 +2,7 @@ import React from 'react'
 import voidStyles from './Void.module.css'
 
 interface VoidProps {
-    children: React.ReactNode
+    children?: React.ReactNode
 }
 
 const Void: React.FC<VoidProps> = ({children}) => {

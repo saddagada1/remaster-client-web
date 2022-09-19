@@ -28,6 +28,7 @@ const LoopSlider: React.FC<LoopSliderProps> = ({
   const loopsContainerRef = useRef<HTMLDivElement | null>(null);
   const [loopsScrollSections, setLoopsScrollSections] = useState<number[]>([]);
   const [loopScrollWidth, setLoopScrollWidth] = useState(0);
+  const [loopZoom, setLoopZoom] = useState(1);
   const editorCtx = useEditorContext();
 
   useEffect(() => {
@@ -77,7 +78,7 @@ const LoopSlider: React.FC<LoopSliderProps> = ({
           className={loopSliderStyles["loop-slider-loops-container"]}
           style={{
             width: duration
-              ? (window.innerWidth / 100) * duration
+              ? (window.innerWidth / 100) * duration * loopZoom
               : window.innerWidth,
           }}
         >
@@ -85,14 +86,17 @@ const LoopSlider: React.FC<LoopSliderProps> = ({
             <Ruler
               zoom={window.innerWidth / 100}
               unit={window.innerWidth < 500 ? 2 : 1}
-              range={duration ? [0, duration] : undefined}
+              range={duration ? [0, duration * loopZoom] : undefined}
               textColor="transparent"
               segment={1}
               backgroundColor="transparent"
               lineColor="#000"
             />
           </div>
-          <div className={loopSliderStyles["loop-slider-loops"]}>
+          <div
+            key={editorCtx?.loops.length}
+            className={loopSliderStyles["loop-slider-loops"]}
+          >
             {loopScrollWidth !== 0 &&
               editorCtx?.loops.map((loop, index) => (
                 <Resizable
@@ -102,7 +106,6 @@ const LoopSlider: React.FC<LoopSliderProps> = ({
                     height: "100%",
                   }}
                   bounds="parent"
-                  minWidth={window.innerWidth / 100}
                   enable={{ right: true }}
                   handleComponent={{ right: <SliderLoopHandle /> }}
                   onResizeStop={(event, direction, refToElement, delta) => {
@@ -132,6 +135,19 @@ const LoopSlider: React.FC<LoopSliderProps> = ({
             style={{ right: (1 - progressPosition) * 100 + "%" }}
             className={loopSliderStyles["loop-slider-loops-progress"]}
           />
+          <select
+            className={loopSliderStyles["loop-slider-zoom"]}
+            value={loopZoom}
+            onChange={(e) => setLoopZoom(parseInt(e.target.value))}
+          >
+            {Array(5)
+              .fill(null)
+              .map((_, index) => (
+                <option key={index} value={index + 1}>
+                  {index + 1}x
+                </option>
+              ))}
+          </select>
         </div>
       )}
     </div>

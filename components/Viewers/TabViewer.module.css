@@ -1,0 +1,15 @@
+.tab-viewer-root {
+  width: 100%;
+  height: 100%;
+  padding: 2vh;
+  font-family: monospace;
+  font-size: 1.5vmin;
+  overflow: clip;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tab-viewer-root::-webkit-scrollbar {
+  display: none;
+}

@@ -5,6 +5,7 @@ import { useChordsQuery } from "../../../generated/graphql";
 import chordSelectorStyles from "./ChordSelector.module.css";
 import { Finger } from "svguitar";
 import Void from "../../Helpers/Void";
+import { useEditorContext } from "../../../contexts/Editor";
 
 export interface Chord {
   title: string | undefined;
@@ -16,11 +17,18 @@ export interface Chord {
 interface ChordSelectorProps {}
 
 const ChordSelector: React.FC<ChordSelectorProps> = ({}) => {
+  const editorCtx = useEditorContext();
   const [{ data, fetching }] = useChordsQuery();
-  const [chordData, setChordData] = useState<{ [chord: string]: Chord[] }>();
+  const [chordData, setChordData] = useState<{ [chord: string]: Chord[] }>({});
   const [chordOptions, setChordOptions] = useState<string[]>([]);
-  const [selectedChord, setSelectedChord] = useState("C");
-  const [selectedChordIndex, setSelectedChordIndex] = useState<number>();
+  const [selectedKey, setSelectedKey] = useState("C");
+  const [selectedChord, setSelectedChord] = useState<Chord | undefined>(
+    editorCtx?.selectedLoop
+      ? editorCtx?.selectedLoop.chord
+      : editorCtx?.playingLoop
+      ? editorCtx?.playingLoop.chord
+      : undefined
+  );
   const [canvasWidth, setCanvasWidth] = useState(0);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -29,7 +37,7 @@ const ChordSelector: React.FC<ChordSelectorProps> = ({}) => {
     if (container) {
       setCanvasWidth(container.getBoundingClientRect().height);
     }
-  }, [containerRef])
+  }, [containerRef]);
 
   useEffect(() => {
     if (chordData) {
@@ -51,12 +59,12 @@ const ChordSelector: React.FC<ChordSelectorProps> = ({}) => {
         <div className={chordSelectorStyles["chord-selector-select-container"]}>
           <Select
             options={chordOptions}
-            onOptionChange={setSelectedChord}
+            onOptionChange={setSelectedKey}
             getOptionValue={(option: string) => option}
             getOptionLabel={(option: string) => option}
-            initialValue={selectedChord}
+            initialValue={selectedKey}
             filterMatchFrom="start"
-            placeholder={selectedChord}
+            placeholder={selectedKey}
             themeConfig={{
               control: {
                 borderWidth: "0",
@@ -82,27 +90,55 @@ const ChordSelector: React.FC<ChordSelectorProps> = ({}) => {
             }}
           />
         </div>
-        <Void>{}</Void>
+        <Void/>
       </div>
-      <div ref={containerRef} className={chordSelectorStyles["chord-selector-chords"]}>
-        {canvasWidth !== 0 && chordData &&
-          chordData[selectedChord].map((chord, index) => (
+      <div
+        ref={containerRef}
+        className={chordSelectorStyles["chord-selector-chords"]}
+      >
+        {canvasWidth !== 0 &&
+          JSON.stringify(chordData) !== JSON.stringify({}) &&
+          chordData[selectedKey].map((chord, index) => (
             <div
-              style={{flex: `0 0 ${canvasWidth}px`}}
+              style={{ flex: `0 0 ${canvasWidth}px` }}
               className={chordSelectorStyles["chord-selector-chord"]}
               id={
-                index === selectedChordIndex
+                JSON.stringify(chord) === JSON.stringify(selectedChord)
                   ? chordSelectorStyles["chord-selector-chord-active"]
                   : undefined
               }
               key={index}
-              onClick={() => selectedChordIndex === index ? setSelectedChordIndex(undefined) : setSelectedChordIndex(index)}
+              onClick={() =>
+                JSON.stringify(selectedChord) === JSON.stringify(chord)
+                  ? (setSelectedChord(undefined),
+                    editorCtx?.selectedLoop
+                      ? editorCtx?.setLoopChord(
+                          editorCtx?.selectedLoop,
+                          undefined
+                        )
+                      : editorCtx?.playingLoop
+                      ? editorCtx?.setLoopChord(
+                          editorCtx?.playingLoop,
+                          undefined
+                        )
+                      : null)
+                  : (setSelectedChord(chord),
+                    editorCtx?.selectedLoop
+                      ? editorCtx?.setLoopChord(editorCtx?.selectedLoop, chord)
+                      : editorCtx?.playingLoop
+                      ? editorCtx?.setLoopChord(editorCtx?.playingLoop, chord)
+                      : null)
+              }
             >
-              <Chord chord={chord} selected={index === selectedChordIndex} />
+              <Chord
+                chord={chord}
+                selected={
+                  JSON.stringify(chord) === JSON.stringify(selectedChord)
+                }
+              />
             </div>
           ))}
       </div>
-      
     </div>
   );
 };

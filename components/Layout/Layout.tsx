@@ -42,7 +42,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <Head>
         <meta content={`width=${viewWidth ? viewWidth : "device-width"}, height=${viewHeight ? viewHeight : "device-height"} initial-scale=1, shrink-to-fit=no`} name="viewport"/>
       </Head>
-      <div className={layoutStyles["layout-background"]} />
       {!router.pathname.includes("editor/[id]") ? (
         <>
           <div className={layoutStyles["layout-sidebar-fc"]}>

@@ -32,8 +32,6 @@ const Editor: NextPage<editorProps> = ({}) => {
   const [videoPlaying, setVideoPlaying] = useState(false);
   const [videoSpeed, setVideoSpeed] = useState(1);
   const [videoVolume, setVideoVolume] = useState(0.5);
-  const [playingLoop, setPlayingLoop] = useState<LoopSchema | null>(null);
-  const [selectedLoop, setSelectedLoop] = useState<LoopSchema | null>(null);
   const editorCtx = useEditorContext();
 
   const handleTimelineMouseMove = (
@@ -98,16 +96,16 @@ const Editor: NextPage<editorProps> = ({}) => {
     const loops = editorCtx?.loops;
     if (loops) {
       if (
-        playingLoop &&
-        playingLoop.start <= played &&
-        played <= playingLoop.end
+        editorCtx?.playingLoop &&
+        editorCtx?.playingLoop.start <= played &&
+        played <= editorCtx?.playingLoop.end
       ) {
         return;
       } else {
-        setPlayingLoop(null);
+        editorCtx?.setPlayingLoop(null);
         for (let i = 0; i < loops.length; i++) {
           if (loops[i].start <= played && played <= loops[i].end) {
-            setPlayingLoop(loops[i]);
+            editorCtx?.setPlayingLoop(loops[i]);
           }
         }
       }
@@ -115,9 +113,12 @@ const Editor: NextPage<editorProps> = ({}) => {
   };
 
   const handleSelectedLoop = (played: number) => {
-    if (selectedLoop) {
-      if (played > selectedLoop.end || played < selectedLoop.start) {
-        playerRef.current?.seekTo(selectedLoop.start, "fraction");
+    if (editorCtx?.selectedLoop) {
+      if (
+        played > editorCtx?.selectedLoop.end ||
+        played < editorCtx?.selectedLoop.start
+      ) {
+        playerRef.current?.seekTo(editorCtx?.selectedLoop.start, "fraction");
       }
     }
   };
@@ -140,10 +141,10 @@ const Editor: NextPage<editorProps> = ({}) => {
   };
 
   const handleLoopClick = (loop: LoopSchema, index: number) => {
-    if (selectedLoop?.id === index + 1) {
-      setSelectedLoop(null);
+    if (editorCtx?.selectedLoop?.id === index + 1) {
+      editorCtx?.setSelectedLoop(null);
     } else {
-      setSelectedLoop(loop);
+      editorCtx?.setSelectedLoop(loop);
     }
   };
 
@@ -155,14 +156,14 @@ const Editor: NextPage<editorProps> = ({}) => {
     if (editSelectLoop) {
       setTriggerEditLoop(true);
     }
-  }, [editSelectLoop])
-  
+  }, [editSelectLoop]);
+
   useEffect(() => {
-    const root = rootRef.current
+    const root = rootRef.current;
     if (root) {
       root.focus();
     }
-  }, [rootRef])
+  }, [rootRef]);
 
   useEffect(() => {
     if (!isServer()) {
@@ -177,7 +178,7 @@ const Editor: NextPage<editorProps> = ({}) => {
       onTouchEnd={() => setIsScrubbing(false)}
       onTouchMove={(e) => handleTimelineMouseMove(undefined, e)}
       onMouseMove={(e) => handleTimelineMouseMove(e, undefined)}
-      onKeyDown={(e) => e.key === " " ? setVideoPlaying(!videoPlaying) : null}
+      onKeyDown={(e) => (e.key === " " ? setVideoPlaying(!videoPlaying) : null)}
       tabIndex={-1}
       ref={rootRef}
     >
@@ -201,18 +202,20 @@ const Editor: NextPage<editorProps> = ({}) => {
             />
           )}
           <div className={editorStyles["editor-main"]}>
-            <div className={editorStyles["editor-main-header"]}></div>
+            <div className={editorStyles["editor-main-header"]}>
+              
+            </div>
             <div className={editorStyles["editor-main-video-gc"]}>
               <ReactPlayer
                 ref={playerRef}
-                url="https://www.youtube.com/watch?v=aQZDyyIyQMA&ab_channel=FutureClassic"
+                url="https://www.youtube.com/watch?v=NuwYOEwuOVs&ab_channel=JohnMayerTapes"
                 width="100%"
                 height="100%"
                 progressInterval={1}
                 onDuration={(duration) => setDuration(duration)}
                 onProgress={({ played }) => {
                   !isScrubbing && videoPlaying && setProgressPosition(played);
-                  if (!selectedLoop) {
+                  if (!editorCtx?.selectedLoop) {
                     handlePlayingLoop(played);
                   } else {
                     handleSelectedLoop(played);
@@ -229,14 +232,64 @@ const Editor: NextPage<editorProps> = ({}) => {
                 playbackRate={videoSpeed}
               />
               {window.matchMedia("(orientation: landscape)").matches && (
-                <div className={editorStyles["editor-main-diagram-fc"]}>
-                  <ChordEditor />
+                <div
+                  key={
+                    editorCtx?.selectedLoop
+                      ? editorCtx?.selectedLoop.id
+                      : editorCtx?.playingLoop
+                      ? editorCtx?.playingLoop.id
+                      : null
+                  }
+                  className={editorStyles["editor-main-diagram-fc"]}
+                >
+                  {editorCtx?.selectedLoop ? (
+                    editorCtx?.selectedLoop.type === "Tab" ? (
+                      <TabEditor />
+                    ) : (
+                      <ChordEditor />
+                    )
+                  ) : editorCtx?.playingLoop ? (
+                    editorCtx?.playingLoop.type === "Tab" ? (
+                      <TabEditor />
+                    ) : (
+                      <ChordEditor />
+                    )
+                  ) : (
+                    <h1 className={editorStyles["editor-main-diagram-header"]}>
+                      no loop selected <br /> or playing
+                    </h1>
+                  )}
                 </div>
               )}
             </div>
             {window.matchMedia("(orientation: portrait)").matches && (
-              <div className={editorStyles["editor-main-mobile-diagram-fc"]}>
-                <ChordEditor />
+              <div
+                key={
+                  editorCtx?.selectedLoop
+                    ? editorCtx?.selectedLoop.id
+                    : editorCtx?.playingLoop
+                    ? editorCtx?.playingLoop.id
+                    : null
+                }
+                className={editorStyles["editor-main-mobile-diagram-fc"]}
+              >
+                {editorCtx?.selectedLoop ? (
+                  editorCtx?.selectedLoop.type === "Tab" ? (
+                    <TabEditor />
+                  ) : (
+                    <ChordEditor />
+                  )
+                ) : editorCtx?.playingLoop ? (
+                  editorCtx?.playingLoop.type === "Tab" ? (
+                    <TabEditor />
+                  ) : (
+                    <ChordEditor />
+                  )
+                ) : (
+                  <h1 className={editorStyles["editor-main-diagram-header"]}>
+                    no loop selected <br /> or playing
+                  </h1>
+                )}
               </div>
             )}
             <div className={editorStyles["editor-main-loops-fc"]}>
@@ -246,7 +299,7 @@ const Editor: NextPage<editorProps> = ({}) => {
                   onDoubleClick={() => handleDoubleClick(loop)}
                   key={index}
                   id={
-                    selectedLoop?.id === index + 1
+                    editorCtx?.selectedLoop?.id === index + 1
                       ? editorStyles["editor-main-loop-selected"]
                       : undefined
                   }

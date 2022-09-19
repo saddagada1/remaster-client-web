@@ -51,6 +51,12 @@ const EditChordModal: React.FC<EditChordModalProps> = ({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const editorCtx = useEditorContext();
 
+  const handleDelete = () => {
+    editorCtx?.deleteCreatedChord(chord);
+    setChord(undefined);
+    setTrigger(false);
+  }
+
   const handleSubmit = () => {
     if (
       JSON.stringify(fingers) ===
@@ -73,6 +79,7 @@ const EditChordModal: React.FC<EditChordModalProps> = ({
       position: position,
     };
     editorCtx?.updateCreatedChords(chord, newChord);
+    setChord(undefined);
     setTrigger(false);
   };
 
@@ -259,7 +266,10 @@ const EditChordModal: React.FC<EditChordModalProps> = ({
           animate={{ opacity: opacity }}
           className={editChordModalStyles["edit-chord-modal-root"]}
         >
-          <h1>edit chord.</h1>
+          <div className={editChordModalStyles["edit-chord-modal-header"]}>
+            <h1>edit chord.</h1>
+            <button onClick={() => handleDelete()}><FiTrash2/></button>
+          </div>
           <div className={editChordModalStyles["edit-chord-main"]}>
             <div className={editChordModalStyles["edit-chord-form"]}>
               <div

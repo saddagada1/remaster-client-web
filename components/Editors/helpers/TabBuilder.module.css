@@ -1,0 +1,55 @@
+.tab-builder-root {
+  width: 100%;
+  height: 100%;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-builder-toolbar {
+  width: 100%;
+  min-height: 40px;
+  flex: 0 0 12.5%;
+  display: flex;
+  border-bottom: 0.25vh solid;
+  border-color: var(--secondary-colour);
+}
+
+.tab-builder-button {
+  flex: 0 0 12.5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border: none;
+  font-size: 3vmin;
+  cursor: pointer;
+  border-right: 0.25vh solid;
+  border-color: var(--secondary-colour);
+  transition: 0.25s;
+}
+
+.tab-builder-button:hover {
+  background-color: var(--secondary-colour);
+  color: var(--primary-colour);
+}
+
+.tab-builder-input {
+  width: 100%;
+  height: 100%;
+  resize: none;
+  border: none;
+  background: none;
+  padding: 2vh;
+  font-size: 1.5vh;
+}
+
+.tab-builder-input::-webkit-scrollbar {
+  display: none;
+}
+
+@media screen and (orientation: portrait) and (max-width: 500px) {
+  .tab-builder-button {
+    font-size: 4.5vmin;
+  }
+}

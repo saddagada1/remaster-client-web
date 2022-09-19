@@ -14,7 +14,7 @@
   border: 0.25vh solid;
   border-color: var(--secondary-colour);
   position: absolute;
-  padding: 2vmin 3vmin;
+  padding: 2vh 3vh;
   font-family: "Inter";
   -webkit-box-shadow: 0px 0px 18px 1px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 0px 0px 18px 1px rgba(0, 0, 0, 0.25);
@@ -33,9 +33,23 @@
   align-items: center;
 }
 
-.edit-loop-modal-form-fc h3 {
+.edit-loop-modal-header-fc {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-loop-modal-header-fc h1 {
   font-size: 3.5vh;
   margin-bottom: 1vh;
+}
+
+.edit-loop-modal-header-fc button {
+  border: none;
+  background: none;
+  font-size: 3vh;
+  cursor: pointer;
 }
 
 .edit-loop-modal-inputs-fc {
@@ -124,6 +138,6 @@
 @media screen and (orientation: portrait) {
   .edit-loop-modal-root {
     width: 75%;
-    height: 35%;
+    height: 37.5%;
   }
 }

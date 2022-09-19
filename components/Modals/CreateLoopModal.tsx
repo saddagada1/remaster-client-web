@@ -47,7 +47,7 @@ const CreateLoopModal: React.FC<CreateLoopModalProps> = ({
         className={createLoopModalStyles["create-loop-modal-root"]}
       >
         <div className={createLoopModalStyles["create-loop-modal-form-fc"]}>
-          <h3>create loop.</h3>
+          <h1>create loop.</h1>
           <div className={createLoopModalStyles["create-loop-modal-inputs-fc"]}>
             <div
               className={createLoopModalStyles["create-loop-modal-input-fc"]}
