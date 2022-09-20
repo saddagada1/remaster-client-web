@@ -14,6 +14,7 @@ import Orb from "../../components/Visualizations/Orb";
 import Timeline from "../../components/Timeline/Timeline";
 import EditLoopModal from "../../components/Modals/EditLoopModal";
 import Void from "../../components/Helpers/Void";
+import SettingsModal from "../../components/Modals/SettingsModal";
 
 interface editorProps {}
 
@@ -24,15 +25,16 @@ const Editor: NextPage<editorProps> = ({}) => {
   const timelineRef = useRef<HTMLDivElement | null>(null);
   const timerRef = useRef<NodeJS.Timer | null>(null);
   const [duration, setDuration] = useState<number | undefined>(0);
-  const [triggerCreateLoop, setTriggerCreateLoop] = useState(false);
-  const [triggerEditLoop, setTriggerEditLoop] = useState(false);
-  const [editSelectLoop, setEditSelectLoop] = useState<LoopSchema | null>(null);
   const [previewPosition, setPreviewPosition] = useState(0);
   const [progressPosition, setProgressPosition] = useState(0);
   const [isScrubbing, setIsScrubbing] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
   const [videoSpeed, setVideoSpeed] = useState(1);
   const [videoVolume, setVideoVolume] = useState(1);
+  const [triggerSettings, setTriggerSettings] = useState(false);
+  const [triggerCreateLoop, setTriggerCreateLoop] = useState(false);
+  const [triggerEditLoop, setTriggerEditLoop] = useState(false);
+  const [editSelectLoop, setEditSelectLoop] = useState<LoopSchema | null>(null);
   const editorCtx = useEditorContext();
 
   const handleTimelineMouseMove = (
@@ -179,7 +181,11 @@ const Editor: NextPage<editorProps> = ({}) => {
       onTouchEnd={() => setIsScrubbing(false)}
       onTouchMove={(e) => handleTimelineMouseMove(undefined, e)}
       onMouseMove={(e) => handleTimelineMouseMove(e, undefined)}
-      onKeyDown={(e) => {!editorCtx?.inputFocus && e.key === " " ? setVideoPlaying(!videoPlaying) : null}}
+      onKeyDown={(e) => {
+        !editorCtx?.inputFocus && e.key === " "
+          ? setVideoPlaying(!videoPlaying)
+          : null;
+      }}
       tabIndex={-1}
       ref={rootRef}
     >
@@ -188,6 +194,12 @@ const Editor: NextPage<editorProps> = ({}) => {
       </Head>
       {isWindow && (
         <>
+          {triggerSettings && (
+            <SettingsModal
+              trigger={triggerSettings}
+              setTrigger={setTriggerSettings}
+            />
+          )}
           {triggerCreateLoop && (
             <CreateLoopModal
               trigger={triggerCreateLoop}
@@ -208,7 +220,7 @@ const Editor: NextPage<editorProps> = ({}) => {
                 <Void />
               </div>
               <div className={editorStyles["editor-main-header-section"]}>
-                <button className={editorStyles["editor-main-header-button"]}>
+                <button onClick={() => setTriggerSettings(true)} className={editorStyles["editor-main-header-button"]}>
                   <FiSettings /> settings
                 </button>
                 <button className={editorStyles["editor-main-header-save"]}>
@@ -219,7 +231,7 @@ const Editor: NextPage<editorProps> = ({}) => {
             <div className={editorStyles["editor-main-video-gc"]}>
               <ReactPlayer
                 ref={playerRef}
-                url="https://www.youtube.com/watch?v=NuwYOEwuOVs&ab_channel=JohnMayerTapes"
+                url={editorCtx?.settings.url}
                 width="100%"
                 height="100%"
                 progressInterval={1}
@@ -339,6 +351,7 @@ const Editor: NextPage<editorProps> = ({}) => {
               setPlaying={setVideoPlaying}
               setVolume={setVideoVolume}
               setSpeed={setVideoSpeed}
+              hasSpeed={editorCtx ? editorCtx.settings.url.includes("youtube" || "vimeo") : false}
               previewPosition={previewPosition}
               progressPosition={progressPosition}
               handleTimelineMouseMove={handleTimelineMouseMove}

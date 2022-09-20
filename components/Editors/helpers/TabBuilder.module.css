@@ -16,7 +16,7 @@
 }
 
 .tab-builder-button {
-  flex: 0 0 12.5%;
+  flex: 0 0 calc(25% / 3);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,6 +32,11 @@
 .tab-builder-button:hover {
   background-color: var(--secondary-colour);
   color: var(--primary-colour);
+}
+
+.tab-builder-button:disabled {
+  background-color: var(--accent-colour);
+  color: var(--secondary-colour);
 }
 
 .tab-builder-input {
@@ -50,6 +55,7 @@
 
 @media screen and (orientation: portrait) and (max-width: 500px) {
   .tab-builder-button {
+    flex: 0 0 calc(50% / 3);
     font-size: 4.5vmin;
   }
 }

@@ -1,4 +1,4 @@
-.create-loop-modal-background {
+.settings-modal-background {
   width: 100%;
   height: 100%;
   background-color: #00000066;
@@ -7,9 +7,9 @@
   opacity: 0;
 }
 
-.create-loop-modal-root {
-  width: 20%;
-  height: 35%;
+.settings-modal-root {
+  width: 25%;
+  height: 45%;
   background-color: var(--background-colour);
   border: 0.25vh solid;
   border-color: var(--secondary-colour);
@@ -24,7 +24,7 @@
   border-radius: 2vh;
 }
 
-.create-loop-modal-form-fc {
+.settings-modal-form-fc {
   width: 100%;
   height: 100%;
   display: flex;
@@ -33,12 +33,12 @@
   align-items: center;
 }
 
-.create-loop-modal-form-fc h1 {
+.settings-modal-form-fc h1 {
   font-size: 3.5vh;
   margin-bottom: 1vh;
 }
 
-.create-loop-modal-inputs-fc {
+.settings-modal-inputs-fc {
   width: 100%;
   height: 100%;
   display: flex;
@@ -47,7 +47,7 @@
   align-items: center;
 }
 
-.create-loop-modal-input-fc {
+.settings-modal-input-fc {
   width: 100%;
   display: flex;
   align-items: center;
@@ -55,12 +55,12 @@
   margin-bottom: 2vh;
 }
 
-.create-loop-modal-input-fc label {
+.settings-modal-input-fc label {
   font-size: 2.5vh;
   margin-right: 2vh;
 }
 
-.create-loop-modal-input-fc input {
+.settings-modal-input-fc input {
   width: 100%;
   border: 0.25vh solid;
   border-color: var(--secondary-colour);
@@ -70,7 +70,7 @@
   border-radius: 1vh;
 }
 
-.create-loop-modal-input-fc select {
+.settings-modal-input-fc select {
   width: max-content;
   appearance: none;
   border: 0.25vh solid;
@@ -83,7 +83,54 @@
   background-color: var(--primary-colour);
 }
 
-.create-loop-modal-actions-fc {
+.settings-modal-input-column-fc {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2vh;
+}
+
+.settings-modal-input-column-fc label {
+  font-size: 2.5vh;
+  margin-bottom: 1vh;
+}
+
+.settings-modal-tuning-inputs-fc {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.settings-modal-tuning-input {
+  width: 100%;
+  border-top: 0.25vh solid;
+  border-bottom: 0.25vh solid;
+  border-left: none;
+  border-right: none;
+  border-color: var(--secondary-colour);
+  font-family: "Inter";
+  font-size: 2vh;
+  padding: 0.5vh 1vh;
+  text-align: center;
+}
+
+.settings-modal-tuning-input:nth-child(-n + 6) {
+  border-right: 0.25vh solid;
+}
+
+.settings-modal-tuning-input:nth-child(1) {
+  border-left: 0.25vh solid;
+  border-top-left-radius: 1vh;
+  border-bottom-left-radius: 1vh;
+}
+
+.settings-modal-tuning-input:nth-child(6) {
+  border-top-right-radius: 1vh;
+  border-bottom-right-radius: 1vh;
+}
+
+.settings-modal-actions-fc {
   width: 100%;
   height: max-content;
   display: flex;
@@ -91,7 +138,7 @@
   margin-bottom: 1vh;
 }
 
-.create-loop-modal-actions-fc button {
+.settings-modal-actions-fc button {
   width: 100%;
   font-size: 2vh;
   font-family: "Inter";
@@ -100,14 +147,14 @@
   border-radius: 2vh;
 }
 
-.create-loop-modal-exit {
+.settings-modal-exit {
   background: none;
   border: 0.25vh solid;
   border-color: var(--secondary-colour);
   margin-right: 1vh;
 }
 
-.create-loop-modal-submit {
+.settings-modal-submit {
   border: none;
   background-color: var(--secondary-colour);
   color: var(--primary-colour);
@@ -115,15 +162,15 @@
 }
 
 @media screen and (max-width: 1200px) {
-  .create-loop-modal-root {
-    width: 30%;
-    height: 35%;
+  .settings-modal-root {
+    width: 35%;
+    height: 45%;
   }
 }
 
 @media screen and (orientation: portrait) {
-  .create-loop-modal-root {
-    width: 75%;
-    height: 37.5%;
+  .settings-modal-root {
+    width: 80%;
+    height: 47.5%;
   }
 }

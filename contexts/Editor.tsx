@@ -21,8 +21,14 @@ export interface LoopSchema {
   tab?: string;
 }
 
-interface EditorValues {
+interface settingsSchema {
+  url: string;
+  title: string;
+  key: string;
   tuning: string[];
+}
+
+interface EditorValues {
   loops: LoopSchema[];
   setLoops: Dispatch<SetStateAction<LoopSchema[]>>;
   createLoop: (name: string, key: string, type: string) => void;
@@ -38,8 +44,10 @@ interface EditorValues {
   deleteCreatedChord: (deletedChord: Chord) => void;
   setLoopChord: (targetLoop: LoopSchema, chord: Chord | undefined) => void
   setLoopTab: (targetLoop: LoopSchema, tab: string | undefined) => void;
+  settings: settingsSchema;
+  setSettings: Dispatch<SetStateAction<settingsSchema>>;
   inputFocus: boolean;
-  setInputFocus: React.Dispatch<React.SetStateAction<boolean>>;
+  setInputFocus: Dispatch<SetStateAction<boolean>>;
 }
 
 const EditorContext = createContext<EditorValues | null>(null);
@@ -54,7 +62,12 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
   const [playingLoop, setPlayingLoop] = useState<LoopSchema | null>(null);
   const [selectedLoop, setSelectedLoop] = useState<LoopSchema | null>(null);
   const [createdChords, setCreatedChords] = useState<Chord[]>([]);
-  const [tuning, setTuning] = useState(["E", "A", "D", "G", "B", "E"]);
+  const [settings, setSettings] = useState<settingsSchema>({
+    url: "https://www.youtube.com/watch?v=NuwYOEwuOVs&ab_channel=JohnMayerTapes",
+    title: "remaster-01",
+    key: "C",
+    tuning: ["E", "A", "D", "G", "B", "E"]
+  });
   const [inputFocus, setInputFocus] = useState(false);
 
   const createLoop = (name: string, key: string, type: string) => {
@@ -79,6 +92,10 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
       end: newLoopEnd,
       colour: keyColourReference[key],
     };
+
+    if (newLoop.id === 1) {
+      setPlayingLoop(newLoop);
+    }
     setLoops([...loops, newLoop]);
     setIdCounter((idCounter) => idCounter + 1);
   };
@@ -86,12 +103,21 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
   const updateLoops = (newLoop: LoopSchema) => {
     const newLoops = loops.map((loop) => {
       if (loop.id === newLoop.id) {
+        if (selectedLoop) {
+          if (JSON.stringify(selectedLoop) === JSON.stringify(loop)) {
+            setSelectedLoop(newLoop);
+          }
+        } 
+        if (playingLoop) {
+          if (JSON.stringify(playingLoop) === JSON.stringify(loop)) {
+            setPlayingLoop(newLoop);
+          }
+        }
         return newLoop;
       }
 
       return loop;
     });
-
     setLoops(newLoops);
   };
 
@@ -144,10 +170,18 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
   const setLoopChord = (targetLoop: LoopSchema, chord: Chord | undefined) => {
     const newLoops = loops.map((loop) => {
       if (loop.id === targetLoop.id) {
-        return {
-          ...loop,
-          chord: chord,
-        };
+        const newLoop = {...loop, chord: chord}
+        if (selectedLoop) {
+          if (JSON.stringify(selectedLoop) === JSON.stringify(loop)) {
+            setSelectedLoop(newLoop);
+          }
+        } 
+        if (playingLoop) {
+          if (JSON.stringify(playingLoop) === JSON.stringify(loop)) {
+            setPlayingLoop(newLoop);
+          }
+        }
+        return newLoop;
       }
 
       return loop;
@@ -159,10 +193,18 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
   const setLoopTab = (targetLoop: LoopSchema, tab: string | undefined) => {
     const newLoops = loops.map((loop) => {
       if (loop.id === targetLoop.id) {
-        return {
-          ...loop,
-          tab: tab,
-        };
+        const newLoop = {...loop, tab: tab}
+        if (selectedLoop) {
+          if (JSON.stringify(selectedLoop) === JSON.stringify(loop)) {
+            setSelectedLoop(newLoop);
+          }
+        } 
+        if (playingLoop) {
+          if (JSON.stringify(playingLoop) === JSON.stringify(loop)) {
+            setPlayingLoop(newLoop);
+          }
+        }
+        return newLoop;
       }
 
       return loop;
@@ -171,16 +213,9 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
     setLoops(newLoops);
   };
 
-  useEffect(() => {
-    if (loops.length === 1) {
-      setPlayingLoop(loops[0]);
-    }
-  }, [loops]);
-
   return (
     <EditorContext.Provider
       value={{
-        tuning,
         loops,
         setLoops,
         createLoop,
@@ -196,6 +231,8 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
         deleteCreatedChord,
         setLoopChord,
         setLoopTab,
+        settings,
+        setSettings,
         inputFocus,
         setInputFocus
       }}

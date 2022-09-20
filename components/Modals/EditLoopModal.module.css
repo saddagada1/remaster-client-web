@@ -94,11 +94,12 @@
   padding: 0.5vh 1vh;
   border-radius: 1vh;
   cursor: pointer;
+  background-color: var(--primary-colour);
 }
 
 .edit-loop-modal-actions-fc {
   width: 100%;
-  height: 25%;
+  height: max-content;
   display: flex;
   justify-content: space-between;
   margin-bottom: 1vh;
@@ -106,10 +107,9 @@
 
 .edit-loop-modal-actions-fc button {
   width: 100%;
-  height: 100%;
   font-size: 2vh;
   font-family: "Inter";
-  padding: 0.5vh;
+  padding: 1vh;
   cursor: pointer;
   border-radius: 2vh;
 }

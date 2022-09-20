@@ -30,7 +30,7 @@ const EditChordModal: React.FC<EditChordModalProps> = ({
   const [selectedIndexes, setSelectedIndexes] = useState<[number, number][]>(
     []
   );
-  const [title, setTitle] = useState(chord.title);
+  const [name, setName] = useState(chord.title);
   const [fingers, setFingers] = useState<Finger[]>(chord.fingers);
   const [barres, setBarres] = useState<
     { fromString: number; toString: number; fret: number }[]
@@ -68,12 +68,12 @@ const EditChordModal: React.FC<EditChordModalProps> = ({
           [5, 0],
           [6, 0],
         ]) ||
-      !title
+      !name
     ) {
       return;
     }
     const newChord = {
-      title: title,
+      title: name,
       fingers: fingers,
       barres: barres,
       position: position,
@@ -163,7 +163,7 @@ const EditChordModal: React.FC<EditChordModalProps> = ({
   };
 
   const handleReset = () => {
-    setTitle(chord.title);
+    setName(chord.title);
     setFingers(chord.fingers);
     setBarres(chord.barres);
     setPosition(chord.position);
@@ -275,15 +275,15 @@ const EditChordModal: React.FC<EditChordModalProps> = ({
               <div
                 className={editChordModalStyles["edit-chord-form-input"]}
               >
-                <label htmlFor="title">title</label>
+                <label htmlFor="name">name</label>
                 <input
                   type="text"
                   maxLength={15}
-                  value={title}
+                  value={name}
                   className={editChordModalStyles["edit-chord-modal-input"]}
                   onFocus={() => editorCtx?.setInputFocus(true)}
                   onBlur={() => editorCtx?.setInputFocus(false)}
-                  onChange={(e) => setTitle(e.currentTarget.value)}
+                  onChange={(e) => setName(e.currentTarget.value)}
                 />
               </div>
               <div
@@ -377,7 +377,7 @@ const EditChordModal: React.FC<EditChordModalProps> = ({
               >
                 <Chord
                   chord={{
-                    title: title,
+                    title: name,
                     fingers: fingers,
                     barres: barres,
                     position: position,

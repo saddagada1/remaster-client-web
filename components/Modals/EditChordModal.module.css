@@ -110,6 +110,7 @@
   text-align: center;
   appearance: none;
   cursor: pointer;
+  background-color: var(--primary-colour);
 }
 
 .edit-chord-form-barres {
@@ -159,7 +160,7 @@
   width: 100%;
   font-size: 2vh;
   font-family: "Inter";
-  padding: 1vh 0.5vh;
+  padding: 1vh;
   cursor: pointer;
   border-radius: 2vh;
   border: none;
@@ -247,6 +248,7 @@
 
 .edit-chord-modal-actions {
   width: 100%;
+  height: max-content;
   display: flex;
   justify-content: space-evenly;
   margin-bottom: 1vh;
@@ -254,9 +256,9 @@
 
 .edit-chord-modal-actions button {
   width: 100%;
-  font-size: 2.5vh;
+  font-size: 2vh;
   font-family: "Inter";
-  padding: 1vh 0.5vh;
+  padding: 1vh;
   cursor: pointer;
   border-radius: 2vh;
 }

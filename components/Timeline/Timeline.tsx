@@ -8,6 +8,7 @@ interface TimelineProps {
   setPlaying: Dispatch<SetStateAction<boolean>>;
   setVolume: Dispatch<SetStateAction<number>>;
   setSpeed: Dispatch<SetStateAction<number>>;
+  hasSpeed: boolean;
   previewPosition: number;
   progressPosition: number;
   handleTimelineMouseMove: (eM?: React.MouseEvent<HTMLDivElement, MouseEvent>, eT?: React.TouchEvent<HTMLDivElement>) => void;
@@ -20,6 +21,7 @@ const Timeline: React.FC<TimelineProps> = ({
   setPlaying,
   setVolume,
   setSpeed,
+  hasSpeed,
   previewPosition,
   progressPosition,
   handleTimelineMouseMove,
@@ -84,7 +86,7 @@ const Timeline: React.FC<TimelineProps> = ({
             />
           )}
         </div>
-        <div className={timelineStyles["timeline-icon"]}>
+        {hasSpeed && <div className={timelineStyles["timeline-icon"]}>
           <div
             className={timelineStyles["timeline-icon-button"]}
             onClick={() => {
@@ -105,7 +107,7 @@ const Timeline: React.FC<TimelineProps> = ({
               onChange={(e) => setSpeed(parseFloat(e.currentTarget.value))}
             />
           )}
-        </div>
+        </div>}
       </div>
     </div>
   );

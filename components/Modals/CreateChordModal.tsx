@@ -25,7 +25,7 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
   const [selectedIndexes, setSelectedIndexes] = useState<[number, number][]>(
     []
   );
-  const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
   const [fingers, setFingers] = useState<Finger[]>([
     [1, 0],
     [2, 0],
@@ -64,12 +64,12 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
           [5, 0],
           [6, 0],
         ]) ||
-      !title
+      !name
     ) {
       return;
     }
     const chord = {
-      title: title,
+      title: name,
       fingers: fingers,
       barres: barres,
       position: position,
@@ -158,7 +158,7 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
   };
 
   const handleReset = () => {
-    setTitle("");
+    setName("");
     setFingers([
       [1, 0],
       [2, 0],
@@ -276,15 +276,15 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
               <div
                 className={createChordModalStyles["create-chord-form-input"]}
               >
-                <label htmlFor="title">title</label>
+                <label htmlFor="name">name</label>
                 <input
                   type="text"
                   maxLength={15}
-                  value={title}
+                  value={name}
                   className={createChordModalStyles["create-chord-modal-input"]}
                   onFocus={() => editorCtx?.setInputFocus(true)}
                   onBlur={() => editorCtx?.setInputFocus(false)}
-                  onChange={(e) => setTitle(e.currentTarget.value)}
+                  onChange={(e) => setName(e.currentTarget.value)}
                 />
               </div>
               <div
@@ -378,7 +378,7 @@ const CreateChordModal: React.FC<CreateChordModalProps> = ({
               >
                 <Chord
                   chord={{
-                    title: title,
+                    title: name,
                     fingers: fingers,
                     barres: barres,
                     position: position,
