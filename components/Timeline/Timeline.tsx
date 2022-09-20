@@ -77,7 +77,7 @@ const Timeline: React.FC<TimelineProps> = ({
               className={timelineStyles["timeline-input-range"]}
               min={0}
               max={1}
-              defaultValue={0.5}
+              defaultValue={1}
               step={0.01}
               type="range"
               onChange={(e) => setVolume(parseFloat(e.currentTarget.value))}
@@ -105,9 +105,6 @@ const Timeline: React.FC<TimelineProps> = ({
               onChange={(e) => setSpeed(parseFloat(e.currentTarget.value))}
             />
           )}
-        </div>
-        <div className={timelineStyles["timeline-icon"]}>
-          <FiSettings />
         </div>
       </div>
     </div>

@@ -58,6 +58,8 @@ const CreateLoopModal: React.FC<CreateLoopModalProps> = ({
                 maxLength={10}
                 value={name}
                 className={createLoopModalStyles["create-loop-modal-input"]}
+                onFocus={() => editorCtx?.setInputFocus(true)}
+                onBlur={() => editorCtx?.setInputFocus(false)}
                 onChange={(e) => setName(e.currentTarget.value)}
               />
             </div>

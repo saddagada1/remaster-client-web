@@ -7,12 +7,13 @@ import editorStyles from "../../styles/Editor.module.css";
 import { isServer } from "../../utils/isServer";
 import TabEditor from "../../components/Editors/TabEditor";
 import { LoopSchema, useEditorContext } from "../../contexts/Editor";
-import { FiPlus } from "react-icons/fi";
+import { FiPlus, FiSave, FiSettings } from "react-icons/fi";
 import LoopSlider from "../../components/Sliders/LoopSlider";
 import CreateLoopModal from "../../components/Modals/CreateLoopModal";
 import Orb from "../../components/Visualizations/Orb";
 import Timeline from "../../components/Timeline/Timeline";
 import EditLoopModal from "../../components/Modals/EditLoopModal";
+import Void from "../../components/Helpers/Void";
 
 interface editorProps {}
 
@@ -31,7 +32,7 @@ const Editor: NextPage<editorProps> = ({}) => {
   const [isScrubbing, setIsScrubbing] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
   const [videoSpeed, setVideoSpeed] = useState(1);
-  const [videoVolume, setVideoVolume] = useState(0.5);
+  const [videoVolume, setVideoVolume] = useState(1);
   const editorCtx = useEditorContext();
 
   const handleTimelineMouseMove = (
@@ -178,7 +179,7 @@ const Editor: NextPage<editorProps> = ({}) => {
       onTouchEnd={() => setIsScrubbing(false)}
       onTouchMove={(e) => handleTimelineMouseMove(undefined, e)}
       onMouseMove={(e) => handleTimelineMouseMove(e, undefined)}
-      onKeyDown={(e) => (e.key === " " ? setVideoPlaying(!videoPlaying) : null)}
+      onKeyDown={(e) => {!editorCtx?.inputFocus && e.key === " " ? setVideoPlaying(!videoPlaying) : null}}
       tabIndex={-1}
       ref={rootRef}
     >
@@ -203,7 +204,17 @@ const Editor: NextPage<editorProps> = ({}) => {
           )}
           <div className={editorStyles["editor-main"]}>
             <div className={editorStyles["editor-main-header"]}>
-              
+              <div className={editorStyles["editor-main-header-section"]}>
+                <Void />
+              </div>
+              <div className={editorStyles["editor-main-header-section"]}>
+                <button className={editorStyles["editor-main-header-button"]}>
+                  <FiSettings /> settings
+                </button>
+                <button className={editorStyles["editor-main-header-save"]}>
+                  <FiSave /> save
+                </button>
+              </div>
             </div>
             <div className={editorStyles["editor-main-video-gc"]}>
               <ReactPlayer

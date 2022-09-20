@@ -38,6 +38,8 @@ interface EditorValues {
   deleteCreatedChord: (deletedChord: Chord) => void;
   setLoopChord: (targetLoop: LoopSchema, chord: Chord | undefined) => void
   setLoopTab: (targetLoop: LoopSchema, tab: string | undefined) => void;
+  inputFocus: boolean;
+  setInputFocus: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const EditorContext = createContext<EditorValues | null>(null);
@@ -53,6 +55,7 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
   const [selectedLoop, setSelectedLoop] = useState<LoopSchema | null>(null);
   const [createdChords, setCreatedChords] = useState<Chord[]>([]);
   const [tuning, setTuning] = useState(["E", "A", "D", "G", "B", "E"]);
+  const [inputFocus, setInputFocus] = useState(false);
 
   const createLoop = (name: string, key: string, type: string) => {
     let lastLoopEnd;
@@ -192,7 +195,9 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
         updateCreatedChords,
         deleteCreatedChord,
         setLoopChord,
-        setLoopTab
+        setLoopTab,
+        inputFocus,
+        setInputFocus
       }}
     >
       {children}

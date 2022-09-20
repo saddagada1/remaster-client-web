@@ -281,6 +281,8 @@ const EditChordModal: React.FC<EditChordModalProps> = ({
                   maxLength={15}
                   value={title}
                   className={editChordModalStyles["edit-chord-modal-input"]}
+                  onFocus={() => editorCtx?.setInputFocus(true)}
+                  onBlur={() => editorCtx?.setInputFocus(false)}
                   onChange={(e) => setTitle(e.currentTarget.value)}
                 />
               </div>

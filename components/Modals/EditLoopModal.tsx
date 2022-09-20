@@ -82,6 +82,8 @@ const EditLoopModal: React.FC<EditLoopModalProps> = ({
                 maxLength={10}
                 value={name}
                 className={editLoopModalStyles["edit-loop-modal-input"]}
+                onFocus={() => editorCtx?.setInputFocus(true)}
+                onBlur={() => editorCtx?.setInputFocus(false)}
                 onChange={(e) => setName(e.currentTarget.value)}
               />
             </div>

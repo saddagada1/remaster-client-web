@@ -83,6 +83,8 @@ const TabBuilder: React.FC<TabBuilderProps> = ({}) => {
         className={tabBuilderStyles["tab-builder-input"]}
         wrap="off"
         placeholder="type tab here"
+        onFocus={() => editorCtx?.setInputFocus(true)}
+        onBlur={() => editorCtx?.setInputFocus(false)}
       />
     </div>
   );

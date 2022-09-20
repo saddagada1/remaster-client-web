@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Resizable } from "re-resizable";
 import { useEditorContext } from "../../contexts/Editor";
 import loopSliderStyles from "./LoopSlider.module.css";
+import Void from "../Helpers/Void";
 
 const SliderLoopHandle: React.FC = () => {
   return (
@@ -80,6 +81,7 @@ const LoopSlider: React.FC<LoopSliderProps> = ({
             width: duration
               ? (window.innerWidth / 100) * duration * loopZoom
               : window.innerWidth,
+            borderRight: duration && (window.innerWidth / 100) * duration * loopZoom > window.innerWidth ? "none" : "0.25vh solid"
           }}
         >
           <div className={loopSliderStyles["loop-slider-ruler"]}>
