@@ -1,5 +1,7 @@
 import Link from "next/link";
 import React from "react";
+import { keyColourReference } from "../../pages/reference";
+import Orb from "../Visualizations/Orb";
 import scaleDiagramStyles from "./ScaleDiagram.module.css";
 
 interface ScaleDiagramProps {
@@ -31,15 +33,8 @@ const ScaleDiagram: React.FC<ScaleDiagramProps> = ({ scale }) => {
             key={index}
             className={scaleDiagramStyles["scale-diagram-degree"]}
           >
-            <div className={scaleDiagramStyles["scale-diagram-degree-blur"]} />
-            <div
-              id={scaleDiagramStyles["scale-diagram-degree-orb-" + index]}
-              style={{ backgroundColor: colorClass[note] }}
-              className={scaleDiagramStyles["scale-diagram-degree-orb"]}
-            />
-            <div className={scaleDiagramStyles["scale-diagram-degree-label"]}>
-              <h3>{note}</h3>
-            </div>
+            <Orb colour={keyColourReference[note]} />
+            <h5>{note}</h5>
           </div>
         ))}
       </div>

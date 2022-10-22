@@ -40,3 +40,8 @@
   padding: 2vmin;
 }
 
+@media screen and (orientation: portrait) {
+  .search-categories-fc {
+    height: 7.5%;
+  }
+}

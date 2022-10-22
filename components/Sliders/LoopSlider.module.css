@@ -112,7 +112,7 @@
   z-index: 1;
   border: 0.25vh solid;
   border-color: var(--secondary-colour);
-  border-radius: 2vh;
+  border-radius: 1vh;
   background-color: var(--background-colour);
   cursor: pointer;
   appearance: none;

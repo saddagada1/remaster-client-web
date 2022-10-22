@@ -23,7 +23,7 @@ interface trackAnalysisProps {
 const TrackAnalysis: NextPage<trackAnalysisProps> = ({ id }) => {
   const router = useRouter();
   const [{ data }] = useSpotifyTrackAnalysisQuery({
-    variables: { spotifyTrackAnalysisId: id },
+    variables: { spotifyTrackAnalysisId: id }
   });
 
   const getTime = (ms: number) => {

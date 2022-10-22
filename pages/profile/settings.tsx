@@ -81,13 +81,13 @@ const Settings: NextPage = () => {
   };
 
   return (
-    <RequireAuth>
+    
       <div className={profileSettingsStyles["profile-settings-page-root"]}>
         <Head>
           <title>Profile</title>
         </Head>
         <div className={profileSettingsStyles["profile-settings-greeting-fc"]}>
-          <h1>settings</h1>
+          <h1>settings.</h1>
         </div>
         <div className={profileSettingsStyles["profile-settings-options-fc"]}>
           <div
@@ -149,7 +149,7 @@ const Settings: NextPage = () => {
                   >
                     <Field
                       className={
-                        profileSettingsStyles["profile-settings-form-field"]
+                        profileSettingsStyles["profile-settings-form-inline-field"]
                       }
                       id="newEmail"
                       name="newEmail"
@@ -221,7 +221,7 @@ const Settings: NextPage = () => {
                   >
                     <Field
                       className={
-                        profileSettingsStyles["profile-settings-form-field"]
+                        profileSettingsStyles["profile-settings-form-inline-field"]
                       }
                       id="newUsername"
                       name="newUsername"
@@ -375,7 +375,7 @@ const Settings: NextPage = () => {
                   >
                     <Field
                       className={
-                        profileSettingsStyles["profile-settings-form-field"]
+                        profileSettingsStyles["profile-settings-form-inline-field"]
                       }
                       placeholder="old password"
                       id="oldPassword"
@@ -480,7 +480,7 @@ const Settings: NextPage = () => {
           </button>
         </div>
       </div>
-    </RequireAuth>
+    
   );
 };
 

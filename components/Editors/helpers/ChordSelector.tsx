@@ -9,7 +9,7 @@ import { useEditorContext } from "../../../contexts/Editor";
 
 export interface Chord {
   title: string | undefined;
-  fingers: Finger[];
+  fingers: [[number, number | "x"]];
   barres: { fromString: number; toString: number; fret: number }[];
   position: number;
 }

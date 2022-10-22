@@ -3,7 +3,6 @@ import React, {
   Dispatch,
   SetStateAction,
   useContext,
-  useEffect,
   useState,
 } from "react";
 import { Chord } from "../components/Editors/helpers/ChordSelector";
@@ -122,10 +121,16 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
   };
 
   const deleteLoop = (deletedLoop: LoopSchema) => {
+    if (selectedLoop) {
+      setSelectedLoop(null);
+    } 
+    if (playingLoop) {
+      setPlayingLoop(null);
+    }
     const filteredLoops = loops.filter((loop) => deletedLoop.id !== loop.id);
     const newLoops = filteredLoops.map((loop, index) => {
       if (deletedLoop.id && loop.id === deletedLoop.id + 1) {
-        return {
+        const newLoop = {
           id: deletedLoop.id,
           name: loop.name,
           key: loop.key,
@@ -133,7 +138,18 @@ const EditorProvider: React.FC<EditorProviderProps> = ({ children }) => {
           start: deletedLoop.id === 1 ? 0 : filteredLoops[index - 1].end,
           end: loop.end,
           colour: loop.colour,
-        };
+        }
+        if (selectedLoop) {
+          if (JSON.stringify(selectedLoop) === JSON.stringify(deletedLoop)) {
+            setSelectedLoop(newLoop);
+          }
+        } 
+        if (playingLoop) {
+          if (JSON.stringify(playingLoop) === JSON.stringify(deletedLoop)) {
+            setPlayingLoop(newLoop);
+          }
+        }
+        return newLoop;
       } else if (deletedLoop.id && loop.id && loop.id > deletedLoop.id + 1) {
         return {
           id: loop.id - 1,

@@ -1,44 +1,46 @@
 .search-input-root {
-    width: 100%;
-    height: 100%;
-    font-family: "Inter";
-    color: var(--secondary-colour);
+  width: 100%;
+  height: 100%;
+  font-family: "Inter";
+  color: var(--secondary-colour);
+  display: flex;
+  flex-direction: column;
 }
 
 .search-input-label-fc {
-    width: 100%;
-    height: 20%;
-    position: relative;
+  width: 100%;
+  height: 20%;
+  position: relative;
 }
 
 .search-input-label-fc p {
-    font-size: 1.5vh;
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 0.5vh 0.75vh;
+  font-size: 1.5vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.5vh 0.75vh;
 }
 
 .search-input-form-fc {
-    width: 100%;
-    height: 80%;
-    display: flex;
+  width: 100%;
+  height: 80%;
+  display: flex;
 }
 
 .search-input-form-field {
-    width: 100%;
-    border: none;
-    font-size: 2.5vh;
-    font-family: "Inter";
-    padding: 0.5vh 2.75vh;
-    color: var(--secondary-colour);
-    background: none;
+  width: 100%;
+  border: none;
+  font-size: 2.5vh;
+  font-family: "Inter";
+  padding: 0.5vh 2.75vh;
+  color: var(--secondary-colour);
+  background: none;
 }
 
 .search-input-form-field:focus {
-    outline: none;
+  outline: none;
 }
 
 .search-input-form-button {
-    display: none;
+  display: none;
 }

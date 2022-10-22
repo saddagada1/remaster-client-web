@@ -23,7 +23,7 @@
 
 .create-chord-modal-root {
   width: 50%;
-  height: 55%;
+  height: 50%;
   background-color: var(--background-colour);
   border: 0.25vh solid;
   border-color: var(--secondary-colour);
@@ -42,7 +42,7 @@
 }
 
 .create-chord-modal-root h1 {
-  font-size: 3.5vh;
+  font-size: 3vh;
 }
 
 .create-chord-main {
@@ -68,7 +68,7 @@
 }
 
 .create-chord-form-input label {
-  font-size: 2.5vh;
+  font-size: 2vh;
   margin-right: 2vh;
 }
 
@@ -77,7 +77,7 @@
   border: 0.25vh solid;
   border-color: var(--secondary-colour);
   font-family: "Inter";
-  font-size: 2vh;
+  font-size: 1.5vh;
   padding: 0.5vh 1vh;
   border-radius: 1vh;
 }
@@ -87,7 +87,7 @@
   border: 0.25vh solid;
   border-color: var(--secondary-colour);
   font-family: "Inter";
-  font-size: 2vh;
+  font-size: 1.5vh;
   padding: 0.5vh 1vh;
   border-radius: 1vh;
   text-align: center;
@@ -108,7 +108,7 @@
 
 .create-chord-form-barres h3 {
   width: 100%;
-  font-size: 2vh;
+  font-size: 1.5vh;
   text-align: center;
   padding: 1vh;
 }
@@ -126,7 +126,7 @@
 }
 
 .create-chord-form-barre p {
-  font-size: 2vh;
+  font-size: 1.5vh;
 }
 
 .create-chord-form-barre button {
@@ -135,17 +135,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2vh;
+  font-size: 1.5vh;
   cursor: pointer;
 }
 
 .create-chord-form-button {
   width: 100%;
-  font-size: 2vh;
+  font-size: 1.75vh;
   font-family: "Inter";
-  padding: 1vh;
+  padding: 0.75vh;
   cursor: pointer;
-  border-radius: 2vh;
+  border-radius: 1vh;
   border: none;
   background: none;
   background-color: var(--secondary-colour);
@@ -241,9 +241,9 @@
   width: 100%;
   font-size: 2vh;
   font-family: "Inter";
-  padding: 1vh;
+  padding: 0.75vh;
   cursor: pointer;
-  border-radius: 2vh;
+  border-radius: 1vh;
 }
 
 .create-chord-modal-exit {
@@ -269,7 +269,7 @@
 @media screen and (orientation: portrait) {
   .create-chord-modal-root {
     width: 90%;
-    height: 90%;
+    height: 85%;
   }
 
   .create-chord-modal-root h1 {

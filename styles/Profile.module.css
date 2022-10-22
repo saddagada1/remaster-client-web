@@ -82,8 +82,9 @@
   font-family: "Inter";
   display: flex;
   flex-flow: column nowrap;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
+  padding: 5%;
 }
 
 .profile-settings-page-root hr {
@@ -98,24 +99,18 @@
 }
 
 .profile-settings-greeting-fc {
-  width: 85%;
+  width: 100%;
   font-size: 6vmin;
+  line-height: 6vmin;
   margin-bottom: 2vmin;
   padding: 0 3vmin;
 }
 
 .profile-settings-options-fc {
-  width: 85%;
-  height: 50%;
+  width: 100%;
+  height: max-content;
   display: flex;
   flex-flow: row nowrap;
-  overflow: scroll;
-  -ms-overflow-style: none; 
-  scrollbar-width: none; 
-}
-
-.profile-settings-options-fc::-webkit-scrollbar {
-  display: none;
 }
 
 .profile-settings-category-fc {
@@ -150,18 +145,33 @@
   margin-bottom: 2vmin;
 }
 
-.profile-settings-form-field {
+.profile-settings-form-inline-field {
   -webkit-appearance: none;
-  border-radius: 0;
   width: 100%;
-  min-height: 10px;
   font-family: "Inter";
   font-size: 1.5vmin;
   font-weight: bold;
   padding: 1vmin;
   border: 0.25vh solid;
   border-color: var(--secondary-colour);
-  background: none;
+  border-top-left-radius: 1vh;
+  border-bottom-left-radius: 1vh;
+}
+
+.profile-settings-form-inline-field:focus {
+  outline: none;
+}
+
+.profile-settings-form-field {
+  -webkit-appearance: none;
+  width: 100%;
+  font-family: "Inter";
+  font-size: 1.5vmin;
+  font-weight: bold;
+  padding: 1vmin;
+  border: 0.25vh solid;
+  border-color: var(--secondary-colour);
+  border-radius: 1vh;
 }
 
 .profile-settings-form-field:focus {
@@ -176,11 +186,11 @@
   color: var(--error-colour);
   background-color: #ff000023;
   padding: 0.25vmin 0.5vmin;
-  border-radius: 0.25vmin;
+  border-radius: 0.25vh;
 }
 
 .profile-settings-footer-fc {
-  width: 85%;
+  width: 100%;
   margin-top: 2vmin;
   padding: 0 3vmin;
   display: flex;
@@ -238,7 +248,7 @@
   color: var(--success-colour);
   background-color: #00800023;
   padding: 0.25vmin 0.5vmin;
-  border-radius: 0.25vmin;
+  border-radius: 0.25vh;
   display: flex;
   align-items: center;
   text-align: center;
@@ -250,7 +260,7 @@
   color: var(--error-colour);
   background-color: #ff000023;
   padding: 0.25vmin 0.5vmin;
-  border-radius: 0.25vmin;
+  border-radius: 0.25vh;
   display: flex;
   align-items: center;
   text-align: center;
@@ -268,6 +278,7 @@
   font-weight: bold;
   outline: none;
   transition: 0.25s;
+  border-radius: 1vh;
 }
 
 .profile-settings-logout:hover {
@@ -278,5 +289,47 @@
 @media screen and (orientation: portrait) {
   .profile-settings-options-fc {
     flex-flow: column nowrap;
+  }
+}
+
+@media screen and (orientation: portrait) and (max-width: 500px) {
+  .profile-settings-page-root h5 {
+    font-size: 3.5vmin;
+  }
+  .profile-settings-greeting-fc {
+    font-size: 7vmin;
+  }
+  .profile-settings-form-label-fc label {
+    font-size: 3vmin;
+  }
+  .profile-settings-form-inline-field {
+    font-size: 2.5vmin;
+    padding: 2vmin;
+  }
+  .profile-settings-form-field {
+    font-size: 2.5vmin;
+    padding: 2vmin;
+  }
+  .profile-settings-form-error {
+    font-size: 2.5vmin;
+  }
+  .profile-settings-verification-fc {
+    font-size: 2vmin;
+  }
+  .profile-settings-verification-fc svg {
+    font-size: 2.25vmin;
+  }
+  .profile-settings-verification-fc button {
+    font-size: 2.25vmin
+  }
+  .profile-settings-status-fc {
+    font-size: 2vmin;
+  }
+  .profile-settings-status-fc svg {
+    font-size: 2.25vmin;
+  }
+  .profile-settings-logout {
+    padding: 4vmin 6vmin;
+    font-size: 3vmin;
   }
 }

@@ -15,7 +15,7 @@
   height: 80%;
   border: 0.25vh solid;
   border-color: var(--secondary-colour);
-  border-radius: 2vmin;
+  border-radius: 2vh;
   padding: 2vmin;
   background-color: var(--background-colour);
   display: flex;

@@ -221,10 +221,10 @@ const Editor: NextPage<editorProps> = ({}) => {
               </div>
               <div className={editorStyles["editor-main-header-section"]}>
                 <button onClick={() => setTriggerSettings(true)} className={editorStyles["editor-main-header-button"]}>
-                  <FiSettings /> settings
+                  <FiSettings /> {window.innerWidth > 500 ? "settings" : null}
                 </button>
                 <button className={editorStyles["editor-main-header-save"]}>
-                  <FiSave /> save
+                  <FiSave /> {window.innerWidth > 500 ? "save" : null}
                 </button>
               </div>
             </div>
@@ -351,7 +351,7 @@ const Editor: NextPage<editorProps> = ({}) => {
               setPlaying={setVideoPlaying}
               setVolume={setVideoVolume}
               setSpeed={setVideoSpeed}
-              hasSpeed={editorCtx ? editorCtx.settings.url.includes("youtube" || "vimeo") : false}
+              hasSpeed={editorCtx ? editorCtx.settings.url.toLowerCase().includes("youtube" || "vimeo") : false}
               previewPosition={previewPosition}
               progressPosition={progressPosition}
               handleTimelineMouseMove={handleTimelineMouseMove}

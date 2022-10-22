@@ -7,6 +7,7 @@
   cursor: pointer;
   transition: 0.25s;
   color: var(--secondary-colour);
+  border-radius: 1vh;
 }
 
 .spotify-card-root:hover {

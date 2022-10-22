@@ -9,7 +9,7 @@
 
 .create-loop-modal-root {
   width: 20%;
-  height: 35%;
+  height: 32.5%;
   background-color: var(--background-colour);
   border: 0.25vh solid;
   border-color: var(--secondary-colour);
@@ -34,7 +34,7 @@
 }
 
 .create-loop-modal-form-fc h1 {
-  font-size: 3.5vh;
+  font-size: 3vh;
   margin-bottom: 1vh;
 }
 
@@ -56,7 +56,7 @@
 }
 
 .create-loop-modal-input-fc label {
-  font-size: 2.5vh;
+  font-size: 2vh;
   margin-right: 2vh;
 }
 
@@ -65,7 +65,7 @@
   border: 0.25vh solid;
   border-color: var(--secondary-colour);
   font-family: "Inter";
-  font-size: 2vh;
+  font-size: 1.5vh;
   padding: 0.5vh 1vh;
   border-radius: 1vh;
 }
@@ -76,7 +76,7 @@
   border: 0.25vh solid;
   border-color: var(--secondary-colour);
   font-family: "Inter";
-  font-size: 2vh;
+  font-size: 1.5vh;
   padding: 0.5vh 1vh;
   border-radius: 1vh;
   cursor: pointer;
@@ -95,9 +95,9 @@
   width: 100%;
   font-size: 2vh;
   font-family: "Inter";
-  padding: 1vh;
+  padding: 0.75vh;
   cursor: pointer;
-  border-radius: 2vh;
+  border-radius: 1vh;
 }
 
 .create-loop-modal-exit {
@@ -117,13 +117,12 @@
 @media screen and (max-width: 1200px) {
   .create-loop-modal-root {
     width: 30%;
-    height: 35%;
   }
 }
 
 @media screen and (orientation: portrait) {
   .create-loop-modal-root {
     width: 75%;
-    height: 37.5%;
+    height: 35%;
   }
 }

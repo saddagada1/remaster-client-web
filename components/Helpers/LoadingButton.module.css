@@ -1,34 +1,44 @@
 .loading-button-block {
-    width: 100%;
-    min-height: 10px;
-    padding: 2vh;
-    background-color: var(--secondary-colour);
-    color: var(--primary-colour);
-    font-family: "Inter";
-    font-weight: bold;
-    font-size: 2vh;
-    outline: none;
-    border: none;
-    cursor: pointer;
-    margin-top: 2vh;
-    margin-bottom: 2vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  min-height: 10px;
+  padding: 2vh;
+  background-color: var(--secondary-colour);
+  color: var(--primary-colour);
+  font-family: "Inter";
+  font-weight: bold;
+  font-size: 2vh;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1vh;
 }
 
 .loading-button-inline {
-    width: 100%;
-    padding: 1vmin;
-    cursor: pointer;
-    background-color: var(--secondary-colour);
-    color: var(--primary-colour);
-    font-family: "Inter";
-    font-size: 1.5vmin;
-    font-weight: bold;
-    outline: none;
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  padding: 1vmin;
+  cursor: pointer;
+  background-color: var(--secondary-colour);
+  color: var(--primary-colour);
+  font-family: "Inter";
+  font-size: 1.5vmin;
+  font-weight: bold;
+  outline: none;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top-right-radius: 1vh;
+  border-bottom-right-radius: 1vh;
+}
+
+@media screen and (orientation: portrait) and (max-width: 500px) {
+  .loading-button-inline {
+    padding: 2vmin;
+    font-size: 2.5vmin;
+  }
 }
